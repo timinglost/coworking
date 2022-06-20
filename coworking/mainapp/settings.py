@@ -37,6 +37,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'userapp',
+    'authapp',
+    'offersapp',
+    'detailsapp',
+    'feedbackapp',
+    'adminapp',
+    'crerateapp',
 ]
 
 MIDDLEWARE = [
@@ -56,6 +64,13 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             'mainapp/tamplates',
+            'userapp/tamplates',
+            'authapp/tamplates',
+            'offersapp/tamplates',
+            'detailsapp/tamplates',
+            'feedbackapp/tamplates',
+            'adminapp/tamplates',
+            'crerateapp/tamplates',
         ],
         'APP_DIRS': True,
         'OPTIONS': {
