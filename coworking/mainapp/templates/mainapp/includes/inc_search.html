@@ -1,0 +1,45 @@
+{% load static %}
+<section id="Search" class="search bg-blue search_test">
+            <div class="search_overlay"></div>
+            <div class="container">
+                <!-- <div class="row"> -->
+                <div class="main-block">
+                    <h1 class="text-uppercase text-white">
+                        Бронируем офисы для работы
+                    </h1>
+                    <h3 class="text-white">Найдите свой вариант для комфортной работы</h3>
+
+                    <div class="main-block-field">
+                        <div class="suggest-wrapper main-block-field--suggestions">
+                            <input autocomplete="off" type="text" name="suggest" value="" class="suggest-input">
+                            <label for="suggest" class="suggest-label tmp-font--average">Локация, город или
+                                адрес</label>
+                            <!-- <div class="suggest-close icon-app-cross-min"></div> -->
+
+                        </div>
+
+                        <div class="main-block-field--occupied" style="z-index:1;">
+                            <div data-cy="checkIn" class="main-block-field--occupied__in">
+                                <div class="title"> Дата </div>
+                                <div class="date"> </div>
+                            </div>
+
+                            <!-- <div data-cy="checkOut" class="main-block-field--occupied__out" >
+                                <div class="title" > Отъезд </div>
+                                <div class="date"> </div>
+                            </div> -->
+                            <div class="calendar-in">
+
+                            </div>
+                        </div>
+
+                        <button data-cy="search" type="button" class="btn btn-search-main btn-secondary"
+                            data-v-a4433326="">Найти</button>
+
+
+
+                    </div>
+                </div>
+                <!-- </div> -->
+            </div>
+        </section>
