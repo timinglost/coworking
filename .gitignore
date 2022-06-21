@@ -2,3 +2,7 @@ main.py
 /venv/
 *.pyc
 /.idea/
+env/
+.idea
+*.env
+*/db.sqlite3
