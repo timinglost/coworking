@@ -63,14 +63,14 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            'mainapp/tamplates',
-            'userapp/tamplates',
-            'authapp/tamplates',
-            'offersapp/tamplates',
-            'detailsapp/tamplates',
-            'feedbackapp/tamplates',
-            'adminapp/tamplates',
-            'crerateapp/tamplates',
+            'mainapp/templates',
+            'userapp/templates',
+            'authapp/templates',
+            'offersapp/templates',
+            'detailsapp/templates',
+            'feedbackapp/templates',
+            'adminapp/templates',
+            'crerateapp/templates',
         ],
         'APP_DIRS': True,
         'OPTIONS': {
