@@ -14,9 +14,10 @@
       <h1>Профиль пользователя</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="{% url 'user:main' %}">Домой</a></li>
-          <li class="breadcrumb-item">Пользователь</li>
-          <li class="breadcrumb-item active">Профиль</li>
+          <li class="breadcrumb-item"><a href="{% url 'user:main' %}">Общая информация</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'user:bookings' %}">Мои бронирования</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'user:locations' %}">Мои локации</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'user:favorites' %}">Избранное</a></li>
         </ol>
       </nav>
     </div><!-- End Page Title -->

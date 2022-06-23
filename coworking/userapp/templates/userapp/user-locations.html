@@ -12,11 +12,13 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Избранное</h1>
+      <h1>Мои локации</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="{% url 'user:main' %}">Домой</a></li>
-          <li class="breadcrumb-item active">Избранное</li>
+          <li class="breadcrumb-item"><a href="{% url 'user:main' %}">Общая информация</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'user:profile' %}">Профиль</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'user:bookings' %}">Мои бронирования</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'user:favorites' %}">Избранное</a></li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -28,12 +30,12 @@
           <div class="card mb-3">
             <div class="row g-0">
               <div class="col-md-4">
-                <img src="{% static 'userapp/assets/img/card.jpg' %}" class="img-fluid rounded-start" alt="...">
+                <img src="{% static 'userapp/assets/img/location.jpg' %}" class="img-fluid rounded-start" alt="...">
               </div>
               <div class="col-md-8">
                 <div class="card-body">
-                  <h5 class="card-title">Адрес</h5>
-                  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                  <h5 class="card-title">м. Менделеевская, ул. Новослободская, 16;</h5>
+                  <p class="card-text">Work’n’Soda</p>
                 </div>
               </div>
             </div>
@@ -43,12 +45,12 @@
           <div class="card mb-3">
             <div class="row g-0">
               <div class="col-md-4">
-                <img src="{% static 'userapp/assets/img/card.jpg' %}" class="img-fluid rounded-start" alt="...">
+                <img src="{% static 'userapp/assets/img/location-2.jpg' %}" class="img-fluid rounded-start" alt="...">
               </div>
               <div class="col-md-8">
                 <div class="card-body">
-                  <h5 class="card-title">Адрес</h5>
-                  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                  <h5 class="card-title">м. Ленинский проспект, пр-т. Ленинский, 30А</h5>
+                  <p class="card-text">Рабочая станция</p>
                 </div>
               </div>
             </div>
@@ -58,12 +60,12 @@
           <div class="card mb-3">
             <div class="row g-0">
               <div class="col-md-4">
-                <img src="{% static 'userapp/assets/img/card.jpg' %}" class="img-fluid rounded-start" alt="...">
+                <img src="{% static 'userapp/assets/img/location-3.jpg' %}" class="img-fluid rounded-start" alt="...">
               </div>
               <div class="col-md-8">
                 <div class="card-body">
-                  <h5 class="card-title">Адрес</h5>
-                  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                  <h5 class="card-title">м. Тургеневская, ул. Мясницкая, 13/18</h5>
+                  <p class="card-text"> #tceh </p>
                 </div>
               </div>
             </div>
@@ -84,3 +86,4 @@
 
   {% include 'userapp/includes/inc_js.html' %}
 {% endblock %}
+

@@ -16,11 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from .views import users, users_profile, users_bookings, users_favorites
+from .views import user, user_profile, user_bookings, user_favorites, user_locations
 
 urlpatterns = [
-    path('', users, name='main'),
-    path('profile/', users_profile, name='profile'),
-    path('bookings/', users_bookings, name='bookings'),
-    path('favorites/', users_favorites, name='favorites'),
+    path('', user, name='main'),
+    path('profile/', user_profile, name='profile'),
+    path('bookings/', user_bookings, name='bookings'),
+    path('locations/', user_locations, name='locations'),
+    path('favorites/', user_favorites, name='favorites'),
 ]

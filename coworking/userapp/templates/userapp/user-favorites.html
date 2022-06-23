@@ -1,0 +1,88 @@
+{% extends 'userapp/base.html' %}
+{% load static %}
+   {% block content %}
+
+  <!-- ======= Header ======= -->
+  {% include 'userapp/includes/inc_header.html' %}
+
+  <!-- ======= Sidebar ======= -->
+  {% include 'userapp/includes/inc_sidebar.html' %}
+
+
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Избранное</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'user:main' %}">Общая информация</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'user:profile' %}">Профиль</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'user:locations' %}">Мои локации</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'user:bookings' %}">Мои бронирования</a></li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+      <div class="row align-items-top">
+        <div class="col-lg-9">
+          <!-- Card with an image on left -->
+          <div class="card mb-3">
+            <div class="row g-0">
+              <div class="col-md-4">
+                <img src="{% static 'userapp/assets/img/news-4.jpg' %}" class="img-fluid rounded-start" alt="...">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                  <h5 class="card-title">Адрес: Пресненская наб., 12, Москва-Сити, Федерация-Восток, 19 этаж.</h5>
+                  <p class="card-text">Sreda - комфорт для роста и развития вашего бизнеса</p>
+                </div>
+              </div>
+            </div>
+          </div><!-- End Card with an image on left -->
+
+          <!-- Card with an image on left -->
+          <div class="card mb-3">
+            <div class="row g-0">
+              <div class="col-md-4">
+                <img src="{% static 'userapp/assets/img/news-1.jpg' %}" class="img-fluid rounded-start" alt="...">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                  <h5 class="card-title">Адрес: л. Большая Новодмитровская, дом 36, строение 12, вход 6</h5>
+                  <p class="card-text">START HUB - рабочее пространство в Москве, сочетающее готовые офисы, комфортные рабочие места и переговорные комнаты</p>
+                </div>
+              </div>
+            </div>
+          </div><!-- End Card with an image on left -->
+
+          <!-- Card with an image on left -->
+          <div class="card mb-3">
+            <div class="row g-0">
+              <div class="col-md-4">
+                <img src="{% static 'userapp/assets/img/news-2.jpg' %}" class="img-fluid rounded-start" alt="...">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                  <h5 class="card-title">Адрес : Спартаковский пер., д2, стр1, этаж1, подъезд 8-1</h5>
+                  <p class="card-text">RedComm - функциональное пространство для комфортной работы, совмещающее в себе изолированные офисы для команд и рабочие места в опенспейсе</p>
+                </div>
+              </div>
+            </div>
+          </div><!-- End Card with an image on left -->
+        </div>
+
+        </div>
+
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  {% include 'userapp/includes/inc_footer.html' %}
+        {% endblock %}
+{% block js %}
+
+  {% include 'userapp/includes/inc_js.html' %}
+{% endblock %}
