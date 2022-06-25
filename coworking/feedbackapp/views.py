@@ -11,10 +11,20 @@ def main(request):
 
 
 def questions(request):
-    title = 'Вопросы'
+    title = 'F.A.Q.'
 
 
     context = {
         'title': title,
     }
     return render(request, 'feedbackapp/pages-faq.html', context)
+
+
+def question(request):
+    title = 'F.A.Q.'
+
+
+    context = {
+        'title': title,
+    }
+    return render(request, 'feedbackapp/question.html', context)

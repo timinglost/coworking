@@ -25,12 +25,12 @@
         </a>
         <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="#">
+            <a href="{% url 'feedback:question' %}">
               <i class="bi bi-circle"></i><span>Проблемы со входом на сайт</span>
             </a>
           </li>
           <li>
-            <a href="#">
+            <a href="{% url 'feedback:question' %}">
               <i class="bi bi-circle"></i><span>Проблемы с регистрацией</span>
             </a>
           </li>
@@ -43,12 +43,12 @@
               </a>
               <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                 <li>
-                  <a href="#">
+                  <a href="{% url 'feedback:question' %}">
                     <i class="bi bi-circle"></i><span>Как изменить информацию о себе</span>
                   </a>
                 </li>
                 <li>
-                  <a href="#">
+                  <a href="{% url 'feedback:question' %}">
                     <i class="bi bi-circle"></i><span>Как сменить пароль</span>
                   </a>
                 </li>
@@ -61,65 +61,18 @@
         </a>
         <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="#">
+            <a href="{% url 'feedback:question' %}">
               <i class="bi bi-circle"></i><span>Форма изменения информации пользователя</span>
             </a>
           </li>
           <li>
-            <a href="#">
+            <a href="{% url 'feedback:question' %}">
               <i class="bi bi-circle"></i><span>Форма информации о помещении</span>
             </a>
           </li>
         </ul>
       </li><!-- End Forms Nav -->
 
-
-
-<!--      <li class="nav-item">-->
-<!--        <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">-->
-<!--          <i class="bi bi-bar-chart"></i><span>Charts</span><i class="bi bi-chevron-down ms-auto"></i>-->
-<!--        </a>-->
-<!--        <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">-->
-<!--          <li>-->
-<!--            <a href="charts-chartjs.html">-->
-<!--              <i class="bi bi-circle"></i><span>Chart.js</span>-->
-<!--            </a>-->
-<!--          </li>-->
-<!--          <li>-->
-<!--            <a href="charts-apexcharts.html">-->
-<!--              <i class="bi bi-circle"></i><span>ApexCharts</span>-->
-<!--            </a>-->
-<!--          </li>-->
-<!--          <li>-->
-<!--            <a href="charts-echarts.html">-->
-<!--              <i class="bi bi-circle"></i><span>ECharts</span>-->
-<!--            </a>-->
-<!--          </li>-->
-<!--        </ul>-->
-<!--      </li>&lt;!&ndash; End Charts Nav &ndash;&gt;-->
-
-<!--      <li class="nav-item">-->
-<!--        <a class="nav-link collapsed" data-bs-target="#icons-nav" data-bs-toggle="collapse" href="#">-->
-<!--          <i class="bi bi-gem"></i><span>Icons</span><i class="bi bi-chevron-down ms-auto"></i>-->
-<!--        </a>-->
-<!--        <ul id="icons-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">-->
-<!--          <li>-->
-<!--            <a href="icons-bootstrap.html">-->
-<!--              <i class="bi bi-circle"></i><span>Bootstrap Icons</span>-->
-<!--            </a>-->
-<!--          </li>-->
-<!--          <li>-->
-<!--            <a href="icons-remix.html">-->
-<!--              <i class="bi bi-circle"></i><span>Remix Icons</span>-->
-<!--            </a>-->
-<!--          </li>-->
-<!--          <li>-->
-<!--            <a href="icons-boxicons.html">-->
-<!--              <i class="bi bi-circle"></i><span>Boxicons</span>-->
-<!--            </a>-->
-<!--          </li>-->
-<!--        </ul>-->
-<!--      </li>&lt;!&ndash; End Icons Nav &ndash;&gt;-->
           </ul>
   </main><!-- End #main -->
   {% include 'userapp/includes/inc_footer.html' %}
