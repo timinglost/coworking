@@ -4,9 +4,17 @@ from django.core.exceptions import ValidationError
 from authapp.models import UserModel
 
 
-class LoginUserForm(AuthenticationForm):
-    username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Логин'}))
-    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Пароль'}))
+# class LoginUserForm(AuthenticationForm):
+#     username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Логин'}))
+#     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Пароль'}))
+#
+#     class Meta:
+#         model = UserModel
+#         fields = 'username', 'password',
+
+class UserLoginForm(AuthenticationForm):
+    username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
     class Meta:
         model = UserModel
@@ -30,14 +38,14 @@ class UserRegisterForm(UserCreationForm):
         fields = 'first_name', 'email', 'username', 'password1', 'password2'
 
     def clean_username(self):
-        username = self.cleaned_data.get('username').lower()
+        username = self.cleaned_data.get('username')
         new = UserModel.objects.filter(username=username)
         if new.count():
             raise ValidationError('Пользователь с таким логином уже существует.')
         return username
 
     def clean_email(self):
-        email = self.cleaned_data.get('email').lower()
+        email = self.cleaned_data.get('email')
         new = UserModel.objects.filter(email=email)
         if new.count():
             raise ValidationError('Такой Емейл адрес уже зарегистрирован на сайте.')

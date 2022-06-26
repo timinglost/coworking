@@ -2,7 +2,7 @@ from django.shortcuts import render, HttpResponseRedirect, redirect
 from django.contrib import auth, messages
 from django.urls import reverse, reverse_lazy
 from django.views.generic.edit import CreateView, UpdateView
-from authapp.forms import LoginUserForm, UserRegisterForm
+from authapp.forms import UserRegisterForm, UserLoginForm
 from django.contrib.auth.models import AbstractUser
 
 
@@ -13,7 +13,7 @@ def login(request):
     title = 'Pages / Login - NiceAdmin Bootstrap Template'
 
     if request.method == "POST":
-        form = LoginUserForm(data=request.POST)
+        form = UserLoginForm(data=request.POST)
         print(form)
         print(request.POST['username'], ':', request.POST['password'])
         if form.is_valid():
@@ -30,9 +30,8 @@ def login(request):
             print('Ошибка данных!!!', form.errors)
             messages.error(request, form.errors)
 
-
     else:
-        form = LoginUserForm()
+        form = UserLoginForm(data=request.GET)
 
     context = {
         'title': title,
