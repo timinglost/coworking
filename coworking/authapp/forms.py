@@ -31,7 +31,7 @@ class UserRegisterForm(UserCreationForm):
     class Meta:
         model = AbstractUser
         fields = 'first_name', 'email', 'username', 'password1', 'password2'
-        abstract = True
+
 
     def clean_username(self):
         username = self.cleaned_data.get('username').lower()
