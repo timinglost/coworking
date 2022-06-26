@@ -14,6 +14,8 @@ def login(request):
 
     if request.method == "POST":
         form = LoginUserForm(data=request.POST)
+        print(form)
+        print(request.POST['username'], ':', request.POST['password'])
         if form.is_valid():
             username = request.POST['username']
             password = request.POST['password']
@@ -53,29 +55,10 @@ class UserRegisterView(CreateView):
     model = AbstractUser
     form_class = UserRegisterForm
     template_name = 'authapp/pages-register.html'
-    success_url = reverse_lazy('login')
+    success_url = reverse_lazy('auth:login')
+    success_message = 'Пользователь успешно зарегистрирован.'
 
     def get_context_data(self, **kwargs):
         context = super(UserRegisterView, self).get_context_data(**kwargs)
         context.update({'title': 'Pages / Register - NiceAdmin Bootstrap Template'})
         return context
-
-# def register(request):
-#     title = 'Pages / Register - NiceAdmin Bootstrap Template'
-#
-#     if request.method == "POST":
-#         form = UserRegisterForm(data=request.POST)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('login')
-#         else:
-#             print('Ошибка данных!!!', form.errors)
-#             messages.error(request, form.errors)
-#     else:
-#         form = UserRegisterForm()
-#
-#     context = {
-#         'title': title,
-#         'form': form,
-#     }
-#     return render(request, 'authapp/pages-register.html', context)
