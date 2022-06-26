@@ -31,18 +31,17 @@ class UserRegisterForm(UserCreationForm):
     class Meta:
         model = AbstractUser
         fields = 'first_name', 'email', 'username', 'password1', 'password2'
-        # fields = '__all__'
 
-    # def clean_username(self):
-    #     username = self.cleaned_data.get('username').lower()
-    #     new = AbstractUser.objects.filter(username=username)
-    #     if new.count():
-    #         raise ValidationError('Пользователь с таким логином уже существует.')
-    #     return username
-    #
-    # def clean_email(self):
-    #     email = self.cleaned_data.get('email').lower()
-    #     new = AbstractUser.objects.filter(email=email)
-    #     if new.count():
-    #         raise ValidationError('Такой Емейл адрес уже зарегистрирован на сайте.')
-    #     return email
+    def clean_username(self):
+        username = self.cleaned_data.get('username').lower()
+        new = AbstractUser.objects.filter(username=username)
+        if new.count():
+            raise ValidationError('Пользователь с таким логином уже существует.')
+        return username
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email').lower()
+        new = AbstractUser.objects.filter(email=email)
+        if new.count():
+            raise ValidationError('Такой Емейл адрес уже зарегистрирован на сайте.')
+        return email
