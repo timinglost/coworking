@@ -1,7 +1,9 @@
 from django.shortcuts import render, HttpResponseRedirect, redirect
 from django.contrib import auth, messages
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
+from django.views.generic.edit import CreateView, UpdateView
 from authapp.forms import LoginUserForm, UserRegisterForm
+from django.contrib.auth.models import AbstractUser
 
 
 # ================================================================
@@ -47,22 +49,33 @@ def user_logout(request):
 
 # ================================================================
 
-def register(request):
-    title = 'Pages / Register - NiceAdmin Bootstrap Template'
+class UserRegisterView(CreateView):
+    model = AbstractUser
+    form_class = UserRegisterForm
+    template_name = 'authapp/pages-register.html'
+    success_url = reverse_lazy('login')
 
-    if request.method == "POST":
-        form = UserRegisterForm(data=request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('login')
-        else:
-            print('Ошибка данных!!!', form.errors)
-            messages.error(request, form.errors)
-    else:
-        form = UserRegisterForm(data=request.GET)
+    def get_context_data(self, **kwargs):
+        context = super(UserRegisterView, self).get_context_data(**kwargs)
+        context.update({'title': 'Pages / Register - NiceAdmin Bootstrap Template'})
+        return context
 
-    context = {
-        'title': title,
-        'form': form,
-    }
-    return render(request, 'authapp/pages-register.html', context)
+# def register(request):
+#     title = 'Pages / Register - NiceAdmin Bootstrap Template'
+#
+#     if request.method == "POST":
+#         form = UserRegisterForm(data=request.POST)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('login')
+#         else:
+#             print('Ошибка данных!!!', form.errors)
+#             messages.error(request, form.errors)
+#     else:
+#         form = UserRegisterForm()
+#
+#     context = {
+#         'title': title,
+#         'form': form,
+#     }
+#     return render(request, 'authapp/pages-register.html', context)
