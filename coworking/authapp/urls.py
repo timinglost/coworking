@@ -15,10 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from .views import login, logout, register
+from authapp.views import login, user_logout, register
+
+# app_name = 'authapp'
 
 urlpatterns = [
     path('login/', login, name='login'),
-    path('logout/', logout, name='logout'),
+    path('logout/', user_logout, name='logout'),
     path('register/', register, name='register'),
 ]

@@ -1,37 +1,43 @@
 {% load static %}
 <nav class="navbar navbar-default bootsnav navbar-fixed no-background white">
-            <div class="container">
-                <div class="attr-nav">
-                    <ul>
-                        <li class=""><a href="#Search"><i class="fa fa-search"></i></a></li>
-                    </ul>
-                </div>
+    <div class="container">
+        <div class="attr-nav">
+            <ul>
+                <li class=""><a href="#Search"><i class="fa fa-search"></i></a></li>
+            </ul>
+        </div>
 
-                <!-- Start Header Navigation -->
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
-                        <i class="fa fa-bars"></i>
-                    </button>
-                    <a class="navbar-brand" href="#brand">
-                        <img src="{% static 'mainapp/assets/images/logo.png' %}" class="logo" alt="">
-                        <!--<img src="assets/images/footer-logo.png" class="logo logo-scrolled" alt="">-->
-                    </a>
+        <!-- Start Header Navigation -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
+                <i class="fa fa-bars"></i>
+            </button>
+            <a class="navbar-brand" href="#brand">
+                <img src="{% static 'mainapp/assets/images/logo.png' %}" class="logo" alt="">
+                <!--<img src="assets/images/footer-logo.png" class="logo logo-scrolled" alt="">-->
+            </a>
 
-                </div>
-                <!-- End Header Navigation -->
+        </div>
+        <!-- End Header Navigation -->
 
-                <!-- navbar menu -->
-                <div class="collapse navbar-collapse" id="navbar-menu">
-                    <ul class="nav navbar-nav navbar-right">
-                        <li><a href="#home">Предложить помещения</a></li>
-                        <li><a href="#favourite">Мои любимые локации</a></li>
-                        <li><a href="{% url 'auth:login' %}">Вход</a></li>
-                        <!-- <li><a href="#product">Portfolio</a></li> -->
-                        <li><a href="#team">Наша команда</a></li>
-                        <li><a href="#contact">О проекте</a></li>
+        <!-- navbar menu -->
+        <div class="collapse navbar-collapse" id="navbar-menu">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#home">Предложить помещения</a></li>
+                <li><a href="#favourite">Мои любимые локации</a></li>
+                {% if user.is_authenticated %}
+                <li><a href="{% url 'userapp:profile' %}">Личный Кабинет</a></li>
+                {% else %}
+                <li><a href="{% url 'auth:login' %}">Войти</a></li>
+                {% endif %}
 
-                    </ul>
-                </div><!-- /.navbar-collapse -->
-            </div>
 
-        </nav>
+                <!-- <li><a href="#product">Portfolio</a></li> -->
+                <li><a href="#team">Наша команда</a></li>
+                <li><a href="#contact">О проекте</a></li>
+
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div>
+
+</nav>
