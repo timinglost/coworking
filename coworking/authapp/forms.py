@@ -5,9 +5,6 @@ from authapp.models import UserModel
 
 
 class LoginUserForm(AuthenticationForm):
-    """
-    Форма входа на сайт, используется встроенная модель пользователя
-    """
     username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Логин'}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Пароль'}))
 
