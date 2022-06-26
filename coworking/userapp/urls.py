@@ -18,6 +18,8 @@ from django.urls import path
 
 from .views import users, users_profile, users_bookings, users_favorites
 
+app_name = 'userapp'
+
 urlpatterns = [
     path('', users, name='main'),
     path('profile/', users_profile, name='profile'),
