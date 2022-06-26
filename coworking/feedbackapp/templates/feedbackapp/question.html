@@ -1,0 +1,50 @@
+{% extends 'userapp/base.html' %}
+{% load static %}
+   {% block content %}
+
+  <!-- ======= Header ======= -->
+  {% include 'userapp/includes/inc_header.html' %}
+
+  <!-- ======= Sidebar ======= -->
+  {% include 'feedbackapp/includes/inc_sidebar.html' %}
+
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Название проблемы</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'user:main' %}">Домой</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'feedback:questions' %}">F.A.Q.</a></li>
+          <li class="breadcrumb-item active">Название проблемы</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-6">
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Название проблемы</h5>
+              <p>Текст решения проблемы. Текст решения проблемы. Текст решения проблемы.
+                  Текст решения проблемы. Текст решения проблемы. Текст решения проблемы.
+                  Текст решения проблемы. Текст решения проблемы. Текст решения проблемы.
+                  Текст решения проблемы. Текст решения проблемы. </p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+ {% include 'userapp/includes/inc_footer.html' %}
+        {% endblock %}
+{% block js %}
+
+  {% include 'userapp/includes/inc_js.html' %}
+{% endblock %}
