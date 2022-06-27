@@ -1,3 +1,14 @@
 from django.shortcuts import render
 
-# Create your views here.
+from .forms import CreateAdForm
+
+
+def add_ad(request):
+    form = CreateAdForm()
+    context = {
+        'title': 'Добавить новое объявление',
+        'form': form,
+    }
+    return render(request, 'crerateapp/advertisement.html', context)
+
+

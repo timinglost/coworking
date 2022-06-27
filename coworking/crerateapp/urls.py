@@ -15,6 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from .views import add_ad
 
 urlpatterns = [
+    path('', add_ad, name='add_ad'),
 ]
+
+
