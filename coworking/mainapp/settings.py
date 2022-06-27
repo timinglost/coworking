@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'detailsapp',
     'feedbackapp',
     'adminapp',
-    'crerateapp',
+    'createapp',
 ]
 
 MIDDLEWARE = [
@@ -70,7 +70,7 @@ TEMPLATES = [
             'detailsapp/templates',
             'feedbackapp/templates',
             'adminapp/templates',
-            'crerateapp/templates',
+            'createapp/templates',
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -146,3 +146,9 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SAMESITE = 'None'
+SESSION_COOKIE_SAMESITE = 'None'
+CORS_ORIGIN_ALLOW_ALL = True

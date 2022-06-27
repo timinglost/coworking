@@ -9,6 +9,6 @@ def add_ad(request):
         'title': 'Добавить новое объявление',
         'form': form,
     }
-    return render(request, 'crerateapp/advertisement.html', context)
+    return render(request, 'createapp/advertisement.html', context)
 
 
