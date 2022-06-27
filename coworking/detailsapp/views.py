@@ -1,3 +1,10 @@
 from django.shortcuts import render
 
-# Create your views here.
+
+def show_details(request):
+    title = 'Some details'
+
+    context = {
+        'title': title,
+    }
+    return render(request, 'detailsapp/details.html', context)

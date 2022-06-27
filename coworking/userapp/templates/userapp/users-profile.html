@@ -14,6 +14,7 @@
       <h1>Профиль пользователя</h1>
       <nav>
         <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'main' %}">Главная</a></li>
           <li class="breadcrumb-item"><a href="{% url 'user:main' %}">Домой</a></li>
           <li class="breadcrumb-item">Пользователь</li>
           <li class="breadcrumb-item active">Профиль</li>
@@ -309,5 +310,3 @@
 
   {% include 'userapp/includes/inc_js.html' %}
 {% endblock %}
-
-

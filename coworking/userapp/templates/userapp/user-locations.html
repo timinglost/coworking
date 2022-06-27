@@ -1,0 +1,89 @@
+{% extends 'userapp/base.html' %}
+{% load static %}
+   {% block content %}
+
+  <!-- ======= Header ======= -->
+  {% include 'userapp/includes/inc_header.html' %}
+
+  <!-- ======= Sidebar ======= -->
+  {% include 'userapp/includes/inc_sidebar.html' %}
+
+
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Мои локации</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'user:main' %}">Общая информация</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'user:profile' %}">Профиль</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'user:bookings' %}">Мои бронирования</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'user:favorites' %}">Избранное</a></li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+      <div class="row align-items-top">
+        <div class="col-lg-9">
+          <!-- Card with an image on left -->
+          <div class="card mb-3">
+            <div class="row g-0">
+              <div class="col-md-4">
+                <img src="{% static 'userapp/assets/img/location.jpg' %}" class="img-fluid rounded-start" alt="...">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                  <h5 class="card-title">м. Менделеевская, ул. Новослободская, 16;</h5>
+                  <p class="card-text">Work’n’Soda</p>
+                </div>
+              </div>
+            </div>
+          </div><!-- End Card with an image on left -->
+
+          <!-- Card with an image on left -->
+          <div class="card mb-3">
+            <div class="row g-0">
+              <div class="col-md-4">
+                <img src="{% static 'userapp/assets/img/location-2.jpg' %}" class="img-fluid rounded-start" alt="...">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                  <h5 class="card-title">м. Ленинский проспект, пр-т. Ленинский, 30А</h5>
+                  <p class="card-text">Рабочая станция</p>
+                </div>
+              </div>
+            </div>
+          </div><!-- End Card with an image on left -->
+
+          <!-- Card with an image on left -->
+          <div class="card mb-3">
+            <div class="row g-0">
+              <div class="col-md-4">
+                <img src="{% static 'userapp/assets/img/location-3.jpg' %}" class="img-fluid rounded-start" alt="...">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                  <h5 class="card-title">м. Тургеневская, ул. Мясницкая, 13/18</h5>
+                  <p class="card-text"> #tceh </p>
+                </div>
+              </div>
+            </div>
+          </div><!-- End Card with an image on left -->
+        </div>
+
+        </div>
+
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  {% include 'userapp/includes/inc_footer.html' %}
+        {% endblock %}
+{% block js %}
+
+  {% include 'userapp/includes/inc_js.html' %}
+{% endblock %}
+

@@ -1,0 +1,88 @@
+<aside id="sidebar" class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+    </ul>
+
+
+    <!-- Multi Columns Form -->
+    <form class="row g-3 search-form d-flex align-items-center" method="POST" action="#">
+      <div class="col-md-12">
+        <legend class="col-form-label col-sm-2 pt-0"><strong>Город</strong></legend>
+        <div class="col-md-12">
+          <input type="text" name="inputCity" placeholder="Город" class="form-control" id="inputCity">
+        </div>
+      </div>
+
+     <div class="col-md-12">
+        <legend class="col-form-label col-sm-2 pt-0"><strong>Дата</strong></legend>
+        <div class="col-md-12">
+          <input type="date" placeholder="Дата" class="form-control">
+        </div>
+      </div>
+
+
+
+      <div class="col-md-12">
+        <legend class="col-form-label col-sm-2 pt-0"><strong>Цена&nbspза&nbspчас&nbspаренды</strong></legend>
+      </div>
+      <div class="col-md-6">
+        <input type="number" min="0" step="1" placeholder="0" class="form-control">
+      </div>
+      <div class="col-md-6">
+        <span class="range-number-item range-number-max">
+          <input type="number" min="0" step="1" placeholder="20&nbsp;000+" class="form-control">
+        </span>
+
+      </div>
+
+      <div class="col-md-12">
+        <legend class="col-form-label col-sm-2 pt-0"><strong>Дополнительные&nbspуслуги</strong></legend>
+        <div class="col-sm-10">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="gridCheck1">
+            <label class="form-check-label" for="gridCheck1">
+              Кофе
+            </label>
+          </div>
+
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="gridCheck2" checked>
+            <label class="form-check-label" for="gridCheck2">
+              Печеньки
+            </label>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="col-md-12">
+        <label for="inputCity" class="form-label"><strong>Что-то ещё</strong></label>
+        <input type="text" class="form-control" id="inputSmth">
+      </div>
+      <div class="col-md-12">
+        <label class="col-sm-2 col-form-label"><strong>Правила&nbspразмещения</strong></label>
+        <div class="col-sm-10">
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+            <label class="form-check-label" for="flexSwitchCheckDefault">Можно с питомцами</label>
+          </div>
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked>
+            <label class="form-check-label" for="flexSwitchCheckChecked">Вечеринки</label>
+          </div>
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDisabled" disabled>
+            <label class="form-check-label" for="flexSwitchCheckDisabled">Блек джек</label>
+          </div>
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="flexSwitchCheckCheckedDisabled" checked disabled>
+            <label class="form-check-label" for="flexSwitchCheckCheckedDisabled">Куртизанки</label>
+          </div>
+        </div>
+      </div>
+      <div class="text-center">
+        <button type="submit" class="btn btn-primary">Поиск</button>
+        <button type="reset" class="btn btn-secondary">Сбросить</button>
+      </div>
+    </form><!-- End Multi Columns Form -->
+  </aside>
