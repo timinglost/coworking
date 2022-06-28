@@ -23,7 +23,7 @@
         <!-- navbar menu -->
         <div class="collapse navbar-collapse" id="navbar-menu">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#home">Предложить помещения</a></li>
+                <li><a href="{% url 'create:add_ad'%}">Предложить помещения</a></li>
                 <li><a href="#favourite">Мои любимые локации</a></li>
                 {% if user.is_authenticated %}
                 <li><a href="{% url 'userapp:profile' %}">Личный Кабинет</a></li>

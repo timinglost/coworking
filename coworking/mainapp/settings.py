@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'detailsapp',
     'feedbackapp',
     'adminapp',
-    'crerateapp',
+    'createapp',
 ]
 
 MIDDLEWARE = [
@@ -68,7 +68,7 @@ TEMPLATES = [
             'detailsapp/templates',
             'feedbackapp/templates',
             'adminapp/templates',
-            'crerateapp/templates',
+            'createapp/templates',
         ],
         'APP_DIRS': True,
         'OPTIONS': {

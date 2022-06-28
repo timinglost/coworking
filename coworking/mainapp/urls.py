@@ -26,5 +26,5 @@ urlpatterns = [
     path('details/', include(('detailsapp.urls', 'detailsapp'), namespace='details')),
     path('feedback/', include(('feedbackapp.urls', 'feedbackapp'), namespace='feedback')),
     path('admin_staff/', include(('adminapp.urls', 'adminapp'), namespace='admin_staff')),
-    path('crerate/', include(('crerateapp.urls', 'crerateapp'), namespace='crerate')),
+    path('create/', include(('createapp.urls', 'createapp'), namespace='create')),
 ]
