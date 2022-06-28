@@ -15,7 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from .views import main
+from mainapp.views import main
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,5 +28,8 @@ urlpatterns = [
     path('details/', include(('detailsapp.urls', 'detailsapp'), namespace='details')),
     path('feedback/', include(('feedbackapp.urls', 'feedbackapp'), namespace='feedback')),
     path('admin_staff/', include(('adminapp.urls', 'adminapp'), namespace='admin_staff')),
-    path('crerate/', include(('crerateapp.urls', 'crerateapp'), namespace='crerate')),
+    path('create/', include(('createapp.urls', 'createapp'), namespace='create')),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1075,3 +1075,52 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 13px;
   color: #012970;
 }
+
+.navigate a {
+    transition: .3s;
+    padding: 0 10px;
+    border: solid 1px #dfdfdf;
+    border-radius: 4px;
+    color: #828282;
+    display: flex;
+    align-items: center;
+    height: 40px;
+    justify-content: center;
+    text-decoration: none;
+
+*, ::after, ::before {
+    box-sizing: border-box;
+}
+
+a:-webkit-any-link {
+    color: -webkit-link;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+li {
+    text-align: -webkit-match-parent;
+}
+.navigate ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    display: flex;
+    align-items: center;
+}
+
+body {
+    margin: 0;
+    overflow: hidden;
+    background: #000 url(../img/demo-bg.jpg) 0 0 repeat;
+    position: relative;
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+}
+
+*, ::after, ::before {
+    box-sizing: border-box;
+}
+
+*, ::after, ::before {
+    box-sizing: border-box;
+}
