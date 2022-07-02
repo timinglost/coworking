@@ -491,6 +491,22 @@ Button
     border:1px solid #ff0000;
 }
 
+.alert {
+    position: relative;
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+}
+.alert-dismissible {
+    padding-right: 4rem;
+}
+.alert-warning {
+    color: #856404;
+    background-color: #fff3cd;
+    border-color: #ffeeba;
+}
+
 .main-block {
     align-items: center;
     color: #fff;

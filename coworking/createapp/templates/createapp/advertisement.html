@@ -16,6 +16,16 @@
                         <div class="col-sm-7" style="background-color: white; border: 3px solid #808080; border-radius: 25px;
                                         margin-bottom: 70px">
 
+                    {% if form.errors %}
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert"
+                             style="margin-top: 50px;">
+                            {{ form.errors }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true"></span>
+                            </button>
+                        </div>
+                    {% endif %}
+
                             <div class="card shadow-lg border-0 rounded-lg mt-5"
                                  style="padding-left:30px; padding-right: 30px;">
                                 <div class="card-header" style="padding-top: 40px; padding-bottom: 30px;"><h2
@@ -28,9 +38,9 @@
                                           enctype="multipart/form-data">
                                         {% csrf_token %}
                                         <div class="form-group">
-                                            <label class="small mb-20" for="{{ form.room_name.id_for_label }}">Название
+                                            <label class="small mb-20" for="{{ form.name.id_for_label }}">Название
                                                 помещения</label>
-                                            {{ form.room_name }}
+                                            {{ form.name }}
                                         </div>
                                         <!--                                        <div class="col-md-30">  -->
                                         <div class="form-group">
@@ -65,8 +75,8 @@
                                             </div>
 
                                             <div style="width: 100%; padding-bottom: 15px">
-                                                <label>Адрес</label>
-                                                <input type="text" id="address" placeholder="Введите адрес" style="width: 100%">
+                                                <label for="{{ form.address.id_for_label }}">Адрес</label>
+                                                {{ form.address }}
                                                 <p id="address-notice" class="error-msg" style="display: none;">Адрес не найден</p>
                                             </div>
 
