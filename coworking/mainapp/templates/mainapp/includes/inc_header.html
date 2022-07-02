@@ -23,21 +23,24 @@
         <!-- navbar menu -->
         <div class="collapse navbar-collapse" id="navbar-menu">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="{% url 'create:add_ad'%}">Предложить помещения</a></li>
-                <li><a href="#favourite">Мои любимые локации</a></li>
-                {% if user.is_authenticated %}
-                <li><a href="{% url 'userapp:profile' %}">Личный Кабинет</a></li>
-                {% else %}
+                <li><a href="{% url 'create:main'%}">Предложить помещения</a></li>
+                <li><a href="{% url 'offers:main' %}">Каталог</a></li>
+                <li><a href="{% url 'details:main' %}">Страница объявления</a></li>
+<!--                <li><a href="{% url 'user:favorites' %}">Мои любимые локации</a></li>-->
+                <li><a href="{% url 'user:profile' %}">Личный Кабинет</a></li>
                 <li><a href="{% url 'auth:login' %}">Войти</a></li>
-                {% endif %}
+                <!--                {% if user.is_authenticated %}-->
+                <!--                {% else %}-->
+<!--                {% endif %}-->
 
 
                 <!-- <li><a href="#product">Portfolio</a></li> -->
-                <li><a href="#team">Наша команда</a></li>
-                <li><a href="#contact">О проекте</a></li>
+<!--                <li><a href="#team">Наша команда</a></li>-->
+                <li><a href="{% url 'feedback:main' %}">Обратная связь</a></li>
 
             </ul>
         </div><!-- /.navbar-collapse -->
     </div>
+
 
 </nav>

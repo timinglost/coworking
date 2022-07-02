@@ -4,5 +4,5 @@ from django.urls import path
 from detailsapp.views import show_details
 
 urlpatterns = [
-    path('', show_details, name='details')
+    path('', show_details, name='main')
 ]

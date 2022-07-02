@@ -1,17 +1,37 @@
  {% load static %}
   <aside id="sidebar" class="sidebar">
-
     <ul class="sidebar-nav" id="sidebar-nav">
-
-      <li class="nav-heading">Страницы</li>
 {% if user.is_authenticated %}
-      <li class="nav-item">
+        <li class="nav-item">
         <a class="nav-link collapsed" href="{% url 'user:profile' %}">
           <i class="bi bi-person"></i>
-          <span>Личный кабинет</span>
+          <span>Профиль</span>
         </a>
       </li><!-- End Profile Page Nav -->
-{% endif %}
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{% url 'user:bookings' %}">
+          <i class="bi bi-cart"></i>
+          <span>Мои бронирования</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{% url 'user:locations' %}">
+          <i class="bi bi-box"></i>
+          <span>Мои локации</span>
+
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{% url 'user:favorites' %}">
+          <i class="bi bi-bookmark-heart-fill"></i>
+          <span>Избранное</span>
+        </a>
+      </li>
+        {% endif %}
+      <li class="nav-heading">Страницы</li>
       <li class="nav-item">
         <a class="nav-link collapsed" href="{% url 'feedback:questions' %}">
           <i class="bi bi-question-circle"></i>
