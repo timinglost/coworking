@@ -23,7 +23,9 @@ class CreateAdForm(ModelForm):
                                           widget=forms.TextInput(attrs={'placeholder': 'Цена в час'}))
     category = forms.ModelChoiceField(label="Категория", queryset=RoomCategory.objects.all(),
                                       empty_label="Категория не выбрана")
+    phoneNumberRegex = RegexValidator(regex=r"^\+?1?\d{8,15}$")
     phone_number = forms.CharField(min_length=10, initial=89995555555,
+                                   validators=[phoneNumberRegex],
                                    widget=forms.TextInput(attrs={'placeholder': 'Номер телефона'}))
     address = forms.CharField(label="Название помещения",
                               min_length=7,
