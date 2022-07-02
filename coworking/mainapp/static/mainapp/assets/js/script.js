@@ -1,7 +1,49 @@
 ymaps.ready(init);
 
+
+let check_was_done = false;
+
+function onNewAd(event){
+    if(check_was_done) {
+        check_was_done = false;
+        return;
+    }
+    event.preventDefault();
+    const address = $('#address').val();
+
+    if(!address){
+        showError('Address must not be empty');
+        return;
+    }
+
+    checkAddress(address)
+        .then(result => {
+            if(result.error){
+                showError(result.error);
+                return;
+            }
+            check_was_done = true;
+            $(event.srcElement).trigger('click');
+        }, err => {
+            showError('Internal server error');
+        })
+}
+
+
+function showError(message) {
+    $('#address-notice').text(message);
+    $('#address').addClass('input_error');
+    $('#address-notice').css('display', 'block');
+}
+
+function clearAddressErrors(){
+    $('#address').removeClass('input_error');
+    $('#address-notice').css('display', 'none');
+}
+
 function init() {
     var suggestView = new ymaps.SuggestView('address');
+    $('#address').change(() => clearAddressErrors());
     suggestView.events.add(
         'select',
          e => checkAddress(e.get('item').value)
@@ -18,7 +60,11 @@ function init() {
 
     var location = ymaps.geolocation.get();
     location.then(
-        result =>  myMap.setCenter(result.geoObjects.position)
+        result => {
+            const coords = result.geoObjects.position;
+            myMap.setCenter(coords);
+            getAddress(coords);
+        }
      );
 
     // Слушаем клик на карте.
@@ -40,7 +86,7 @@ function init() {
 
     // Определяем адрес по координатам (обратное геокодирование).
     function getAddress(coords) {
-        myPlacemark.properties.set('iconCaption', 'поиск...');
+        getPlacemark(coords).properties.set('iconCaption', 'поиск...');
         ymaps.geocode(coords).then(function (res) {
             var firstGeoObject = res.geoObjects.get(0);
             setPlacemarkText(firstGeoObject);
@@ -50,8 +96,7 @@ function init() {
 
     function showResult(obj) {
         // Удаляем сообщение об ошибке, если найденный адрес совпадает с поисковым запросом.
-        $('#address').removeClass('input_error');
-        $('#address-notice').css('display', 'none');
+        clearAddressErrors();
 
         var mapContainer = $('#map'),
             bounds = obj.properties.get('boundedBy'),

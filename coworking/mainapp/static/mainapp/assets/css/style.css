@@ -477,6 +477,20 @@ Button
     border-color: #3f92d1;
 }
 
+.btn-file {
+    color: #fff;
+    background-color: #3f92d1;
+}
+
+.error-msg {
+    color: rgb(255,128,128);
+    font-weight: bold;
+}
+
+.input_error {
+    border:1px solid #ff0000;
+}
+
 .main-block {
     align-items: center;
     color: #fff;

@@ -145,3 +145,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  #
 
 AUTH_USER_MODEL = 'authapp.UserModel'
+
+PHONENUMBER_DEFAULT_REGION = 'RU'

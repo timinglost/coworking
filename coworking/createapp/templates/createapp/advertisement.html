@@ -5,7 +5,7 @@
 {% include 'mainapp/includes/inc_header.html' %}
 
 
-<section id="home" class="home bg-black fix">
+<section id="home" class="home bg-black fix" xmlns="http://www.w3.org/1999/html">
     <div class="overlay"></div>
     <div class="container">
         <div class="row">
@@ -27,7 +27,6 @@
                                     <form action="{% url 'create:add_ad' %}" method="post"
                                           enctype="multipart/form-data">
                                         {% csrf_token %}
-                                        <!--                                    <div class="col-md-30">  -->
                                         <div class="form-group">
                                             <label class="small mb-20" for="{{ form.room_name.id_for_label }}">Название
                                                 помещения</label>
@@ -35,9 +34,9 @@
                                         </div>
                                         <!--                                        <div class="col-md-30">  -->
                                         <div class="form-group">
-                                            <label class="small mb-20" for="{{ form.area.id_for_label }}">Площадь
+                                            <label class="small mb-20" for="{{ form.square.id_for_label }}">Площадь
                                                 помещения</label>
-                                            {{ form.area }}
+                                            {{ form.square }}
                                         </div>
                                         <!--                                        <div class="col-md-30">   -->
                                         <div class="form-group">
@@ -50,38 +49,38 @@
                                                 в час</label>
                                             {{ form.payment_per_hour }}
                                         </div>
-                                        <!--                                        <div class="col-md-30">                                      -->
-                                        <div class="col-md-30">
                                             <div class="form-group">
                                                 <label class="small mb-20" for="{{ form.category.id_for_label }}">Категория</label>
                                                 {{ form.category }}
                                             </div>
-                                            <!--                                        <div class="col-md-30">     -->
+                                        <div class="form-group">
+                                            <label class="small mb-20" for="{{ form.phone_number.id_for_label }}">Номер телефона</label>
+                                            {{ form.phone_number }}
+                                        </div>
+                                        <div class="form-group">
                                             <div class="form-group">
-                                                <div class="form-group">
-                                                    <label class="small mb-20"
-                                                           for="{{ form.image.id_for_label }}">Фото</label>
-                                                    {{ form.image }}
-                                                </div>
+                                                <label class="small mb-20"
+                                                      for="{{ form.image.id_for_label }}">Фото</label>
+                                                {{ form.image }}
+                                            </div>
 
-                                                <div style="width: 100%; padding-bottom: 15px">
-                                                    <input type="text" id="address" placeholder="Введите адрес" style="width: 100%">
-                                                    <p id="address-notice" style="display: none">Адрес не найден</p>
-                                                </div>
+                                            <div style="width: 100%; padding-bottom: 15px">
+                                                <label>Адрес</label>
+                                                <input type="text" id="address" placeholder="Введите адрес" style="width: 100%">
+                                                <p id="address-notice" class="error-msg" style="display: none;">Адрес не найден</p>
+                                            </div>
 
-                                                <div id="map" class="map"></div>
-                                                <script src="https://api-maps.yandex.ru/2.1?apikey=fe838c94-89e2-4657-a2ef-061f23ff1a53&lang=ru_RU"
-                                                        type="text/javascript">
-                                                </script>
-                                                <script src="{% static 'mainapp/assets/js/script.js' %}"></script>
+                                            <div id="map" class="map"></div>
+                                            <script src="https://api-maps.yandex.ru/2.1?apikey=fe838c94-89e2-4657-a2ef-061f23ff1a53&lang=ru_RU"
+                                                 type="text/javascript">
+                                            </script>
+                                            <script src="{% static 'mainapp/assets/js/script.js' %}"></script>
 
-                                                <button class="btn btn-primary"
-                                                        style="margin-top: 30px; margin-bottom: 30px;"
-                                                        type="submit">Разместить
-                                                </button>
-
+                                            <button class="btn btn-primary"
+                                                  style="margin-top:30px; margin-bottom:30px;"
+                                                  type="submit" onclick="onNewAd(event)">Разместить
+                                            </button>
                                     </form>
-
                                 </div>
                             </div>
                         </div><!-- End off slid item -->
