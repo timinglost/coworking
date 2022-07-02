@@ -1,4 +1,5 @@
 from django.core.exceptions import ValidationError
+from django.db import transaction
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
@@ -7,6 +8,7 @@ from .forms import CreateAdForm
 from .geo_checker import check_address
 
 
+@transaction.atomic
 def add_ad(request):
     if request.method == 'POST':
         form = CreateAdForm(data=request.POST)
@@ -22,7 +24,6 @@ def add_ad(request):
             return HttpResponseRedirect(reverse('user:profile'))
     else:
         form = CreateAdForm()
-
     context = {
         'title': 'Добавить новое объявление',
         'form': form,
