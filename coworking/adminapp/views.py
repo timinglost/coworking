@@ -3,6 +3,7 @@ from django.shortcuts import render, get_object_or_404
 from feedbackapp.models import Contact, QuestionCategory, Question, Message
 from django.urls import reverse
 from adminapp.forms import *
+from django.contrib import messages
 
 
 def main(request):
@@ -125,20 +126,22 @@ def question_add(request, pk_cat):
     title = 'Админка - F.A.Q.'
     faq_category = get_object_or_404(QuestionCategory, pk=pk_cat)
     if request.method == 'POST':
-        question_form = QuestionEditForm(request.POST)
-        if question_form.is_valid():
-            question_form.save()
+        name = request.POST.get('name')
+        slug = request.POST.get('slug')
+        try:
+            Question.objects.get(slug=slug)
+            messages.info(request, 'Такой slug уже существует!')
+            return HttpResponseRedirect(reverse('admin_staff:question_add', kwargs={'pk_cat': pk_cat}))
+        except:
+            text = request.POST.get('text')
+            new_question = Question(category=faq_category, name=name, slug=slug, text=text)
+            new_question.save()
             return HttpResponseRedirect(reverse('admin_staff:questions', kwargs={'pk': pk_cat}))
-        else:
-            return HttpResponseRedirect(reverse('admin_staff:questions', kwargs={'pk': pk_cat}))
-    else:
-        question_form = QuestionCategoryEditForm(initial={'category': faq_category})
     context = {
         'title': title,
         'faq_category': faq_category,
-        'question_form': question_form,
     }
-    return render(request, 'adminapp/faq-question-edit.html', context)
+    return render(request, 'adminapp/faq-question-add.html', context)
 
 
 def question_delete(request, pk_cat, pk):

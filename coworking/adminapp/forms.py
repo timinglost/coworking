@@ -87,7 +87,7 @@ class QuestionEditForm(forms.ModelForm):
 
     class Meta:
         model = Question
-        fields = 'name', 'slug', 'text',
+        fields = ['name', 'slug', 'text']
 
     def clean_name(self):
         name = self.cleaned_data.get('name')
