@@ -10,19 +10,36 @@
     justify-content: space-around;
     align-content: space-around;
 
-}.dates{
+}
+.offer-title{
+    display: flex;
+    flex-direction: column;
+}
+.offer-short-links{
+    display: flex;
+}
+.short-links-content{
+    margin-right: 20px;
+}
+.desc-header-p{
+    margin-right: 20px;
+    font-size: 12px;
+}
+.dates{
     display: flex;
     justify-content: space-between;
 }
 
 .date-form{
     width: 30%;
+    height: 31vh;
     padding: 10px 10px;
     display: flex;
     flex-direction: column;
+    justify-content: space-around;
     position: fixed;
     left: 66%;
-    top: 10%;
+    top: 17.5%;
     background-color: white;
     border: 1px solid;
     border-color: white;
@@ -47,6 +64,20 @@
 .carousel{
     border: 1px solid;
     border-radius: 4px;
+}
+.conveniences{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.convenience{
+    width: 31%;
+    margin: 6px 6px;
+}
+
+.convenience-icon{
+    margin-right: 10px;
 }
 .rating{
     display: flex;
@@ -162,6 +193,13 @@
 .landlord-content{
     display: flex;
     flex-direction: column;
+}
+.map{
+    background-color: white;
+    margin-top: 30px;
+    border: 1px solid;
+    border-color: white;
+    border-radius: 4px;
 }
 
 /**

@@ -6,11 +6,12 @@
 <div class="form-peoples">
     <select class="form-select" aria-label="Default select example">
         <option selected="">Кол-во людей</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
+        {% for seat in seats_number %}
+<!--            <option value="{{ seat }}">{{seat}}</option>-->
+        {% endfor %}
     </select>
 </div>
+<p style="margin: 5px; font-size: 1.5rem;">Цена: {{offer.payment_per_hour}} руб/ч</p>
 <button type="button" class="btn btn-primary date-btn">Принять</button>
 
 <p class="form-desc">Выберите необходимые даты и кол-во человек</p>
