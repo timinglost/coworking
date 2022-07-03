@@ -1,6 +1,6 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
-from feedbackapp.models import Contact, QuestionCategory, Question, Message
+from feedbackapp.models import *
 from django.urls import reverse
 from adminapp.forms import *
 from django.contrib import messages
