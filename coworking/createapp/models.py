@@ -38,6 +38,11 @@ class Room(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Время создания записи')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Время обновления записи')
 
+    is_active = models.BooleanField(
+        verbose_name='активна',
+        default=False
+    )
+
     def __str__(self):
         return f'{self.name} | {self.category.name}'
 
