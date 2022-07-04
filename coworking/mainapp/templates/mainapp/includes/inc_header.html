@@ -28,7 +28,6 @@
 <!--                <li><a href="{% url 'user:favorites' %}">Мои любимые локации</a></li>-->
                 {% if user.is_authenticated %}
                 <li><a href="{% url 'user:main' %}">Личный Кабинет</a></li>
-                <li><a href="{% url 'auth:logout' %}">Выйти</a></li>
                 {% else %}
                 <li><a href="{% url 'auth:login' %}">Войти</a></li>
                 {% endif %}
