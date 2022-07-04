@@ -4,8 +4,18 @@ from feedbackapp.models import *
 from django.urls import reverse
 from adminapp.forms import *
 from django.contrib import messages
+from django.contrib.auth.decorators import user_passes_test
 
 
+def check_admin(user):
+   return user.is_superuser
+
+
+def check_admin_staff(user):
+   return user.is_staff
+
+
+@user_passes_test(check_admin_staff)
 def main(request):
     title = 'Админка'
 
@@ -15,6 +25,7 @@ def main(request):
     return render(request, 'adminapp/index.html', context)
 
 
+@user_passes_test(check_admin_staff)
 def edit_contacts(request):
     title = 'Админка - Контакты'
     contacts = Contact.objects.first()
@@ -35,6 +46,7 @@ def edit_contacts(request):
     return render(request, 'adminapp/edit_contact.html', context)
 
 
+@user_passes_test(check_admin_staff)
 def question_category(request):
     title = 'Админка - F.A.Q.'
 
@@ -46,6 +58,8 @@ def question_category(request):
     }
     return render(request, 'adminapp/faq-category.html', context)
 
+
+@user_passes_test(check_admin_staff)
 def category(request, pk):
     title = 'Админка - F.A.Q.'
     category = get_object_or_404(QuestionCategory, pk=pk)
@@ -66,6 +80,7 @@ def category(request, pk):
     return render(request, 'adminapp/faq-category-edit.html', context)
 
 
+@user_passes_test(check_admin_staff)
 def add_category(request):
     title = 'Админка - F.A.Q.'
     if request.method == 'POST':
@@ -84,12 +99,14 @@ def add_category(request):
     return render(request, 'adminapp/faq-category-edit.html', context)
 
 
+@user_passes_test(check_admin_staff)
 def delete_category(request, pk):
     category = get_object_or_404(QuestionCategory, pk=pk)
     category.delete()
     return HttpResponseRedirect(reverse('admin_staff:question_category'))
 
 
+@user_passes_test(check_admin_staff)
 def questions(request, pk):
     title = 'Админка - F.A.Q.'
     faq_category = get_object_or_404(QuestionCategory, pk=pk)
@@ -102,6 +119,7 @@ def questions(request, pk):
     return render(request, 'adminapp/faq-questions.html', context)
 
 
+@user_passes_test(check_admin_staff)
 def question_edit(request, pk_cat, pk):
     title = 'Админка - F.A.Q.'
     question = get_object_or_404(Question, pk=pk)
@@ -122,6 +140,7 @@ def question_edit(request, pk_cat, pk):
     return render(request, 'adminapp/faq-question-edit.html', context)
 
 
+@user_passes_test(check_admin_staff)
 def question_add(request, pk_cat):
     title = 'Админка - F.A.Q.'
     faq_category = get_object_or_404(QuestionCategory, pk=pk_cat)
@@ -144,12 +163,14 @@ def question_add(request, pk_cat):
     return render(request, 'adminapp/faq-question-add.html', context)
 
 
+@user_passes_test(check_admin_staff)
 def question_delete(request, pk_cat, pk):
     question = get_object_or_404(Question, pk=pk)
     question.delete()
     return HttpResponseRedirect(reverse('admin_staff:questions', kwargs={'pk': pk_cat}))
 
 
+@user_passes_test(check_admin_staff)
 def message(request):
     title = 'Админка - Сообщения'
 
@@ -164,6 +185,7 @@ def message(request):
     return render(request, 'adminapp/messages.html', context)
 
 
+@user_passes_test(check_admin_staff)
 def get_message(request, pk):
     title = 'Админка - Сообщения'
 
@@ -176,6 +198,7 @@ def get_message(request, pk):
     return render(request, 'adminapp/get-message.html', context)
 
 
+@user_passes_test(check_admin_staff)
 def delete_message(request, pk):
     message_active = get_object_or_404(Message, pk=pk)
     message_active.is_active = False
