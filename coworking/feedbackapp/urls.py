@@ -20,5 +20,5 @@ from .views import main, questions, question
 urlpatterns = [
     path('', main, name='main'),
     path('questions/', questions, name='questions'),
-    path('questions/question', question, name='question'),
+    path('questions/<slug:slug>', question, name='question'),
 ]

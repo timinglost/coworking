@@ -1,0 +1,47 @@
+ {% load static %}
+
+ <!-- Левое меню -->
+
+  <aside id="sidebar" class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+      <li class="nav-heading">Пользователи</li>
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#">
+          <i class="bi bi-exclamation-circle"></i>
+          <span>Заглушка</span>
+        </a>
+      </li>
+      <li class="nav-heading">Объявления</li>
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#">
+          <i class="bi bi-exclamation-circle"></i>
+          <span>Заглушка</span>
+        </a>
+      </li>
+      <li class="nav-heading">feedback</li>
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{% url 'admin_staff:contact' %}">
+          <i class="bi bi-person"></i>
+          <span>Контакты</span>
+        </a>
+      </li><!-- End Profile Page Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{% url 'admin_staff:question_category' %}">
+          <i class="bi bi-question-circle"></i>
+          <span>F.A.Q.</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{% url 'admin_staff:message' %}">
+          <i class="bi bi-chat-text-fill"></i>
+          <span>Сообщения от пользователей</span>
+
+        </a>
+      </li>
+
+    </ul>
+
+  </aside><!-- End Sidebar-->

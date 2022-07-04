@@ -477,6 +477,36 @@ Button
     border-color: #3f92d1;
 }
 
+.btn-file {
+    color: #fff;
+    background-color: #3f92d1;
+}
+
+.error-msg {
+    color: rgb(255,128,128);
+    font-weight: bold;
+}
+
+.input_error {
+    border:1px solid #ff0000;
+}
+
+.alert {
+    position: relative;
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+}
+.alert-dismissible {
+    padding-right: 4rem;
+}
+.alert-warning {
+    color: #856404;
+    background-color: #fff3cd;
+    border-color: #ffeeba;
+}
+
 .main-block {
     align-items: center;
     color: #fff;
