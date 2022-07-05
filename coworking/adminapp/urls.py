@@ -39,4 +39,9 @@ urlpatterns = [
     path('offers-pre-moderation/', pre_moderation, name='pre_moderation'),
     path('offers-pre-moderation/<int:pk>', show_offers_details, name='pre_moderation_details'),
     path('offers-pre-moderation/active/<int:pk>', allow_publishing, name='allow_publishing'),
+    # категории объявлений
+    path('room-category/', room_category, name='room_category'),
+    path('room-category-edit/<int:pk>', room_category_edit, name='room_category_edit'),
+    path('room-category-add/', room_category_add, name='room_category_add'),
+    path('room-category-delete/<int:pk>', room_category_delete, name='room_category_delete'),
 ]
