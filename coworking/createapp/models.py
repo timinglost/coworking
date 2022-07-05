@@ -47,6 +47,6 @@ class Room(models.Model):
         return f'{self.name} | {self.category.name}'
 
 
-# class OfferImages(models.Model):
-#     room = models.ForeignKey(Room, related_name='room_images', on_delete=models.CASCADE)
-#     image = models.FileField(upload_to='offer_images', verbose_name='Фото')  # в этом поле хранится путь в виде "offer_images/img-name.format", например: "offer_images/offer1-1.jpg"
+class OfferImages(models.Model):
+    room = models.ForeignKey(Room, related_name='room_images', on_delete=models.CASCADE)
+    image = models.FileField(upload_to='offer_images', verbose_name='Фото')  # в этом поле хранится путь в виде "offer_images/img-name.format", например: "offer_images/offer1-1.jpg"
