@@ -5,6 +5,7 @@ from django.urls import reverse
 from adminapp.forms import *
 from django.contrib import messages
 from django.contrib.auth.decorators import user_passes_test
+from createapp.models import *
 
 
 def check_admin(user):
@@ -13,6 +14,63 @@ def check_admin(user):
 
 def check_admin_staff(user):
    return user.is_staff
+
+
+@user_passes_test(check_admin_staff)
+def allow_publishing(request, pk):
+    offer = get_object_or_404(Room, pk=pk)
+    if offer.is_active is True:
+        offer.is_active = False
+        offer.save()
+        return HttpResponseRedirect(reverse('admin_staff:offers'))
+    else:
+        offer.is_active = True
+        offer.save()
+        return HttpResponseRedirect(reverse('admin_staff:pre_moderation'))
+
+
+@user_passes_test(check_admin_staff)
+def show_offers_details(request, pk):
+    offer = get_object_or_404(Room, pk=pk)
+    offer_address = get_object_or_404(Address, pk=offer.address.pk)
+    category = get_object_or_404(RoomCategory, pk=offer.category.pk)
+    # offer_images = offer.prefetch_related('room_images')
+
+    context = {
+        'title': offer.name,
+        'offer': offer,
+        'offer_address': offer_address,
+        'category': category,
+        # "seats_number": [_ for _ in range(1, offer.seats_number + 1)],
+        # 'offer_images': offer_images,
+    }
+    return render(request, 'adminapp/offers/offers-pm-active.html', context=context)
+
+
+@user_passes_test(check_admin_staff)
+def pre_moderation(request):
+    title = 'Админка - Заказы'
+
+    offers_list = Room.objects.filter(is_active=False)
+
+    context = {
+        'title': title,
+        'offers_list': offers_list
+    }
+    return render(request, 'adminapp/offers/offers.html', context)
+
+
+@user_passes_test(check_admin_staff)
+def offers(request):
+    title = 'Админка - Заказы'
+
+    offers_list = Room.objects.filter(is_active=True)
+
+    context = {
+        'title': title,
+        'offers_list': offers_list
+    }
+    return render(request, 'adminapp/offers/offers.html', context)
 
 
 @user_passes_test(check_admin_staff)

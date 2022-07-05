@@ -7,21 +7,21 @@ import re
 
 class ContactEditForm(forms.ModelForm):
     first_address = forms.CharField(widget=forms.TextInput(
-        attrs={'type': "text", 'value': "{{ contacts.first_address }}", 'name': "first_address", 'class': "form-control", 'id': "inputFirstAddress"}))
+        attrs={'type': "text",  'name': "first_address", 'class': "form-control", 'id': "inputFirstAddress"}))
     second_address = forms.CharField(widget=forms.TextInput(
-        attrs={'type': "text", 'value': "{{ contacts.second_address }}", 'name': "second_address", 'class': "form-control", 'id': "inputSecondAddress"}))
+        attrs={'type': "text",  'name': "second_address", 'class': "form-control", 'id': "inputSecondAddress"}))
     first_phone = forms.CharField(widget=forms.TextInput(
-        attrs={'type': "text", 'value': "{{ contacts.first_phone }}", 'name': "first_phone", 'class': "form-control", 'id': "input_first_phone"}))
+        attrs={'type': "text",  'name': "first_phone", 'class': "form-control", 'id': "input_first_phone"}))
     second_phone = forms.CharField(widget=forms.TextInput(
-        attrs={'type': "text", 'value': "{{ contacts.second_phone }}", 'name': "second_phone", 'class': "form-control", 'id': "input_second_phone"}))
+        attrs={'type': "text",  'name': "second_phone", 'class': "form-control", 'id': "input_second_phone"}))
     first_mail = forms.CharField(widget=forms.EmailInput(
-        attrs={'type': "email", 'value': "{{ contacts.first_mail }}", 'name': "first_mail", 'class': "form-control", 'id': "first_mail"}))
+        attrs={'type': "email",  'name': "first_mail", 'class': "form-control", 'id': "first_mail"}))
     second_mail = forms.CharField(widget=forms.EmailInput(
-        attrs={'type': "email", 'value': "{{ contacts.second_mail }}", 'name': "second_mail", 'class': "form-control", 'id': "second_mail"}))
+        attrs={'type': "email",  'name': "second_mail", 'class': "form-control", 'id': "second_mail"}))
     working_days = forms.CharField(widget=forms.TextInput(
-        attrs={'type': "text", 'value': "{{ contacts.working_days }}", 'name': "working_days", 'class': "form-control", 'id': "working_days"}))
+        attrs={'type': "text", 'name': "working_days", 'class': "form-control", 'id': "working_days"}))
     Opening_hours = forms.CharField(widget=forms.TextInput(
-        attrs={'type': "text", 'value': "{{ contacts.Opening_hours }}", 'name': "Opening_hours", 'class': "form-control", 'id': "Opening_hours"}))
+        attrs={'type': "text", 'name': "Opening_hours", 'class': "form-control", 'id': "Opening_hours"}))
 
     class Meta:
         model = Contact

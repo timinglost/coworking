@@ -34,6 +34,9 @@ urlpatterns = [
     path('message/', message, name='message'),
     path('message-get/<int:pk>/', get_message, name='message_get'),
     path('message-delete/<int:pk>/', delete_message, name='message_delete'),
-    #пользователи
-
+    #объявления
+    path('offers/', offers, name='offers'),
+    path('offers-pre-moderation/', pre_moderation, name='pre_moderation'),
+    path('offers-pre-moderation/<int:pk>', show_offers_details, name='pre_moderation_details'),
+    path('offers-pre-moderation/active/<int:pk>', allow_publishing, name='allow_publishing'),
 ]
