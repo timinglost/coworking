@@ -2,7 +2,25 @@ from django import forms
 from django.core.exceptions import ValidationError
 
 from feedbackapp.models import Contact, QuestionCategory, Question
+from createapp.models import RoomCategory
 import re
+
+
+class RoomCategoryEditForm(forms.ModelForm):
+    name = forms.CharField(widget=forms.TextInput(
+        attrs={'type': "text", 'name': "name",
+               'class': "form-control", 'id': "inputText"}))
+
+    class Meta:
+        model = RoomCategory
+        fields = 'name',
+
+    def clean_name(self):
+        name = self.cleaned_data.get('name')
+        if len(name) > 40:
+            raise ValidationError('Слишком длинное имя!')
+        else:
+            return name
 
 
 class ContactEditForm(forms.ModelForm):

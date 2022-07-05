@@ -17,6 +17,66 @@ def check_admin_staff(user):
 
 
 @user_passes_test(check_admin_staff)
+def room_category_delete(request, pk):
+    category = get_object_or_404(RoomCategory, pk=pk)
+    category.delete()
+    return HttpResponseRedirect(reverse('admin_staff:room_category'))
+
+
+@user_passes_test(check_admin_staff)
+def room_category_add(request):
+    title = 'Админка - Категории'
+    if request.method == 'POST':
+        category_form = RoomCategoryEditForm(request.POST)
+        if category_form.is_valid():
+            category_form.save()
+            return HttpResponseRedirect(reverse('admin_staff:room_category'))
+        else:
+            return HttpResponseRedirect(reverse('admin_staff:room_category'))
+    else:
+        category_form = QuestionCategoryEditForm()
+    context = {
+        'title': title,
+        'category_form': category_form
+    }
+    return render(request, 'adminapp/room_category/room-category-edit.html', context)
+
+
+@user_passes_test(check_admin_staff)
+def room_category_edit(request, pk):
+    title = 'Админка - Категории'
+    category = get_object_or_404(RoomCategory, pk=pk)
+    if request.method == 'POST':
+        category_form = RoomCategoryEditForm(request.POST, instance=category)
+        if category_form.is_valid():
+            category_form.save()
+            return HttpResponseRedirect(reverse('admin_staff:room_category'))
+        else:
+            return HttpResponseRedirect(reverse('admin_staff:room_category'))
+    else:
+        category_form = QuestionCategoryEditForm(instance=category)
+    context = {
+        'title': title,
+        'category': category,
+        'category_form': category_form
+    }
+    return render(request, 'adminapp/room_category/room-category-edit.html', context)
+
+
+@user_passes_test(check_admin_staff)
+def room_category(request):
+    title = 'Админка - Категории'
+
+    room_category = RoomCategory.objects.all()
+
+    context = {
+        'title': title,
+        'room_category': room_category
+    }
+    return render(request, 'adminapp/room_category/room-category.html', context)
+
+
+@user_passes_test(check_admin_staff)
 def allow_publishing(request, pk):
     offer = get_object_or_404(Room, pk=pk)
     if offer.is_active is True:
