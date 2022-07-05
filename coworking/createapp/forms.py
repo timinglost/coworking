@@ -1,8 +1,8 @@
 from django import forms
 from django.core.validators import RegexValidator
-from django.forms import ModelForm
+from django.forms import ModelForm, ClearableFileInput
 
-from .models import Room, RoomCategory
+from .models import Room, RoomCategory, OfferImages
 
 
 class CreateAdForm(ModelForm):
@@ -41,13 +41,14 @@ class CreateAdForm(ModelForm):
         model = Room
         fields = ['name', 'square', 'description', 'payment_per_hour', 'category', 'phone_number']
 
-# class ImageForm(forms.ModelForm):
-#     image = forms.ImageField(label='Image')
 
-# class Meta:
-#     model = Image
-#     fields = ('image',)
-# widgets = {
-#     'file': ClearableFileInput(attrs={'multiple': True}),
-# }
+class ImageForm(forms.ModelForm):
+    image = forms.ImageField(label='Image')
+
+    class Meta:
+        model = OfferImages
+        fields = ('image',)
+    widgets = {
+        'file': ClearableFileInput(attrs={'multiple': True}),
+    }
 # widget is important to upload multiple files
