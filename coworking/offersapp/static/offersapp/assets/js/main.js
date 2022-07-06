@@ -45,6 +45,15 @@
       select('body').classList.toggle('toggle-sidebar')
     })
   }
+  /**
+   * Search reset
+   */
+  if (select('.reset-btn')) {
+    on('click', '.reset-btn', function(e){
+        console.log('reset');
+        document.getElementById('searchForm').reset();
+    })
+  }
 
   /**
    * Search bar toggle

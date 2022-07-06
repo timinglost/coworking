@@ -18,6 +18,10 @@ body {
   color: #444444;
 }
 
+.hidden {
+    display: none;
+}
+
 a {
   color: #4154f1;
   text-decoration: none;

@@ -111,11 +111,14 @@
                 </div>
                 <div class="col-md-8">
                   <div class="card-body">
-                      <a href="{% url 'details:details' room.pk %}">
+                      <a href="{% url 'details:details' room.pk %}" target="_blank">
                           <h5 class="card-title">{{ room.name }}</h5>
                       </a>
                     <p class="card-text">Описание: {{ room.description }}</p>
                     <p class="card-text">Стоимость: {{ room.payment_per_hour }}</p>
+                    <p class="card-text" id="address">{{ room.address.city }}, {{ room.address.street }}, {{ room.address.building }}</p>
+                    <p class="card-text hidden" id="lattitude">широта: {{ room.address.latitude }}</p>
+                    <p class="card-text hidden" id="longitude">долгота: {{ room.address.longitude }}</p>
                   </div>
                 </div>
               </div>
@@ -126,14 +129,11 @@
 
         <!-- Right side columns -->
         <div class="col-lg-4">
-
           <!-- maps -->
-          <div class="card">
-            <iframe
-              src="https://yandex.ru/map-widget/v1/?um=constructor%3A241596472e274cdaa9d93be4393c955b72f72cdac341baafa915b5a7157c8f72&amp;source=constructor"
-              width="500" height="720" frameborder="0"></iframe>
+          <div class="card" id="map">
           </div>
-        </div><!-- End News & Updates -->
+        </div>
+          <!-- End maps -->
 
       </div><!-- End Right side columns -->
 
@@ -142,11 +142,11 @@
 
   </main><!-- End #main -->
 <!-- ======= Footer ======= -->
-  {% include 'userapp/includes/inc_footer.html' %}
+  {% include 'offersapp/includes/inc_footer.html' %}
 {% endblock %}
 
 
 <!-- Vendor JS Files -->
 {% block js %}
-  {% include 'userapp/includes/inc_js.html' %}
+  {% include 'offersapp/includes/inc_js.html' %}
 {% endblock %}
