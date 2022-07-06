@@ -17,22 +17,65 @@
 }
 .offer-short-links{
     display: flex;
+    justify-content: space-between;
 }
 .short-links-content{
+    display: flex;
+}
+.short-links-content p,a{
     margin-right: 20px;
 }
 .desc-header-p{
     margin-right: 20px;
     font-size: 12px;
 }
-.dates{
-    display: flex;
-    justify-content: space-between;
-}
 
+.short-links-func{
+    display: flex;
+}
+.short-links-func a{
+    color: black
+}
+.short-links-func a:hover{
+    color: red
+}
+.favorite{
+    cursor:pointer;
+    display: flex;
+}
+.favorite:hover{
+    color: red;
+}
+.heart {
+    width: 8px;
+    height: 8px;
+    background-color: red;
+    transform: rotate(45deg);
+    position: relative;
+    margin-right: 10px;
+    margin-top: 5px;
+
+}
+.heart::before,
+.heart::after {
+    content : '';
+    display: block;
+    width: 8px;
+    height: 8px;
+    background-color: red;
+    border-radius: 50%;
+    position: absolute;
+}
+.heart::before {
+    top: -4px;
+    left: 0;
+}
+.heart::after {
+    top: 0;
+    left: -4px;
+}
 .date-form{
     width: 30%;
-    height: 31vh;
     padding: 10px 10px;
     display: flex;
     flex-direction: column;
@@ -45,16 +88,40 @@
     border-color: white;
     border-radius: 4px;
 }
-
+.dates{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.dates label{
+    margin: 0 5px;
+}
 .form-control{
     margin: 5px 5px;
 }
-
+.time-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+.times{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.times label{
+    margin: 0 5px;
+}
+.times input{
+    margin: 5px 5px;
+}
 .form-peoples{
     padding: 5px 5px;
 }
 
 .date-btn{
+    width: 98%;
     margin: 5px 5px;
 }
 .form-desc{
