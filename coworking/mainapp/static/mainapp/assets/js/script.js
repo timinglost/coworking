@@ -42,6 +42,12 @@ function clearAddressErrors(){
 }
 
 function init() {
+
+
+    $(document).ready(function(){
+        $('#id_image').attr("multiple","true");
+    });
+
     var suggestView = new ymaps.SuggestView('address');
     $('#address').change(() => clearAddressErrors());
     suggestView.events.add(
