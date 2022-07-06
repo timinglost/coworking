@@ -26,14 +26,15 @@ class Room(models.Model):
     description = models.TextField(blank=False, verbose_name='Описание')
     payment_per_hour = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name='Оплата в час')
     category = models.ForeignKey(RoomCategory, on_delete=models.CASCADE, related_name='room_category',
-                                 verbose_name='Категория')  # ONE TO MANY
+                                 verbose_name='Категория')
+    seats_number = models.PositiveIntegerField(verbose_name='Количество рабочих мест')
+    minimum_booking_time = models.IntegerField(default=0, verbose_name='Минимальное время аренды')
+    start_working_hours = models.TimeField(
+        verbose_name='Время работы помещения с ')  # начало работы помещения, например, 7:00
+    end_working_hours = models.TimeField(
+        verbose_name='Время завершения работы помещения до ')  # закрытие помещения, например, 23:00
     phone_number = models.CharField(max_length=16, blank=False, null=False)
-    # start_working_hours = models.TimeField(
-    #     verbose_name='Время работы помещения с ')  # начало работы помещения, например, 7:00
-    # end_working_hours = models.TimeField(
-    #     verbose_name='Время завершения работы помещения до ')  # закрытие помещения, например, 23:00
     address = models.ForeignKey(Address, on_delete=models.CASCADE, related_name='room_address', verbose_name='Адрес')
-    # minimum_booking_time = models.IntegerField(default=0, verbose_name='Минимальное время аренды')
     # room_owner = models.ForeignKey(UserModel, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Время создания записи')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Время обновления записи')
@@ -49,4 +50,5 @@ class Room(models.Model):
 
 class OfferImages(models.Model):
     room = models.ForeignKey(Room, related_name='room_images', on_delete=models.CASCADE)
-    image = models.FileField(upload_to='offer_images', verbose_name='Фото')  # в этом поле хранится путь в виде "offer_images/img-name.format", например: "offer_images/offer1-1.jpg"
+    image = models.FileField(upload_to='offer_images',
+                             verbose_name='Фото')  # в этом поле хранится путь в виде "offer_images/img-name.format", например: "offer_images/offer1-1.jpg"
