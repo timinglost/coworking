@@ -24,6 +24,9 @@
     </select>
 </div>
 <p style="margin: 5px; font-size: 1.5rem;">Цена: {{offer.payment_per_hour}} руб/ч</p>
-
+{% if user.is_authenticated %}
 <button type="submit" class="btn btn-primary date-btn">Принять</button>
 <p class="form-desc">Выберите необходимые даты и кол-во человек</p>
+{% else %}
+<p class="form-desc">Для оформления заявки необходимо авторизоваться\зарегистрироваться</p>
+{% endif %}
