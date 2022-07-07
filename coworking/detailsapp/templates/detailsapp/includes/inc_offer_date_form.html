@@ -8,13 +8,12 @@
 <div class="times hidden">
     <div class="time-container">
         <label for="start_date">Начало дня:</label>
-        <input type="text" placeholder="с 8:00" id="start_time" name="start_time" value="8:00">
+        <input type="text" placeholder="с {{offer.start_working_hours}}" id="start_time" name="start_time" value="{{offer.start_working_hours}}">
     </div>
     <div class="time-container">
         <label for="end_date">Конец дня:</label>
-        <input type="text" placeholder="до 20:00" id="end_time" name="end_time" value="21:00">
+        <input type="text" placeholder="до {{offer.end_working_hours}}" id="end_time" name="end_time" value="{{offer.end_working_hours}}">
     </div>
-
 </div>
 <div class="form-peoples">
     <label for="select_seats">Укажите необходимое минимальное кол-во рабочих мест:</label>

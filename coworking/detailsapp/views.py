@@ -2,7 +2,7 @@ from datetime import datetime
 
 from django.shortcuts import render, get_object_or_404, HttpResponseRedirect
 from django.urls import reverse
-from createapp.models import Room, Address, RoomCategory  # OfferImages
+from createapp.models import Room, Address, RoomCategory, OfferImages
 from detailsapp.models import CurrentRentals
 
 
@@ -10,17 +10,19 @@ def get_offer_context(pk):
     offer = get_object_or_404(Room, pk=pk)
     offer_address = get_object_or_404(Address, pk=offer.address.pk)
     category = get_object_or_404(RoomCategory, pk=offer.category.pk)
-    # offer_images = offer.prefetch_related('room_images')
+    offer_images = OfferImages.objects.filter(room=offer)
     # запросы в таблицу категорий удобств и выборка категория + удобства этой категории
 
+    offer_images = [_ for _ in offer_images]
+    active_img = offer_images.pop(0)
     context = {
         'title': offer.name,
         'offer': offer,
         'offer_address': offer_address,
         'category': category,
-        # 'seats_number': [_ for _ in range(1, offer.seats_number + 1)],
-        'seats_number': [_ for _ in range(1, 16)],
-        # 'offer_images': offer_images,
+        'seats_number': [_ for _ in range(1, offer.seats_number + 1)],
+        'offer_images': offer_images,
+        'active_img': active_img,
         # 'convenience_types': convenience_types,
         # 'conveniences': conveniences,
     }
@@ -38,6 +40,7 @@ def create_rental(request, pk):
                                    "%Y-%m-%d %H:%M")
     end_date = datetime.strptime(f"{request.POST['end_date'] + ' ' + request.POST['end_time']}",
                                  "%Y-%m-%d %H:%M")
+    print(start_date, end_date, request.POST['start_time'], request.POST['end_time'])
     working_hours = None
     if start_date == end_date:
         working_hours = int((end_date - start_date).seconds / 3600)
@@ -57,6 +60,6 @@ def create_rental(request, pk):
 
 
 def add_favorite(request, pk):
-    # favorite_offer = Favorites(user=request.user, offer=get_object_or_404(Room, pk=pk))
+    # favorite_offer = Favorites(lessee=request.user, location=get_object_or_404(Room, pk=pk))
     # favorite_offer.save()
     return HttpResponseRedirect(reverse('user:favorites'))
