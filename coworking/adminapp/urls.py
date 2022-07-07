@@ -44,4 +44,7 @@ urlpatterns = [
     path('room-category-edit/<int:pk>', room_category_edit, name='room_category_edit'),
     path('room-category-add/', room_category_add, name='room_category_add'),
     path('room-category-delete/<int:pk>', room_category_delete, name='room_category_delete'),
+    #пользователи
+    path('users/', users, name='users'),
+    path('users/active/<int:pk>', staff_edit, name='staff_edit'),
 ]
