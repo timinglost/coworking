@@ -3,15 +3,16 @@
  <!-- Левое меню -->
 
   <aside id="sidebar" class="sidebar">
-
     <ul class="sidebar-nav" id="sidebar-nav">
+    {% if user.is_superuser %}
       <li class="nav-heading">Пользователи</li>
       <li class="nav-item">
-        <a class="nav-link collapsed" href="#">
-          <i class="bi bi-exclamation-circle"></i>
-          <span>Заглушка</span>
+        <a class="nav-link collapsed" href="{% url 'admin_staff:users' %}">
+          <i class="bi bi-person-lines-fill"></i>
+          <span>Пользователи</span>
         </a>
       </li>
+      {% endif %}
       <li class="nav-heading">Объявления</li>
       <li class="nav-item">
         <a class="nav-link collapsed" href="{% url 'admin_staff:room_category' %}">
