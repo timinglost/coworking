@@ -1,8 +1,17 @@
 {% load static %}
 <h4 class="offer-name">{{offer.name}}</h4>
 <div class="offer-short-links">
-    <p class="short-links-content">{{category.name}}</p>
-    <p class="short-links-content">{{offer_address.street}}</p>
-    <p class="short-links-content desc-header-p">Телефон: {{offer.phone_number}}</p>
-    <a href="#view_map" class="short-links-content">Показать на карте</a>
+    <div class="short-links-content">
+        <p>{{category.name}}</p>
+        <p>{{offer_address.street}}</p>
+        <p class="desc-header-p">Телефон: {{offer.phone_number}}</p>
+<!--        <a href="#view_map">Показать на карте</a>-->
+    </div>
+    <div class="short-links-func">
+<!--        <a class="favorite" href="{% url 'details:add_favorite' offer.pk %}">-->
+<!--            <div class="heart"></div>-->
+<!--            <p>В избранное</p>-->
+<!--        </a>-->
+    </div>
+
 </div>

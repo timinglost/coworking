@@ -19,8 +19,20 @@
           </a>
         </li><!-- End Search Icon-->
 
-        <li class="nav-item dropdown">
+        <li class="nav-item">
+          <a href="{% url 'user:bookings' %}" class="nav-link" target="_blank">
+            <span class="d-none d-md-block ps-2">Мои бронирования</span>
+          </a>
+        </li>
 
+        <li class="nav-item">
+          <a href="{% url 'user:favorites' %}" class="nav-link" target="_blank">
+            <span class="d-none d-md-block ps-2">Избранное</span>
+          </a>
+        </li>
+
+        {% if notifications in object_list%}
+        <li class="nav-item dropdown">
           <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
             <i class="bi bi-bell"></i>
             <span class="badge bg-primary badge-number">4</span>
@@ -93,7 +105,9 @@
           </ul><!-- End Notification Dropdown Items -->
 
         </li><!-- End Notification Nav -->
+        {% endif %}
 
+        {% if message in object_list%}
         <li class="nav-item dropdown">
 
           <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
@@ -148,7 +162,7 @@
           </ul><!-- End Messages Dropdown Items -->
 
         </li><!-- End Messages Nav -->
-
+        {% endif %}
         <li class="nav-item dropdown pe-3">
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
