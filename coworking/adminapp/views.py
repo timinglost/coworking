@@ -6,6 +6,7 @@ from adminapp.forms import *
 from django.contrib import messages
 from django.contrib.auth.decorators import user_passes_test
 from createapp.models import *
+from authapp.models import UserModel
 
 
 def check_admin(user):
@@ -16,11 +17,39 @@ def check_admin_staff(user):
    return user.is_staff
 
 
-@user_passes_test(check_admin_staff)
+@user_passes_test(check_admin)
+def staff_edit(request, pk):
+    user_staff = get_object_or_404(UserModel, pk=pk)
+    if user_staff.is_staff is True:
+        user_staff.is_staff = False
+        user_staff.save()
+        return HttpResponseRedirect(reverse('admin_staff:users'))
+    else:
+        user_staff.is_staff = True
+        user_staff.save()
+        return HttpResponseRedirect(reverse('admin_staff:users'))
+
+
+@user_passes_test(check_admin)
 def room_category_delete(request, pk):
     category = get_object_or_404(RoomCategory, pk=pk)
     category.delete()
     return HttpResponseRedirect(reverse('admin_staff:room_category'))
+
+
+@user_passes_test(check_admin_staff)
+def users(request):
+    title = 'Админка - Категории'
+
+    all_users = UserModel.objects.filter(is_staff=False)
+    staff_users = UserModel.objects.filter(is_staff=True)
+
+    context = {
+        'title': title,
+        'all_users': all_users,
+        'staff_users': staff_users
+    }
+    return render(request, 'adminapp/users/users.html', context)
 
 
 @user_passes_test(check_admin_staff)
