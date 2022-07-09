@@ -24,11 +24,10 @@ class CreateSearchForm(ModelForm):
     category = forms.ModelChoiceField(label="Категория", queryset=RoomCategory.objects.all(),
                                       empty_label="Категория не выбрана")
 
-    city = forms.CharField(label="Адрес",
-                           min_length=7,
-                           widget=forms.TextInput(
-                               attrs={'id': 'address', 'placeholder': 'Введите адрес', 'style': 'width: 100%'}))
+    address = forms.CharField(label="Название помещения",
+                              widget=forms.TextInput(
+                                  attrs={'id': 'address', 'placeholder': 'Введите адрес', 'style': 'width: 100%'}))
 
     class Meta:
         model = Room
-        fields = ['city', 'name', 'square', 'description', 'payment_per_hour', 'category', 'phone_number']
+        fields = ['name', 'square', 'description', 'payment_per_hour', 'category', 'phone_number']

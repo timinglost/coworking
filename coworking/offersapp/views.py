@@ -1,5 +1,8 @@
 from django.core.exceptions import ValidationError
 from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.views.generic import ListView
 from django.db.models import Q
@@ -26,13 +29,20 @@ def get_actions():
 
 def main(request, page=1):
     title = 'ЛОКАЦИЯ | Каталог помещений'
-    # form = CreateSearchForm()
-    # if form.is_valid():
-    #     try:
-    #         address = check_address(form.cleaned_data['address'])
-    #         address.save()
-    #     except ValidationError as e:
-    #         form.add_error('address', e)
+    if request.method == 'POST':
+        form = CreateSearchForm(data=request.POST)
+        if form.is_valid():
+            try:
+                address = check_address(form.cleaned_data['address'])
+                room = form.save(commit=False)
+                address.save()
+                room.address = address
+                room.save()
+            except ValidationError as e:
+                form.add_error('address', e)
+            return HttpResponseRedirect(reverse('user:profile'))
+    else:
+        form = CreateSearchForm()
 
     offers_list = get_offers()
     offers_category = {'pk': 0, 'name': 'Все'}
@@ -52,6 +62,7 @@ def main(request, page=1):
         # 'offers_list': offers_paginator,
         'offers_category': offers_category,
         'actions': current_actions,
+        'form': form,
     }
 
     return render(request, 'offersapp/index.html', context)
