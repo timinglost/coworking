@@ -30,14 +30,14 @@ def staff_edit(request, pk):
         return HttpResponseRedirect(reverse('admin_staff:users'))
 
 
-@user_passes_test(check_admin)
+@user_passes_test(check_admin_staff)
 def room_category_delete(request, pk):
     category = get_object_or_404(RoomCategory, pk=pk)
     category.delete()
     return HttpResponseRedirect(reverse('admin_staff:room_category'))
 
 
-@user_passes_test(check_admin_staff)
+@user_passes_test(check_admin)
 def users(request):
     title = 'Админка - Категории'
 
