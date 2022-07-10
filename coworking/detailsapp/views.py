@@ -7,28 +7,34 @@ from detailsapp.models import CurrentRentals
 
 
 def get_offer_context(pk):
-    offer = get_object_or_404(Room, pk=pk)
-    offer_address = get_object_or_404(Address, pk=offer.address.pk)
-    category = get_object_or_404(RoomCategory, pk=offer.category.pk)
-    offer_images = OfferImages.objects.filter(room=offer)
-    # запросы в таблицу категорий удобств и выборка категория + удобства этой категории
+    try:
+        offer = get_object_or_404(Room, pk=pk, is_active=True)
+        offer_address = get_object_or_404(Address, pk=offer.address.pk)
+        category = get_object_or_404(RoomCategory, pk=offer.category.pk)
+        offer_images = OfferImages.objects.filter(room=offer)
+        # запросы в таблицу категорий удобств и выборка категория + удобства этой категории
 
-    context = {
-        'title': offer.name,
-        'offer': offer,
-        'offer_address': offer_address,
-        'category': category,
-        'seats_number': [_ for _ in range(1, offer.seats_number + 1)],
-        'offer_images': offer_images,
-        # 'convenience_types': convenience_types,
-        # 'conveniences': conveniences,
-    }
-    return context
+        context = {
+            'title': offer.name,
+            'offer': offer,
+            'offer_address': offer_address,
+            'category': category,
+            'seats_number': [_ for _ in range(1, offer.seats_number + 1)],
+            'offer_images': offer_images,
+            # 'convenience_types': convenience_types,
+            # 'conveniences': conveniences,
+        }
+        return context
+    except:
+        return None
 
 
 def show_details(request, pk):
     context = get_offer_context(pk=pk)
-    return render(request, 'detailsapp/details.html', context=context)
+    if context:
+        return render(request, 'detailsapp/details.html', context=context)
+    else:
+        return render(request, 'detailsapp/error.html', context=context)
 
 
 def create_rental(request, pk):
@@ -37,8 +43,6 @@ def create_rental(request, pk):
                                    "%Y-%m-%d %H:%M")
     end_date = datetime.strptime(f"{request.POST['end_date'] + ' ' + request.POST['end_time']}",
                                  "%Y-%m-%d %H:%M")
-    print(start_date, end_date, request.POST['start_time'], request.POST['end_time'])
-    working_hours = None
     if start_date == end_date:
         working_hours = int((end_date - start_date).seconds / 3600)
     else:
