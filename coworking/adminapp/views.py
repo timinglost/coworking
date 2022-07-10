@@ -6,8 +6,8 @@ from adminapp.forms import *
 from django.contrib import messages
 from django.contrib.auth.decorators import user_passes_test
 from createapp.models import *
-from authapp.models import UserModel
-
+# from authapp.models import UserModel
+from userapp.models import UserModel
 
 def check_admin(user):
    return user.is_superuser

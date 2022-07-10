@@ -13,7 +13,7 @@
 
                             <div class="d-flex justify-content-center py-4">
                                 <a href="{% url 'user:main' %}" class="logo d-flex align-items-center w-auto">
-                                    <img src="{% static 'userapp/assets/img/logo.png' %}" alt="">
+                                    <img src="{% static 'userapp/assets/img/logo.png' %}" alt="logo">
                                     <span class="d-none d-lg-block">NiceAdmin</span>
                                 </a>
                             </div><!-- End Logo -->
@@ -27,13 +27,35 @@
                                         <p class="text-center small">Enter your personal details to create account</p>
                                     </div>
                                     {# #################################################################### #}
-                                    {% if form.errors %}
+                                    {% if form.errors or form.non_field_errors %}
                                         <div class="alert alert-warning fade show" role="alert">
                                             <strong>{{ form.errors|escape }}</strong>
                                         </div>
                                     {% endif %}
-                                    {# #################################################################### #}
+                                    {# ================================================================== #}
+                                    {#                                    {% if messages or form.non_field_errors %}#}
+                                    {#                                        <div class="alert {% if messages %} alert-success {% else %} alert-warning#}
+                                    {#                                                {% endif %}   alert-dismissible fade show" role="alert"#}
+                                    {#                                             style="margin-top: 50px;">#}
+                                    {#                                            {% if messages %}#}
+                                    {#                                                {% for message in messages %}#}
+                                    {#                                                    {{ message }}#}
+                                    {#                                                {% endfor %}#}
+                                    {##}
+                                    {#                                            {% endif %}#}
+                                    {##}
+                                    {#                                            {% for error in form.non_field_errors %}#}
+                                    {#                                                <p>{{ error }}</p>#}
+                                    {#                                            {% endfor %}#}
+                                    {#                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">#}
+                                    {#                                                <span aria-hidden="true">&times;</span>#}
+                                    {#                                            </button>#}
+                                    {#                                        </div>#}
+                                    {##}
+                                    {#                                    {% endif %}#}
 
+                                    {# ================================================================== #}
+                                    {# #################################################################### #}
 
                                     <form class="row g-3 needs-validation" novalidate action="{% url 'auth:register' %}"
                                           method="post">
@@ -42,7 +64,6 @@
                                             <label for="{{ form.first_name.id_for_label }}" class="form-label">Your
                                                 Name</label>
                                             {{ form.first_name }}
-                                            {#                                        <input type="text" name="name" class="form-control" id="yourName" required>#}
                                             <div class="invalid-feedback">Please, enter your name!</div>
                                         </div>
 
@@ -50,7 +71,6 @@
                                             <label for="{{ form.email.id_for_label }}" class="form-label">Your
                                                 Email</label>
                                             {{ form.email }}
-                                            {#                                        <input type="email" name="email" class="form-control" id="yourEmail" required>#}
                                             <div class="invalid-feedback">Please enter a valid Email adddress!</div>
                                         </div>
 
@@ -60,8 +80,7 @@
                                             <div class="input-group has-validation">
                                                 <span class="input-group-text" id="inputGroupPrepend">@</span>
                                                 {{ form.username }}
-                                                {#                                            <input type="text" name="username" class="form-control" id="yourUsername"#}
-                                                {#                                                   required>#}
+
                                                 <div class="invalid-feedback">Please choose a username.</div>
                                             </div>
                                         </div>
@@ -70,16 +89,14 @@
                                             <label for="{{ form.password1.id_for_label }}"
                                                    class="form-label">Password</label>
                                             {{ form.password1 }}
-                                            {#                                        <input type="password" name="password" class="form-control" id="yourPassword"#}
-                                            {#                                               required>#}
+
                                             <div class="invalid-feedback">Please enter your password!</div>
                                         </div>
                                         <div class="col-12">
                                             <label for="{{ form.password2.id_for_label }}"
                                                    class="form-label">Password</label>
                                             {{ form.password2 }}
-                                            {#                                        <input type="password" name="password" class="form-control" id="yourPassword"#}
-                                            {#                                               required>#}
+
                                             <div class="invalid-feedback">Please enter your password!</div>
                                         </div>
 

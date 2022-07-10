@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path
 from authapp.views import login, user_logout, UserRegisterView
 
-# app_name = 'authapp'
+app_name = 'authapp'
 
 urlpatterns = [
     path('login/', login, name='login'),
