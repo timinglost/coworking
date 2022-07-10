@@ -23,7 +23,7 @@
         <!-- navbar menu -->
         <div class="collapse navbar-collapse" id="navbar-menu">
             <ul class="nav navbar-nav navbar-right">
-                {% if user.is_authenticated and user.is_landlord %}
+                {% if user.is_authenticated %}
                     <li><a href="{% url 'create:main' %}">Предложить помещения</a></li>
                 {% endif %}
 

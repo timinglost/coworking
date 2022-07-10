@@ -1,5 +1,7 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
+
+from detailsapp.views import get_offer_context
 from feedbackapp.models import *
 from django.urls import reverse
 from adminapp.forms import *
@@ -9,12 +11,13 @@ from createapp.models import *
 # from authapp.models import UserModel
 from userapp.models import UserModel
 
+
 def check_admin(user):
-   return user.is_superuser
+    return user.is_superuser
 
 
 def check_admin_staff(user):
-   return user.is_staff
+    return user.is_staff
 
 
 @user_passes_test(check_admin)
@@ -120,18 +123,7 @@ def allow_publishing(request, pk):
 
 @user_passes_test(check_admin_staff)
 def show_offers_details(request, pk):
-    offer = get_object_or_404(Room, pk=pk)
-    offer_address = get_object_or_404(Address, pk=offer.address.pk)
-    category = get_object_or_404(RoomCategory, pk=offer.category.pk)
-    offer_images = OfferImages.objects.filter(room=offer)
-
-    context = {
-        'title': offer.name,
-        'offer': offer,
-        'offer_address': offer_address,
-        'category': category,
-        'offer_images': offer_images,
-    }
+    context = get_offer_context(offer=get_object_or_404(Room, pk=pk))
     return render(request, 'adminapp/offers/offers-pm-active.html', context=context)
 
 

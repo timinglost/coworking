@@ -9,9 +9,12 @@ from createapp.models import Room, Address, RoomCategory, OfferImages, Convenien
 from detailsapp.models import CurrentRentals
 
 
-def get_offer_context(pk):
+def get_active_offer(pk):
+    return get_object_or_404(Room, pk=pk, is_active=True)
+
+
+def get_offer_context(offer):
     try:
-        offer = get_object_or_404(Room, pk=pk, is_active=True)
         offer_address = get_object_or_404(Address, pk=offer.address.pk)
         category = get_object_or_404(RoomCategory, pk=offer.category.pk)
         offer_images = OfferImages.objects.filter(room=offer)
@@ -38,7 +41,7 @@ def get_offer_context(pk):
             'category': category,
             'seats_number': [_ for _ in range(1, offer.seats_number + 1)],
             'offer_images': offer_images,
-            'owner': offer.room_owner,
+            # 'owner': offer.room_owner,
             'convenience_types': conv_types,
             'conveniences': conveniences,
             'room_conveniences_id': room_conveniences_id,
@@ -55,7 +58,7 @@ def read_template(file_name):
 
 
 def show_details(request, pk):
-    context = get_offer_context(pk=pk)
+    context = get_offer_context(offer=get_active_offer(pk=pk))
     if context:
         return render(request, 'detailsapp/details.html', context=context)
     else:
