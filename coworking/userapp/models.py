@@ -3,7 +3,6 @@ from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator
 from phonenumber_field.modelfields import PhoneNumberField
 from django.utils import timezone
-from address.models import AddressField
 from django.db import models
 from mainapp.settings import TIME_ZONE
 
@@ -16,11 +15,11 @@ class UserModel(AbstractUser):
     job_tittle = models.CharField(max_length=50, blank=True, verbose_name='Профессия')
     country = models.CharField(max_length=50, blank=True, verbose_name='Страна')
     about = models.TextField(max_length=200, blank=True)
-    user_phone = PhoneNumberField(blank=True, region='IT')
+    user_phone = models.CharField(max_length=15,
+                                  validators=[RegexValidator(r'^\d{1,15}$')], verbose_name='Телефон', blank=True)
 
-    # user_phone = models.CharField(max_length=12,
-    #                               validators=[RegexValidator(r'^\d{1,15}$')], verbose_name='Телефон', blank=True)
     # address = AddressField(blank=True, on_delete=models.CASCADE)
+    # user_phone = PhoneNumberField(blank=True, region='IT')
 
     is_moderator = models.BooleanField(default=False,
                                        help_text=_(
