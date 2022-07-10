@@ -10,6 +10,7 @@ from django.contrib.auth.decorators import user_passes_test
 from createapp.models import *
 # from authapp.models import UserModel
 from userapp.models import UserModel
+from createapp.models import ConvenienceType, Convenience
 
 
 def check_admin(user):
@@ -18,6 +19,122 @@ def check_admin(user):
 
 def check_admin_staff(user):
     return user.is_staff
+
+
+@user_passes_test(check_admin_staff)
+def convenience_delete(request, pk_conv, pk):
+    conv = get_object_or_404(Convenience, pk=pk)
+    conv.delete()
+    return HttpResponseRedirect(reverse('admin_staff:convenience', kwargs={'pk': pk_conv}))
+
+
+@user_passes_test(check_admin_staff)
+def convenience_edit(request, pk_conv, pk):
+    title = 'Админка - F.A.Q.'
+    conv = get_object_or_404(Convenience, pk=pk)
+    if request.method == 'POST':
+        conv_form = ConvenienceEditForm(request.POST, instance=conv)
+        if conv_form.is_valid():
+            conv_form.save()
+            return HttpResponseRedirect(reverse('admin_staff:convenience', kwargs={'pk': pk_conv}))
+        else:
+            return HttpResponseRedirect(reverse('admin_staff:convenience', kwargs={'pk': pk_conv}))
+    else:
+        conv_form = ConvenienceEditForm(instance=conv)
+    context = {
+        'title': title,
+        'conv': conv,
+        'conv_form': conv_form
+    }
+    return render(request, 'adminapp/offers/convenience-edit.html', context)
+
+
+@user_passes_test(check_admin_staff)
+def convenience_add(request, pk_conv):
+    title = 'Админка - Удобства'
+    conv_type = get_object_or_404(ConvenienceType, pk=pk_conv)
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        file_name = request.POST.get('file_name')
+        new_conv = Convenience(name=name, file_name=file_name, convenience_type_id=pk_conv)
+        new_conv.save()
+        return HttpResponseRedirect(reverse('admin_staff:convenience', kwargs={'pk': pk_conv}))
+    context = {
+        'title': title,
+        'conv_type': conv_type,
+    }
+    return render(request, 'adminapp/offers/convenience-add.html', context)
+
+
+@user_passes_test(check_admin_staff)
+def convenience(request, pk):
+    title = 'Админка - F.A.Q.'
+    conv_type = get_object_or_404(ConvenienceType, pk=pk)
+    conveniences = Convenience.objects.filter(convenience_type_id__pk=pk)
+    context = {
+        'title': title,
+        'conv_type': conv_type,
+        'conveniences': conveniences
+    }
+    return render(request, 'adminapp/offers/convenience.html', context)
+
+
+@user_passes_test(check_admin_staff)
+def convenience_type_edit(request, pk):
+    title = 'Админка - Удобства'
+    conv_type = get_object_or_404(ConvenienceType, pk=pk)
+    if request.method == 'POST':
+        convenience_type_form = ConvenienceTypeEditForm(request.POST, instance=conv_type)
+        if convenience_type_form.is_valid():
+            convenience_type_form.save()
+            return HttpResponseRedirect(reverse('admin_staff:convenience_type'))
+        else:
+            return HttpResponseRedirect(reverse('admin_staff:convenience_type'))
+    else:
+        convenience_type_form = ConvenienceTypeEditForm(instance=conv_type)
+    context = {
+        'title': title,
+        'conv_type': conv_type,
+        'convenience_type_form': convenience_type_form
+    }
+    return render(request, 'adminapp/offers/convenience-type-edit.html', context)
+
+
+@user_passes_test(check_admin_staff)
+def convenience_type_delete(request, pk):
+    conv_type = get_object_or_404(ConvenienceType, pk=pk)
+    conv_type.delete()
+    return HttpResponseRedirect(reverse('admin_staff:convenience_type'))
+
+
+@user_passes_test(check_admin_staff)
+def convenience_type_add(request):
+    title = 'Админка - Удобства'
+    if request.method == 'POST':
+        convenience_type_form = ConvenienceTypeEditForm(request.POST)
+        if convenience_type_form.is_valid():
+            convenience_type_form.save()
+            return HttpResponseRedirect(reverse('admin_staff:convenience_type'))
+        else:
+            return HttpResponseRedirect(reverse('admin_staff:convenience_type'))
+    else:
+        convenience_type_form = ConvenienceTypeEditForm()
+    context = {
+        'title': title,
+        'convenience_type_form': convenience_type_form
+    }
+    return render(request, 'adminapp/offers/convenience-type-edit.html', context)
+
+
+@user_passes_test(check_admin)
+def convenience_type(request):
+    title = 'Админка - Удобства'
+    convenience_types = ConvenienceType.objects.all()
+    context = {
+        'title': title,
+        'convenience_types': convenience_types
+    }
+    return render(request, 'adminapp/offers/convenience-type.html', context)
 
 
 @user_passes_test(check_admin)
