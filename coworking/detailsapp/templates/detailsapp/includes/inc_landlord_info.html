@@ -1,13 +1,13 @@
 {% load static %}
 <div class="landlord-header">
     <div class="landlord-photo">
-        <img src="{% static 'detailsapp/img/messages-3.jpg' %}" alt="" class="rounded-circle">
+        <img src="/media/{{owner.image}}" alt="" class="rounded-circle">
     </div>
     <div class="landlord-status">
-        <h4 class="landlord-name">User name1</h4>
+        <h4 class="landlord-name">{{owner.name}}</h4>
         <div class="status-info">
-            <p class="status-name">Some status</p>
-            <p class="status-date">Some start date</p>
+            <p class="status-name">{{owner.company}}</p>
+            <p class="status-date">На сайте с {{owner.created_at|date:"d.m.Y"}}</p>
         </div>
     </div>
     <div class="time-online">
@@ -16,8 +16,6 @@
 
 </div>
 <div class="landlord-content">
-
-    <p class="landlord-info">Some info about landlord. Some info about landlord. Some info about landlord. Some info
-        about landlord. Some info about landlord. Some info about landlord. Some info about landlord. Some info about landlord. Some info about landlord. </p>
+    <p class="landlord-info">{{owner.about}}</p>
     <p class="message-time">1 hrs. ago</p>
 </div>

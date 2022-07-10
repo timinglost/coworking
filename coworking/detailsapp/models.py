@@ -1,6 +1,7 @@
 from django.db import models
 
 from createapp.models import Room
+# from userapp.models import UserModel
 
 
 class CurrentRentals(models.Model):
