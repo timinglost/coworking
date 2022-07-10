@@ -14,7 +14,7 @@ class UserModel(AbstractUser):
     avatar = models.ImageField(upload_to='authapp/media/users_avatar', blank=True, verbose_name='Аватар пользователя')
     company = models.CharField(max_length=50, blank=True, verbose_name='Компания')
     job_tittle = models.CharField(max_length=50, blank=True, verbose_name='Профессия')
-    country = models.CharField(max_length=50, blank=True, verbose_name='Город')
+    country = models.CharField(max_length=50, blank=True, verbose_name='Страна')
     user_phone = models.CharField(max_length=12, verbose_name='Телефон', blank=True)
     # user_phone = models.CharField(max_length=12,
     #                               validators=[RegexValidator(r'^\d{1,12}$')], verbose_name='Телефон', blank=True)
