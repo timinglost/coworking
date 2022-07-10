@@ -1,0 +1,4 @@
+<form class="date-form" action="{% url 'details:create_rental' offer.pk %}" method="post">
+    {% csrf_token %}
+    {% include 'detailsapp/includes/inc_offer_date_form.html' %}
+</form>
