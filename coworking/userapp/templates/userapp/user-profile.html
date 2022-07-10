@@ -306,7 +306,6 @@
                                     <!-- Change Password Form -->
                                     <form method="post" action=" {% url 'user:profile' %}">
                                         {% csrf_token %}
-                                        {{ form.as_p }}
                                         <div class="row mb-3">
                                             <label for="{{ form.old_password.id_for_label }}"
                                                    class="col-md-4 col-lg-3 col-form-label">Текущий
