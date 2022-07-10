@@ -25,14 +25,17 @@ class CreateAdForm(ModelForm):
     category = forms.ModelChoiceField(label="Категория", queryset=RoomCategory.objects.all(),
                                       empty_label="Выберите категорию",
                                       widget=forms.Select(attrs={'class': 'form-input'}))
-    seats_number = forms.IntegerField(label="Количество рабочих мест", widget=forms.TextInput(attrs={
+    seats_number = forms.IntegerField(initial=1000, label="Количество рабочих мест", widget=forms.TextInput(attrs={
         'class': 'form-input'}))
-    minimum_booking_time = forms.IntegerField(label="Минимальное время аренды", widget=forms.TextInput(attrs={
-        'class': 'form-input'}))
-    start_working_hours = forms.TimeField(label="Время работы помещения с ", widget=forms.TextInput(attrs={
-        'class': 'form-input'}))
-    end_working_hours = forms.TimeField(label="Время завершения работы помещения до ", widget=forms.TextInput(attrs={
-        'class': 'form-input'}))
+    minimum_booking_time = forms.IntegerField(initial=70, label="Минимальное время аренды",
+                                              widget=forms.TextInput(attrs={
+                                                  'class': 'form-input'}))
+    start_working_hours = forms.TimeField(initial='8:00', label="Время работы помещения с ",
+                                          widget=forms.TextInput(attrs={
+                                              'class': 'form-input', 'placeholder': 'чч:мм'}))
+    end_working_hours = forms.TimeField(initial='23:00', label="Время завершения работы помещения до ",
+                                        widget=forms.TextInput(attrs={
+                                            'class': 'form-input', 'placeholder': 'чч:мм'}))
     phoneNumberRegex = RegexValidator(regex=r"^\+?1?\d{8,15}$")
     phone_number = forms.CharField(min_length=10, initial=89995555555,
                                    validators=[phoneNumberRegex],
@@ -44,7 +47,10 @@ class CreateAdForm(ModelForm):
                                                             'placeholder': 'Введите адрес',
                                                             'style': 'width: 100%'}))
 
-    image = forms.ImageField(label="Фото")
+    image = forms.ImageField(required=False, label="Фото", widget=ClearableFileInput(
+        attrs={'class': 'file-input', 'onChange': 'onFileUpload(event)'}))
+
+    selected_amenities = forms.CharField(required=False, widget=forms.HiddenInput())
 
     # email = forms.CharField(widget=forms.EmailInput(attrs={
     #     'class': 'form-control py-4', 'placeholder': 'Input user\' email'}))
@@ -61,4 +67,3 @@ class ImageForm(forms.ModelForm):
     class Meta:
         model = OfferImages
         fields = ['image']
-

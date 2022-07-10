@@ -3,6 +3,8 @@ ymaps.ready(init);
 
 let check_was_done = false;
 
+
+
 function onNewAd(event){
     if(check_was_done) {
         check_was_done = false;
@@ -29,6 +31,55 @@ function onNewAd(event){
         })
 }
 
+function onFileUpload(event){
+    const uploadedFiles = $('#uploaded-files');
+    uploadedFiles.empty();
+    const fileList = event.target.files;
+    for(let i=0; i < fileList.length; i++) {
+        const { name: fileName, size } = fileList[i];
+        const fileSize = (size / 1000).toFixed(2);
+
+        const src = URL.createObjectURL(fileList[i]);
+
+        const img = $('<img class="preview-img"></img>');
+        img.attr('src', src);
+
+        const container = $('<div class="preview-img-container"/>');
+        const description = $('<span/>');
+        description.text(`${fileName} - ${fileSize}KB`);
+        container.append(img);
+        container.append(description);
+
+        uploadedFiles.append(container);
+    }
+}
+
+function onAmenitySelected(event){
+    let div = $(event.target);
+    while(!div.hasClass('amenity-clickable')) {
+        div = div.parent();
+    }
+
+    const convid = div.attr('convid');
+    if(!convid) {
+        return;
+    }
+    const prevValue = $('#id_selected_amenities').val();
+    const currentAmenities = prevValue ? prevValue.split(',') : [];
+    if (div.attr('selected')) {
+        div.removeAttr('selected');
+        div.children().css({'color': 'var(--black_40)', 'font-weight': 'normal'});
+        const index = currentAmenities.indexOf(convid);
+        if (index > -1) { // only splice array when item is found
+          currentAmenities.splice(index, 1); // 2nd parameter means remove one item only
+        }
+    }else {
+        div.attr('selected', true);
+        div.children().css({'color': 'black', 'font-weight': 'bolder'});
+        currentAmenities.push(convid);
+    }
+    $('#id_selected_amenities').val(currentAmenities.join(','));
+}
 
 function showError(message) {
     $('#address-notice').text(message);
