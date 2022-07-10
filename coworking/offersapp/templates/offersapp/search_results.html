@@ -52,6 +52,9 @@
                                     </a>
                                     <p class="card-text">Описание: {{ room.description }}</p>
                                     <p class="card-text">Стоимость: {{ room.payment_per_hour }}</p>
+                                    <p class="card-text" id="address">Адрес:
+                                        г.{{ room.address.city }}, {{ room.address.street }},
+                                        д. {{ room.address.building }}</p>
                                     <p class="card-text hidden" id="lattitude">широта: {{ room.address.latitude }}</p>
                                     <p class="card-text hidden" id="longitude">долгота: {{ room.address.longitude }}</p>
                                 </div>
@@ -62,37 +65,37 @@
                 </div>
             </div><!-- End Left side columns -->
 
-             <!-- Right side columns -->
-            <div class="col-lg-4">
-                <!-- News & Updates Traffic -->
-                <div class="card">
+<!--             &lt;!&ndash; Right side columns &ndash;&gt;-->
+<!--            <div class="col-lg-4">-->
+<!--                &lt;!&ndash; News & Updates Traffic &ndash;&gt;-->
+<!--                <div class="card">-->
 
-                    <div class="card-body pb-0">
-                      <h5 class="card-title">Новости</h5>
+<!--                    <div class="card-body pb-0">-->
+<!--                      <h5 class="card-title">Новости</h5>-->
 
-                      <div class="news">
-                          {% for news in news_list%}
-                            <div class="post-item clearfix">
-                              <img src="{{ news.image }}" alt="">
-                              <h4><a href="{{ news.link }}">{{ news.name }}</a></h4>
-                              <p>{{ news.text }}</p>
-                            </div>
-                          {% endfor %}
+<!--                      <div class="news">-->
+<!--                          {% for news in news_list%}-->
+<!--                            <div class="post-item clearfix">-->
+<!--                              <img src="{{ news.image }}" alt="">-->
+<!--                              <h4><a href="{{ news.link }}">{{ news.name }}</a></h4>-->
+<!--                              <p>{{ news.text }}</p>-->
+<!--                            </div>-->
+<!--                          {% endfor %}-->
 
-              </div><!-- End sidebar recent posts-->
+<!--              </div>&lt;!&ndash; End sidebar recent posts&ndash;&gt;-->
 
-            </div>
-          </div><!-- End News & Updates -->
-            </div>
-            <!-- End Right side columns -->
+<!--            </div>-->
+<!--          </div>&lt;!&ndash; End News & Updates &ndash;&gt;-->
+<!--            </div>-->
+<!--            &lt;!&ndash; End Right side columns &ndash;&gt;-->
 
             <!-- Right side columns -->
-<!--            <div class="col-lg-4">-->
-<!--                &lt;!&ndash; maps &ndash;&gt;-->
-<!--                <div class="card" id="map">-->
-<!--                </div>-->
-<!--                &lt;!&ndash; End maps &ndash;&gt;-->
-<!--            </div>-->
+            <div class="col-lg-4">
+                <!-- maps -->
+                <div class="card" id="map">
+                </div>
+                <!-- End maps -->
+            </div>
             <!-- End Right side columns -->
         </div>
 

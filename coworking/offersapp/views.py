@@ -118,9 +118,7 @@ class SearchResultsView(ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(SearchResultsView, self).get_context_data()
 
-        offers_list = get_offers()
-        offers_dict = add_images(offers_list)
-
+        offers_dict = add_images(context['object_list'])
         context['offers_dict'] = offers_dict
         context['news_list'] = get_news_data('yandex.ru/news')
         context['title'] = 'ЛОКАЦИЯ | Поиск помещений'
