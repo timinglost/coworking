@@ -304,32 +304,39 @@
 
                                 <div class="tab-pane fade pt-3" id="profile-change-password">
                                     <!-- Change Password Form -->
-                                    <form>
-
+                                    <form method="post" action=" {% url 'user:profile' %}">
+                                        {% csrf_token %}
+                                        {{ form.as_p }}
                                         <div class="row mb-3">
-                                            <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Текущий
+                                            <label for="{{ form.old_password.id_for_label }}"
+                                                   class="col-md-4 col-lg-3 col-form-label">Текущий
                                                 пароль</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <input name="password" type="password" class="form-control"
-                                                       id="currentPassword">
+                                                {{ form.old_password }}
+                                                {#                                                <input name="password" type="password" class="form-control"#}
+                                                {#                                                       id="currentPassword">#}
                                             </div>
                                         </div>
 
                                         <div class="row mb-3">
-                                            <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">Новый
+                                            <label for="{{ form.new_password1.id_for_label }}"
+                                                   class="col-md-4 col-lg-3 col-form-label">Новый
                                                 пароль</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <input name="newpassword" type="password" class="form-control"
-                                                       id="newPassword">
+                                                {{ form.new_password1 }}
+                                                {#                                                <input name="newpassword" type="password" class="form-control"#}
+                                                {#                                                       id="newPassword">#}
                                             </div>
                                         </div>
 
                                         <div class="row mb-3">
-                                            <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Повторите
+                                            <label for="{{ form.new_password2.id_for_label }}"
+                                                   class="col-md-4 col-lg-3 col-form-label">Повторите
                                                 новый пароль</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <input name="renewpassword" type="password" class="form-control"
-                                                       id="renewPassword">
+                                                {{ form.new_password2 }}
+                                                {#                                                <input name="renewpassword" type="password" class="form-control"#}
+                                                {#                                                       id="renewPassword">#}
                                             </div>
                                         </div>
 

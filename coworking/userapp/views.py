@@ -1,10 +1,16 @@
+from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
+from django.utils.translation import ugettext as _
 from django.shortcuts import render
 from django.views.generic import CreateView
+from django.contrib import auth, messages
+from django.shortcuts import redirect
 
 from userapp.models import UserModel
 from userapp.forms import UserForm
 from django.urls import reverse_lazy
+
+from userapp.forms import PasswordChangeCustomForm
 
 
 @login_required
@@ -20,9 +26,21 @@ def user(request):
 @login_required
 def user_profile(request):
     title = 'ЛОКАЦИЯ | Профиль пользователя'
+    if request.method == 'POST':
+        form = PasswordChangeCustomForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            messages.success(request, _('Your password was successfully updated!'))
+            return redirect('main')
+        else:
+            messages.error(request, _('Please correct the error below.'))
+    else:
+        form = PasswordChangeCustomForm(request.user)
 
     context = {
         'title': title,
+        'form': form,
     }
     return render(request, 'userapp/user-profile.html', context)
 
