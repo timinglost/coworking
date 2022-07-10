@@ -1,6 +1,6 @@
 from django.db import models
 
-from authapp.models import UserModel
+# from authapp.models import UserModel
 
 
 class Address(models.Model):
