@@ -1,18 +1,14 @@
 {% load static %}
 
 <div class="carousel-indicators">
-    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
-            aria-current="true"></button>
     {% for offer_image in offer_images %}
-    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{forloop.counter}}"></button>
+    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{forloop.counter0}}"
+    class="{% if forloop.counter0 == 0 %}active{% endif %}"></button>
     {% endfor %}
 </div>
 <div class="carousel-inner">
-    <div class="carousel-item active">
-        <img src="/media/{{active_img.image}}" class="d-block w-100" alt="...">
-    </div>
     {% for offer_image in offer_images %}
-    <div class="carousel-item">
+    <div class="carousel-item {% if forloop.counter0 == 0 %}active{% endif %}">
         <img src="/media/{{offer_image.image}}" class="d-block w-100" alt="...">
     </div>
     {% endfor %}

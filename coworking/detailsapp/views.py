@@ -13,8 +13,6 @@ def get_offer_context(pk):
     offer_images = OfferImages.objects.filter(room=offer)
     # запросы в таблицу категорий удобств и выборка категория + удобства этой категории
 
-    offer_images = [_ for _ in offer_images]
-    active_img = offer_images.pop(0)
     context = {
         'title': offer.name,
         'offer': offer,
@@ -22,7 +20,6 @@ def get_offer_context(pk):
         'category': category,
         'seats_number': [_ for _ in range(1, offer.seats_number + 1)],
         'offer_images': offer_images,
-        'active_img': active_img,
         # 'convenience_types': convenience_types,
         # 'conveniences': conveniences,
     }
