@@ -1,4 +1,5 @@
 from django.shortcuts import render, HttpResponseRedirect, redirect
+
 from django.contrib import auth, messages
 from django.urls import reverse, reverse_lazy
 from django.views.generic.edit import CreateView, UpdateView
@@ -31,6 +32,9 @@ def login(request):
             messages.error(request, form.errors)
 
     else:
+        if request.user.is_active:
+            return redirect('main')
+
         form = UserLoginForm(data=request.GET)
 
     context = {

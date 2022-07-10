@@ -23,24 +23,24 @@
         <!-- navbar menu -->
         <div class="collapse navbar-collapse" id="navbar-menu">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="{% url 'create:main'%}">Предложить помещения</a></li>
+                {% if user.is_authenticated and user.is_landlord %}
+                    <li><a href="{% url 'create:main' %}">Предложить помещения</a></li>
+                {% endif %}
+
                 <li><a href="{% url 'offers:main' %}">Каталог</a></li>
-<!--                <li><a href="{% url 'user:favorites' %}">Мои любимые локации</a></li>-->
+                <!--                <li><a href="{% url 'user:favorites' %}">Мои любимые локации</a></li>-->
                 {% if user.is_authenticated %}
-                <li><a href="{% url 'user:main' %}">Личный Кабинет</a></li>
-                {% if user.is_staff %}
-                <li><a href="{% url 'admin_staff:main' %}">Админка</a></li>
-                {% endif %}
+                    <li><a href="{% url 'user:main' %}">Личный Кабинет</a></li>
+                    {% if user.is_staff %}
+                        <li><a href="{% url 'admin_staff:main' %}">Админка</a></li>
+                    {% endif %}
                 {% else %}
-                <li><a href="{% url 'auth:login' %}">Войти</a></li>
+                    <li><a href="{% url 'auth:login' %}">Войти</a></li>
                 {% endif %}
-                <!--                {% if user.is_authenticated %}-->
-                <!--                {% else %}-->
-<!--                {% endif %}-->
 
 
                 <!-- <li><a href="#product">Portfolio</a></li> -->
-<!--                <li><a href="#team">Наша команда</a></li>-->
+                <!--                <li><a href="#team">Наша команда</a></li>-->
                 <li><a href="{% url 'feedback:main' %}">Обратная связь</a></li>
 
             </ul>

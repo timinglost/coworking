@@ -1,16 +1,8 @@
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django import forms
 from django.core.exceptions import ValidationError
-from authapp.models import UserModel
+from userapp.models import UserModel
 
-
-# class LoginUserForm(AuthenticationForm):
-#     username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Логин'}))
-#     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Пароль'}))
-#
-#     class Meta:
-#         model = UserModel
-#         fields = 'username', 'password',
 
 class UserLoginForm(AuthenticationForm):
     username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
