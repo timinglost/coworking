@@ -37,10 +37,20 @@ function onFileUpload(event){
     const fileList = event.target.files;
     for(let i=0; i < fileList.length; i++) {
         const { name: fileName, size } = fileList[i];
-        // Convert size in bytes to kilo bytes
         const fileSize = (size / 1000).toFixed(2);
-        // Set the text content
-        uploadedFiles.append($('<p>' + `${fileName} - ${fileSize}KB` + '</p>'));
+
+        const src = URL.createObjectURL(fileList[i]);
+
+        const img = $('<img class="preview-img"></img>');
+        img.attr('src', src);
+
+        const container = $('<div class="preview-img-container"/>');
+        const description = $('<span/>');
+        description.text(`${fileName} - ${fileSize}KB`);
+        container.append(img);
+        container.append(description);
+
+        uploadedFiles.append(container);
     }
 }
 
