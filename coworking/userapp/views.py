@@ -59,7 +59,7 @@ def user_favorites(request):
 
 class UserCreateView(CreateView):
     template_name = 'userapp/user-edit.html'
-    form_class = UserModel
+    form_class = UserForm
     success_url = reverse_lazy('main')
 
     def get_context_data(self, **kwargs):
