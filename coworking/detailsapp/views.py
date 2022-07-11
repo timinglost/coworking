@@ -6,7 +6,7 @@ from datetime import datetime
 from django.shortcuts import render, get_object_or_404, HttpResponseRedirect
 from django.urls import reverse
 from createapp.models import Room, Address, RoomCategory, OfferImages, Convenience, ConvenienceRoom, ConvenienceType
-from detailsapp.models import CurrentRentals
+from detailsapp.models import CurrentRentals, Favorites
 
 
 def get_active_offer(pk):
@@ -41,7 +41,7 @@ def get_offer_context(offer):
             'category': category,
             'seats_number': [_ for _ in range(1, offer.seats_number + 1)],
             'offer_images': offer_images,
-            # 'owner': offer.room_owner,
+            'owner': offer.room_owner,
             'convenience_types': conv_types,
             'conveniences': conveniences,
             'room_conveniences_id': room_conveniences_id,
@@ -58,11 +58,11 @@ def read_template(file_name):
 
 
 def show_details(request, pk):
-    context = get_offer_context(offer=get_active_offer(pk=pk))
-    if context:
+    try:
+        context = get_offer_context(offer=get_active_offer(pk=pk))
         return render(request, 'detailsapp/details.html', context=context)
-    else:
-        return render(request, 'detailsapp/error.html', context=context)
+    except:
+        return render(request, 'detailsapp/error.html')
 
 
 def create_rental(request, pk):
@@ -76,8 +76,9 @@ def create_rental(request, pk):
     else:
         working_hours = int((end_date - start_date).days * int((end_date - start_date).seconds / 3600) +
                             int((end_date - start_date).seconds / 3600))
+    print(request.user)
     rental = CurrentRentals(
-        # user=request.user,
+        user=request.user,
         offer=offer,
         seats=int(request.POST['seats']),
         start_date=start_date,
@@ -89,6 +90,6 @@ def create_rental(request, pk):
 
 
 def add_favorite(request, pk):
-    # favorite_offer = Favorites(lessee=request.user, location=get_object_or_404(Room, pk=pk))
-    # favorite_offer.save()
+    favorite_offer = Favorites(user=request.user, offer=get_object_or_404(Room, pk=pk))
+    favorite_offer.save()
     return HttpResponseRedirect(reverse('user:favorites'))
