@@ -15,13 +15,10 @@ def login(request):
 
     if request.method == "POST":
         form = UserLoginForm(data=request.POST)
-        print(form)
-        print(request.POST['username'], ':', request.POST['password'])
+
         if form.is_valid():
             username = request.POST['username']
             password = request.POST['password']
-            # for control post data
-            print('>>>>>>>> ', username, ':', password)
             # =====================
             user = auth.authenticate(request, username=username, password=password)
             if user and user.is_active:
