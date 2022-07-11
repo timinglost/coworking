@@ -1,6 +1,6 @@
 from django.db import models
 
-from authapp.models import UserModel
+from userapp.models import UserModel
 
 
 class Address(models.Model):
@@ -37,7 +37,7 @@ class Room(models.Model):
         verbose_name='Время завершения работы помещения до ')  # закрытие помещения, например, 23:00
     phone_number = models.CharField(max_length=16, blank=False, null=False)
     address = models.ForeignKey(Address, on_delete=models.CASCADE, related_name='room_address', verbose_name='Адрес')
-    # room_owner = models.ForeignKey(UserModel, on_delete=models.CASCADE)
+    room_owner = models.ForeignKey(UserModel, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Время создания записи')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Время обновления записи')
     is_active = models.BooleanField(
