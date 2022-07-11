@@ -1,6 +1,7 @@
 import os
 
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.core.files.base import ContentFile
 from django.db import transaction
@@ -12,6 +13,7 @@ from .geo_checker import check_address
 from .models import OfferImages, ConvenienceType, Convenience, ConvenienceRoom
 
 
+@login_required
 @transaction.atomic
 def add_ad(request):
     if request.method == 'POST':
@@ -21,7 +23,7 @@ def add_ad(request):
             try:
                 address = check_address(form.cleaned_data['address'])
                 room = form.save(commit=False)
-                # form.user = request.user
+                room.room_owner = request.user
                 address.save()
                 room.address = address
                 room.save()
