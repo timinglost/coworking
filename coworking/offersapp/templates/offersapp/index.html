@@ -1,4 +1,5 @@
 {% extends 'offersapp/base.html' %}
+{% load cache %}
 {% load static %}
 {% block content %}
 
@@ -16,14 +17,11 @@
             <!-- Left side columns -->
             <div class="col-lg-8">
                 <div class="row">
-
                     <!-- Action Card -->
                     <div class="col-md-6">
                         <div class="card info-card sales-card">
-
                             <div class="card-body">
                                 <h5 class="card-title">{{ actions.name }}<span></span></h5>
-
                                 <div class="d-flex align-items-center">
                                     <!-- <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                                       <i class="bi bi-wallet-fill"></i>
@@ -60,17 +58,17 @@
                         <div class="row g-0">
                             <div class="col-md-4">
                                 <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-<!-- КНОПКИ НУЖНО ДОРАБАТЫВАТЬ - НУЖНО ПОРАБОТАТЬ С JS -->
-<!--                                   <div class="carousel-indicators">-->
-<!--                                        {% for image in room_images %}-->
-<!--                                        <button type="button" data-bs-target="#carouselExampleIndicators"-->
-<!--                                                data-bs-slide-to="{{ forloop.counter0 }}"-->
-<!--                                                class="{% if forloop.counter0 == 0 %}active{% endif %}"-->
-<!--                                                aria-current="true"-->
-<!--                                                aria-label="Slide {{ forloop.counter }}">-->
-<!--                                        </button>-->
-<!--                                        {% endfor %}-->
-<!--                                   </div>-->
+                                    <!-- КНОПКИ НУЖНО ДОРАБАТЫВАТЬ - НУЖНО ПОРАБОТАТЬ С JS -->
+                                    <!--                                   <div class="carousel-indicators">-->
+                                    <!--                                        {% for image in room_images %}-->
+                                    <!--                                        <button type="button" data-bs-target="#carouselExampleIndicators"-->
+                                    <!--                                                data-bs-slide-to="{{ forloop.counter0 }}"-->
+                                    <!--                                                class="{% if forloop.counter0 == 0 %}active{% endif %}"-->
+                                    <!--                                                aria-current="true"-->
+                                    <!--                                                aria-label="Slide {{ forloop.counter }}">-->
+                                    <!--                                        </button>-->
+                                    <!--                                        {% endfor %}-->
+                                    <!--                                   </div>-->
                                     <div class="carousel-inner">
                                         {% for image in room_images %}
                                         <div class="carousel-item {% if forloop.counter0 == 0 %}active{% endif %}">
@@ -79,19 +77,19 @@
                                         {% endfor %}
                                     </div>
 
-<!-- КНОПКИ НУЖНО ДОРАБАТЫВАТЬ - НУЖНО ПОРАБОТАТЬ С JS -->
-<!--                                    <button class="carousel-control-prev" type="button"-->
-<!--                                            data-bs-target="#carouselExampleIndicators"-->
-<!--                                            data-bs-slide="prev">-->
-<!--                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>-->
-<!--                                        <span class="visually-hidden">Назад</span>-->
-<!--                                    </button>-->
-<!--                                    <button class="carousel-control-next" type="button"-->
-<!--                                            data-bs-target="#carouselExampleIndicators"-->
-<!--                                            data-bs-slide="next">-->
-<!--                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>-->
-<!--                                        <span class="visually-hidden">Вперед</span>-->
-<!--                                    </button>-->
+                                    <!-- КНОПКИ НУЖНО ДОРАБАТЫВАТЬ - НУЖНО ПОРАБОТАТЬ С JS -->
+                                    <!--                                    <button class="carousel-control-prev" type="button"-->
+                                    <!--                                            data-bs-target="#carouselExampleIndicators"-->
+                                    <!--                                            data-bs-slide="prev">-->
+                                    <!--                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>-->
+                                    <!--                                        <span class="visually-hidden">Назад</span>-->
+                                    <!--                                    </button>-->
+                                    <!--                                    <button class="carousel-control-next" type="button"-->
+                                    <!--                                            data-bs-target="#carouselExampleIndicators"-->
+                                    <!--                                            data-bs-slide="next">-->
+                                    <!--                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>-->
+                                    <!--                                        <span class="visually-hidden">Вперед</span>-->
+                                    <!--                                    </button>-->
                                 </div>
                             </div>
                             <div class="col-md-8">
@@ -119,29 +117,29 @@
             <!-- Right side columns -->
             <div class="col-lg-4">
                 <!-- News & Updates Traffic -->
-                <div class="card">
-
+                {% cache 600 news_div %}
+                <div class="card" id="news_div">
                     <div class="card-body pb-0">
-                      <h5 class="card-title">Новости</h5>
+                        <h5 class="card-title">Новости</h5>
 
-                      <div class="news">
-                          {% for news in news_list %}
+                        <div class="news">
+                            {% for news in news_list %}
                             <div class="post-item clearfix">
-                              <img src="{{ news.image }}" alt="">
-                              <h4><a href="{{ news.link }}">{{ news.name }}</a></h4>
-                              <p>{{ news.text }}</p>
+                                <img src="{{ news.image }}" alt="">
+                                <h4><a href="{{ news.link }}">{{ news.name }}</a></h4>
+                                <p>{{ news.text }}</p>
                             </div>
-                          {% endfor %}
+                            {% endfor %}
 
-              </div><!-- End sidebar recent posts-->
+                        </div><!-- End sidebar recent posts-->
+                    </div>
+                </div>
+                {% endcache %}<!-- End News & Updates -->
 
-            </div>
-          </div><!-- End News & Updates -->
-
-<!--                &lt;!&ndash; maps &ndash;&gt;-->
-<!--                <div class="card" id="map">-->
-<!--                </div>-->
-<!--                &lt;!&ndash; End maps &ndash;&gt;-->
+                <!--                &lt;!&ndash; maps &ndash;&gt;-->
+                <!--                <div class="card" id="map">-->
+                <!--                </div>-->
+                <!--                &lt;!&ndash; End maps &ndash;&gt;-->
             </div>
             <!-- End Right side columns -->
 
