@@ -4,8 +4,8 @@
 
   <aside id="sidebar" class="sidebar">
     <ul class="sidebar-nav" id="sidebar-nav">
-    {% if user.is_superuser %}
       <li class="nav-heading">Пользователи</li>
+    {% if user.is_superuser %}
       <li class="nav-item">
         <a class="nav-link collapsed" href="{% url 'admin_staff:users' %}">
           <i class="bi bi-person-lines-fill"></i>
@@ -13,6 +13,12 @@
         </a>
       </li>
       {% endif %}
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{% url 'admin_staff:landlords' %}">
+          <i class="bi bi-person-lines-fill"></i>
+          <span>Заявки(права арендодателя)</span>
+        </a>
+      </li>
       <li class="nav-heading">Объявления</li>
       <li class="nav-item">
         <a class="nav-link collapsed" href="{% url 'admin_staff:room_category' %}">
