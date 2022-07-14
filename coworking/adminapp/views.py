@@ -11,6 +11,7 @@ from createapp.models import *
 # from authapp.models import UserModel
 from userapp.models import UserModel
 from createapp.models import ConvenienceType, Convenience
+from adminapp.models import Claim
 
 
 def check_admin(user):
@@ -19,6 +20,48 @@ def check_admin(user):
 
 def check_admin_staff(user):
     return user.is_staff
+
+
+@user_passes_test(check_admin_staff)
+def claim_accept(request, pk):
+    claim_landlord = get_object_or_404(Claim, pk=pk)
+    user_ll = get_object_or_404(UserModel, pk=claim_landlord.user_id.pk)
+    user_ll.is_landlord = True
+    user_ll.save()
+    claim_landlord.is_active = False
+    claim_landlord.save()
+    return HttpResponseRedirect(reverse('admin_staff:landlords'))
+
+
+@user_passes_test(check_admin_staff)
+def claim_reject(request, pk):
+    claim_landlord = get_object_or_404(Claim, pk=pk)
+    claim_landlord.is_active = False
+    claim_landlord.save()
+    return HttpResponseRedirect(reverse('admin_staff:landlords'))
+
+
+@user_passes_test(check_admin_staff)
+def landlord(request, pk):
+    title = 'Админка - Арендодалели'
+
+    claim_landlord = get_object_or_404(Claim, pk=pk)
+    context = {
+        'title': title,
+        'claim_landlord': claim_landlord
+    }
+    return render(request, 'adminapp/landlords/landlord.html', context)
+
+
+@user_passes_test(check_admin_staff)
+def landlords(request):
+    title = 'Админка - Арендодалели'
+    claim_landlords = Claim.objects.filter(is_active=True)
+    context = {
+        'title': title,
+        'claim_landlords': claim_landlords
+    }
+    return render(request, 'adminapp/landlords/landlords.html', context)
 
 
 @user_passes_test(check_admin_staff)
