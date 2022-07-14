@@ -1,6 +1,6 @@
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 from django.shortcuts import render
 from django.views.generic import CreateView
 from django.contrib import auth, messages
