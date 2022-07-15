@@ -5,7 +5,7 @@ from userapp.models import UserModel, LandlordApplicationModel
 class UserForm(ModelForm):
     class Meta:
         model = UserModel
-        fields = '__all__'
+        fields = ('company', 'job_tittle', 'country', 'about', 'user_phone', 'twitter', 'vk', 'instagram', 'avatar')
 
 
 class LandlordApplicationForm(ModelForm):
