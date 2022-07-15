@@ -13,58 +13,63 @@
               <div class="row">
                 <!-- Left side columns -->
                 <div class="col-lg-8">
-                  <div class="row">
-                      {% for room in offers_list %}
-            <div class="card mb-3">
-              <div class="row g-0">
-                <div class="col-md-4">
-                  <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-                    <div class="carousel-indicators">
-                      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0"
-                        class="active" aria-current="true" aria-label="Slide 1"></button>
-                      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
-                        aria-label="Slide 2"></button>
-                      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
-                        aria-label="Slide 3"></button>
-                    </div>
-                    <div class="carousel-inner">
-                      <div class="carousel-item active">
-                        <img src="{% static 'offersapp/assets/img/slides-1.jpg' %}" class="d-block w-100" alt="...">
-                      </div>
-                      <div class="carousel-item">
-                        <img src="{% static 'offersapp/assets/img/slides-2.jpg' %}" class="d-block w-100" alt="...">
-                      </div>
-                      <div class="carousel-item">
-                        <img src="{% static 'offersapp/assets/img/slides-3.jpg' %}" class="d-block w-100" alt="...">
-                      </div>
-                    </div>
+                    {% for room, room_images in offers_dict.items %}
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                                    <!-- КНОПКИ НУЖНО ДОРАБАТЫВАТЬ - НУЖНО ПОРАБОТАТЬ С JS -->
+                                    <!--                                   <div class="carousel-indicators">-->
+                                    <!--                                        {% for image in room_images %}-->
+                                    <!--                                        <button type="button" data-bs-target="#carouselExampleIndicators"-->
+                                    <!--                                                data-bs-slide-to="{{ forloop.counter0 }}"-->
+                                    <!--                                                class="{% if forloop.counter0 == 0 %}active{% endif %}"-->
+                                    <!--                                                aria-current="true"-->
+                                    <!--                                                aria-label="Slide {{ forloop.counter }}">-->
+                                    <!--                                        </button>-->
+                                    <!--                                        {% endfor %}-->
+                                    <!--                                   </div>-->
+                                    <div class="carousel-inner">
+                                        {% for image in room_images %}
+                                        <div class="carousel-item {% if forloop.counter0 == 0 %}active{% endif %}">
+                                            <img src="/media/{{ image.image }}" class="d-block w-100" alt="...">
+                                        </div>
+                                        {% endfor %}
+                                    </div>
 
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
-                      data-bs-slide="prev">
-                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                      <span class="visually-hidden">Назад</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
-                      data-bs-slide="next">
-                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                      <span class="visually-hidden">Вперед</span>
-                    </button>
+                                    <!-- КНОПКИ НУЖНО ДОРАБАТЫВАТЬ - НУЖНО ПОРАБОТАТЬ С JS -->
+                                    <!--                                    <button class="carousel-control-prev" type="button"-->
+                                    <!--                                            data-bs-target="#carouselExampleIndicators"-->
+                                    <!--                                            data-bs-slide="prev">-->
+                                    <!--                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>-->
+                                    <!--                                        <span class="visually-hidden">Назад</span>-->
+                                    <!--                                    </button>-->
+                                    <!--                                    <button class="carousel-control-next" type="button"-->
+                                    <!--                                            data-bs-target="#carouselExampleIndicators"-->
+                                    <!--                                            data-bs-slide="next">-->
+                                    <!--                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>-->
+                                    <!--                                        <span class="visually-hidden">Вперед</span>-->
+                                    <!--                                    </button>-->
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
 
-                  </div>
-                </div>
-                <div class="col-md-8">
-                  <div class="card-body">
-                      <a href="{% url 'admin_staff:pre_moderation_details' room.pk %}">
-                          <h5 class="card-title">{{ room.name }}</h5>
-                      </a>
-                    <p class="card-text">Описание: {{ room.description }}</p>
-                    <p class="card-text">Стоимость: {{ room.payment_per_hour }}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {% endfor %}
-          </div>
+                                    <a href="{% url 'admin_staff:pre_moderation_details' room.pk %}" target="_blank">
+                                        <h5 class="card-title">{{ room.name }}</h5>
+                                    </a>
+                                    <p class="card-text">Описание: {{ room.description }}</p>
+                                    <p class="card-text">Стоимость: {{ room.payment_per_hour }} руб/час</p>
+                                    <p class="card-text" id="address">Адрес:
+                                        г.{{ room.address.city }}, {{ room.address.street }},
+                                        д. {{ room.address.building }}</p>
+                                    <p class="card-text hidden" id="lattitude">широта: {{ room.address.latitude }}</p>
+                                    <p class="card-text hidden" id="longitude">долгота: {{ room.address.longitude }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
         </div>
               </div></section>
   </main><!-- End #main -->
