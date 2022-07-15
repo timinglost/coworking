@@ -12,6 +12,7 @@ from createapp.models import *
 from userapp.models import UserModel
 from createapp.models import ConvenienceType, Convenience
 from adminapp.models import Claim
+from offersapp.views import get_offers, add_images_info
 
 
 def check_admin(user):
@@ -97,16 +98,24 @@ def convenience_add(request, pk_conv):
     title = 'Админка - Удобства'
     conv_type = get_object_or_404(ConvenienceType, pk=pk_conv)
     if request.method == 'POST':
-        name = request.POST.get('name')
-        file_name = request.POST.get('file_name')
-        new_conv = Convenience(name=name, file_name=file_name, convenience_type_id=pk_conv)
-        new_conv.save()
-        return HttpResponseRedirect(reverse('admin_staff:convenience', kwargs={'pk': pk_conv}))
+        conv_form = ConvenienceEditForm(request.POST)
+        if conv_form.is_valid():
+            new_conv = Convenience()
+            new_conv.convenience_type = conv_type
+            new_conv.name = conv_form.cleaned_data["name"]
+            new_conv.file_name = conv_form.cleaned_data["file_name"]
+            new_conv.save()
+            return HttpResponseRedirect(reverse('admin_staff:convenience', kwargs={'pk': pk_conv}))
+        else:
+            return HttpResponseRedirect(reverse('admin_staff:convenience', kwargs={'pk': pk_conv}))
+    else:
+        conv_form = ConvenienceEditForm()
     context = {
         'title': title,
         'conv_type': conv_type,
+        'conv_form': conv_form
     }
-    return render(request, 'adminapp/offers/convenience-add.html', context)
+    return render(request, 'adminapp/offers/convenience-edit.html', context)
 
 
 @user_passes_test(check_admin_staff)
@@ -292,10 +301,12 @@ def pre_moderation(request):
     title = 'Админка - Заказы'
 
     offers_list = Room.objects.filter(is_active=False)
+    offers_dict = add_images_info(offers_list)
 
     context = {
         'title': title,
-        'offers_list': offers_list
+        'offers_list': offers_list,
+        'offers_dict': offers_dict,
     }
     return render(request, 'adminapp/offers/offers.html', context)
 
@@ -304,11 +315,13 @@ def pre_moderation(request):
 def offers(request):
     title = 'Админка - Заказы'
 
-    offers_list = Room.objects.filter(is_active=True)
+    offers_list = get_offers()
+    offers_dict = add_images_info(offers_list)
 
     context = {
         'title': title,
-        'offers_list': offers_list
+        'offers_list': offers_list,
+        'offers_dict': offers_dict,
     }
     return render(request, 'adminapp/offers/offers.html', context)
 
@@ -443,22 +456,26 @@ def question_add(request, pk_cat):
     title = 'Админка - F.A.Q.'
     faq_category = get_object_or_404(QuestionCategory, pk=pk_cat)
     if request.method == 'POST':
-        name = request.POST.get('name')
-        slug = request.POST.get('slug')
-        try:
-            Question.objects.get(slug=slug)
-            messages.info(request, 'Такой slug уже существует!')
-            return HttpResponseRedirect(reverse('admin_staff:question_add', kwargs={'pk_cat': pk_cat}))
-        except:
-            text = request.POST.get('text')
-            new_question = Question(category=faq_category, name=name, slug=slug, text=text)
+        question_form = QuestionEditForm(request.POST)
+        if question_form.is_valid():
+            new_question = Question()
+            new_question.category = faq_category
+            new_question.name = question_form.cleaned_data["name"]
+            new_question.slug = question_form.cleaned_data["slug"]
+            new_question.text = question_form.cleaned_data["text"]
             new_question.save()
             return HttpResponseRedirect(reverse('admin_staff:questions', kwargs={'pk': pk_cat}))
+        else:
+            print(False)
+            return HttpResponseRedirect(reverse('admin_staff:questions', kwargs={'pk': pk_cat}))
+    else:
+        question_form = QuestionEditForm()
     context = {
         'title': title,
         'faq_category': faq_category,
+        'question_form': question_form
     }
-    return render(request, 'adminapp/faq-question-add.html', context)
+    return render(request, 'adminapp/faq-question-edit.html', context)
 
 
 @user_passes_test(check_admin_staff)

@@ -32,12 +32,10 @@ def main(request):
 def questions(request):
     title = 'F.A.Q.'
     question_category = QuestionCategory.objects.all()
-    questions = Question.objects.all()
 
     context = {
         'title': title,
-        'question_category': question_category,
-        'questions': questions
+        'question_category': question_category
     }
     return render(request, 'feedbackapp/pages-faq.html', context)
 
