@@ -5,8 +5,6 @@ from django.utils import timezone
 from django.db import models
 
 
-# Create your models here.
-
 class UserModel(AbstractUser):
     avatar = models.ImageField(upload_to='authapp/media/users_avatar', blank=True, verbose_name='Аватар пользователя')
     company = models.CharField(max_length=50, blank=True, verbose_name='Компания')
@@ -44,3 +42,15 @@ class UserModel(AbstractUser):
             self.created_at = timezone.now()
         self.updated_at = timezone.now()
         return super(UserModel, self).save(*args, **kwargs)
+
+
+class LandlordApplicationModel(models.Model):
+    room_name = models.CharField(verbose_name='Название локации', max_length=64, blank=True,)
+    room_adress = models.CharField(verbose_name='Адрес локации', max_length=64, blank=True,)
+    phone_landlord = models.CharField(max_length=15, validators=[RegexValidator(r'^\d{1,15}$')],
+                                      verbose_name='Телефон собственника ', blank=True)
+    phone_room_admin = models.CharField(max_length=15, validators=[RegexValidator(r'^\d{1,15}$')],
+                                        verbose_name='Телефон администратора ', blank=True)
+    proof_of_ownership = models.ImageField(upload_to='media/userapp/media/user_proof_of_ownership',
+                                           verbose_name='Подтверждение права собственности на помещение')
+    comments = models.TextField(max_length=200, blank=True)
