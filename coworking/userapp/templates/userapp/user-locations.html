@@ -71,13 +71,15 @@
                             <a href="{% url 'details:details' room.pk %}" target="_blank">
                                 <h5 class="card-title">{{ room.name }}</h5>
                             </a>
-                            <p class="card-text">Описание: {{ room.description }}</p>
                             <p class="card-text">Стоимость: {{ room.payment_per_hour }} руб/час</p>
                             <p class="card-text" id="address">Адрес:
                                 г.{{ room.address.city }}, {{ room.address.street }},
                                 д. {{ room.address.building }}</p>
-<!--                            <p class="card-text hidden" id="lattitude">широта: {{ room.address.latitude }}</p>-->
-<!--                            <p class="card-text hidden" id="longitude">долгота: {{ room.address.longitude }}</p>-->
+                            <p class="card-text">Телефон: {{ room.phone_number }}</p>
+                            <p class="card-text">Рабочие места: {{ room.seats_number }} шт</p>
+                            <p class="card-text">Время работы: с {{room.start_working_hours|date:"H:i"}}
+                                    до {{room.end_working_hours|date:"H:i"}}</p>
+
                         </div>
                     </div>
                 </div>

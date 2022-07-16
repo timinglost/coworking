@@ -41,15 +41,6 @@ def get_user_favorites_offers(user):
     return Favorites.objects.filter(user=user)
 
 
-def get_room_images(rooms):
-    offers_dict = {}
-    for room in rooms:
-        room_images = OfferImages.objects.filter(room=room)
-        # room_images = [_ for _ in room_images]
-        offers_dict[room] = room_images
-    return offers_dict
-
-
 @login_required
 def user_profile(request):
     title = 'ЛОКАЦИЯ | Профиль пользователя'
@@ -75,10 +66,20 @@ def user_profile(request):
 @login_required
 def user_bookings(request):
     title = 'ЛОКАЦИЯ | Мои бронирования'
+    current_rentals_dict = {}
+    for rental in get_user_current_rentals(user=request.user):
+        rental_images = OfferImages.objects.filter(room=rental.offer)
+        current_rentals_dict[rental] = rental_images
+
+    completed_rentals_dict = {}
+    for rental in get_user_completed_rentals(user=request.user):
+        rental_images = OfferImages.objects.filter(room=rental.offer)
+        completed_rentals_dict[rental] = rental_images
 
     context = {
         'title': title,
-        'offers_dict': get_room_images(rooms=[_.offer for _ in get_user_current_rentals(user=request.user)]),
+        'current_rentals_dict': current_rentals_dict,
+        'completed_rentals_dict': completed_rentals_dict,
     }
     return render(request, 'userapp/user-bookings.html', context)
 
@@ -86,10 +87,13 @@ def user_bookings(request):
 @login_required
 def user_locations(request):
     title = 'ЛОКАЦИЯ | Мои локации'
-
+    offers_dict = {}
+    for offer in get_user_offers(user=request.user):
+        offer_images = OfferImages.objects.filter(room=offer)
+        offers_dict[offer] = offer_images
     context = {
         'title': title,
-        'offers_dict': get_room_images(rooms=get_user_offers(user=request.user)),
+        'offers_dict': offers_dict
     }
     return render(request, 'userapp/user-locations.html', context)
 
@@ -97,10 +101,13 @@ def user_locations(request):
 @login_required
 def user_favorites(request):
     title = 'ЛОКАЦИЯ | Избранное'
-
+    favorites_dict = {}
+    for favorite in get_user_favorites_offers(user=request.user):
+        favorite_images = OfferImages.objects.filter(room=favorite.offer)
+        favorites_dict[favorite] = favorite_images
     context = {
         'title': title,
-        'offers_dict': get_room_images(rooms=[_.offer for _ in get_user_favorites_offers(user=request.user)]),
+        'favorites_dict': favorites_dict,
     }
     return render(request, 'userapp/user-favorites.html', context)
 

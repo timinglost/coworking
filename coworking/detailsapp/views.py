@@ -3,14 +3,33 @@ import os
 from django.conf import settings
 from datetime import datetime
 
+from django.db.models import Avg, Sum
 from django.shortcuts import render, get_object_or_404, HttpResponseRedirect
 from django.urls import reverse
 from createapp.models import Room, Address, RoomCategory, OfferImages, Convenience, ConvenienceRoom, ConvenienceType
-from detailsapp.models import CurrentRentals, Favorites
+from detailsapp.models import CurrentRentals, Favorites, RatingNames, Evaluations, CompletedRentals, Rating
 
 
 def get_active_offer(pk):
     return get_object_or_404(Room, pk=pk, is_active=True)
+
+
+def get_offer_reviews(offer):
+    rating_dict = {}
+    qs = Evaluations.objects.filter(offer=offer)
+    try:
+        for rating_obj in RatingNames.objects.all():
+            rating_dict[rating_obj.name] = int(qs.filter(rating_name=rating_obj).aggregate(rating=Avg("evaluation"))[
+                                                   'rating'])
+    except:
+        pass
+    reviews = Rating.objects.filter(offer=offer)
+    sum_rating = None
+    try:
+        sum_rating = f'{reviews.aggregate(summ=Sum("summary_evaluation"))["summ"] / len(reviews):.1f}'
+    except:
+        pass
+    return rating_dict, list(reviews), sum_rating
 
 
 def get_offer_context(offer):
@@ -59,7 +78,18 @@ def read_template(file_name):
 
 def show_details(request, pk):
     try:
-        context = get_offer_context(offer=get_active_offer(pk=pk))
+        offer = get_active_offer(pk=pk)
+        context = get_offer_context(offer=offer)
+        rating_dict, reviews, sum_rating = get_offer_reviews(offer=offer)
+        context['rating_dict'] = rating_dict
+        context['reviews'] = reviews
+        context['sum_rating'] = sum_rating
+        if 'user/bookings' in request.META.get('HTTP_REFERER') or \
+                'user/locations' in request.META.get('HTTP_REFERER') or \
+                'admin' in request.META.get('HTTP_REFERER'):
+            context['show'] = False
+        else:
+            context['show'] = True
         return render(request, 'detailsapp/details.html', context=context)
     except:
         return render(request, 'detailsapp/error.html')
@@ -76,17 +106,54 @@ def create_rental(request, pk):
     else:
         working_hours = int((end_date - start_date).days * int((end_date - start_date).seconds / 3600) +
                             int((end_date - start_date).seconds / 3600))
-    print(request.user)
-    rental = CurrentRentals(
+    CurrentRentals(
         user=request.user,
         offer=offer,
         seats=int(request.POST['seats']),
         start_date=start_date,
         end_date=end_date,
         amount=int(offer.payment_per_hour * working_hours),
-    )
-    rental.save()
+    ).save()
     return HttpResponseRedirect(reverse('user:bookings'))
+
+
+def send_review(request, pk):
+    if request.method == 'POST':
+        rental = get_object_or_404(CurrentRentals, pk=pk)
+        qs = RatingNames.objects.all()
+        rating_sum = int()
+        for name_obj in qs:
+            evaluation = int(request.POST[f'rating-value{name_obj.id}'])
+            rating_sum += evaluation
+            Evaluations(
+                user=request.user,
+                offer=rental.offer,
+                rating_name=name_obj,
+                evaluation=evaluation,
+            ).save()
+        Rating(
+            user=request.user,
+            offer=rental.offer,
+            review_text=request.POST['review-text'],
+            summary_evaluation=float(rating_sum / len(qs)),
+        ).save()
+        CompletedRentals(
+            user=request.user,
+            offer=rental.offer,
+            seats=rental.seats,
+            start_date=rental.start_date,
+            end_date=rental.end_date,
+            amount=rental.amount,
+        ).save()
+        rental.delete()
+        return HttpResponseRedirect(reverse('user:bookings'))
+    else:
+        rating_names = RatingNames.objects.all()
+        context = {
+            'title': 'title',
+            'rating_names': rating_names,
+        }
+        return render(request, 'detailsapp/offer_feedback.html', context=context)
 
 
 def add_favorite(request, pk):

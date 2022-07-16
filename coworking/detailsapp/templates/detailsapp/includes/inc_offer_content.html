@@ -10,9 +10,11 @@
 <div class="card">
     {% include 'detailsapp/includes/inc_offer_convenience.html' %}
 </div>
-<!--<div class="users-review">-->
-<!--    {% include 'detailsapp/includes/inc_offer_rating.html' %}-->
-<!--</div>-->
+{% if show %}
+<div class="users-review">
+    {% include 'detailsapp/includes/inc_offer_rating.html' %}
+</div>
+{% endif %}
 <div class="landlord">
     {% include 'detailsapp/includes/inc_landlord_info.html' %}
 </div>
