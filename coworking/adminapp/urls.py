@@ -60,4 +60,9 @@ urlpatterns = [
     path('landlord/<int:pk>', landlord, name='landlord'),
     path('landlord/claim_accept/<int:pk>', claim_accept, name='claim_accept'),
     path('landlord/claim_reject/<int:pk>', claim_reject, name='claim_reject'),
+    # отзывы
+    path('criterion/', criterion, name='criterion'),
+    path('criterion/add/', criterion_add, name='criterion_add'),
+    path('criterion/edit/<int:pk>', criterion_edit, name='criterion_edit'),
+    path('criterion/delete/<int:pk>', criterion_delete, name='criterion_delete'),
 ]
