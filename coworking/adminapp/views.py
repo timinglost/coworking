@@ -1,7 +1,7 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 
-from detailsapp.views import get_offer_context
+from detailsapp.views import get_offer_context, RatingNames
 from feedbackapp.models import *
 from django.urls import reverse
 from adminapp.forms import *
@@ -15,12 +15,70 @@ from adminapp.models import Claim
 from offersapp.views import get_offers, add_images_info
 
 
+
 def check_admin(user):
     return user.is_superuser
 
 
 def check_admin_staff(user):
     return user.is_staff
+
+
+@user_passes_test(check_admin_staff)
+def criterion_delete(request, pk):
+    criterion_item = get_object_or_404(RatingNames, pk=pk)
+    criterion_item.delete()
+    return HttpResponseRedirect(reverse('admin_staff:criterion'))
+
+
+@user_passes_test(check_admin_staff)
+def criterion_edit(request, pk):
+    title = 'Админка - Критерии'
+    criterion_item = get_object_or_404(RatingNames, pk=pk)
+    if request.method == 'POST':
+        criterion_form = CriterionEditForm(request.POST, instance=criterion_item)
+        if criterion_form.is_valid():
+            criterion_form.save()
+            return HttpResponseRedirect(reverse('admin_staff:criterion'))
+        else:
+            return HttpResponseRedirect(reverse('admin_staff:criterion'))
+    else:
+        criterion_form = QuestionCategoryEditForm(instance=criterion_item)
+    context = {
+        'title': title,
+        'criterion_form': criterion_form
+    }
+    return render(request, 'adminapp/reviews/criterion-edit.html', context)
+
+
+@user_passes_test(check_admin_staff)
+def criterion_add(request):
+    title = 'Админка - Критерии'
+    if request.method == 'POST':
+        criterion_form = CriterionEditForm(request.POST)
+        if criterion_form.is_valid():
+            criterion_form.save()
+            return HttpResponseRedirect(reverse('admin_staff:criterion'))
+        else:
+            return HttpResponseRedirect(reverse('admin_staff:criterion'))
+    else:
+        criterion_form = QuestionCategoryEditForm()
+    context = {
+        'title': title,
+        'criterion_form': criterion_form
+    }
+    return render(request, 'adminapp/reviews/criterion-edit.html', context)
+
+
+@user_passes_test(check_admin_staff)
+def criterion(request):
+    title = 'Админка - Критерии'
+    criterions = RatingNames.objects.all()
+    context = {
+        'title': title,
+        'criterions': criterions
+    }
+    return render(request, 'adminapp/reviews/criterion.html', context)
 
 
 @user_passes_test(check_admin_staff)
