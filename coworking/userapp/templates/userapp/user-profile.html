@@ -23,6 +23,35 @@
         </div><!-- End Page Title -->
 
         <section class="section profile">
+            {# ---------------------------------------------------------------------------------------------------- #}
+            {% if messages or form.non_field_errors or form.errors %}
+
+                <div class="alert {% if messages %}alert-success
+                              {% elif form.errors %}alert-warning
+                              {% else %}
+                                        alert-danger
+                              {% endif %}   alert-dismissible fade show"
+                     role="alert" style="margin-top: 50px;">
+                    {#                    {% if messages %}#}
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+
+                    {#                    {% endif %}#}
+                    {% for error in form.non_field_errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                    {% for error in form.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                    {#                            <strong>Holy guacamole!</strong> You should check in on some of those fields below.#}
+                    {#                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">#}
+                    {#                        <span aria-hidden="true">&times;</span>#}
+                    {#                    </button>#}
+                </div>
+
+            {% endif %}
+            {# ---------------------------------------------------------------------------------------------------- #}
             <div class="row">
                 <div class="col-xl-4">
 
@@ -77,6 +106,9 @@
                                     <button class="nav-link" data-bs-toggle="tab"
                                             data-bs-target="#profile-change-password">Сменить пароль
                                     </button>
+                                    {#                                    <button class="nav-link" data-bs-toggle="tab"#}
+                                    {#                                            data-bs-target="#{% include 'userapp/includes/change-pass.html' %}">Сменить пароль#}
+                                    {#                                    </button>#}
                                 </li>
 
                             </ul>
@@ -303,46 +335,51 @@
                                 </div>
 
                                 <div class="tab-pane fade pt-3" id="profile-change-password">
+
                                     <!-- Change Password Form -->
-                                    <form method="post" action=" {% url 'user:profile' %}">
-                                        {% csrf_token %}
-                                        <div class="row mb-3">
-                                            <label for="{{ form.old_password.id_for_label }}"
-                                                   class="col-md-4 col-lg-3 col-form-label">Текущий
-                                                пароль</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                {{ form.old_password }}
-                                                {#                                                <input name="password" type="password" class="form-control"#}
-                                                {#                                                       id="currentPassword">#}
-                                            </div>
-                                        </div>
+                                    {% include 'userapp/includes/change-pass.html' %}
 
-                                        <div class="row mb-3">
-                                            <label for="{{ form.new_password1.id_for_label }}"
-                                                   class="col-md-4 col-lg-3 col-form-label">Новый
-                                                пароль</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                {{ form.new_password1 }}
-                                                {#                                                <input name="newpassword" type="password" class="form-control"#}
-                                                {#                                                       id="newPassword">#}
-                                            </div>
-                                        </div>
 
-                                        <div class="row mb-3">
-                                            <label for="{{ form.new_password2.id_for_label }}"
-                                                   class="col-md-4 col-lg-3 col-form-label">Повторите
-                                                новый пароль</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                {{ form.new_password2 }}
-                                                {#                                                <input name="renewpassword" type="password" class="form-control"#}
-                                                {#                                                       id="renewPassword">#}
-                                            </div>
-                                        </div>
-
-                                        <div class="text-center">
-                                            <button type="submit" class="btn btn-primary">Сменить пароль</button>
-                                        </div>
-                                    </form><!-- End Change Password Form -->
+                                    {#                                    <form method="post" action=" {% url 'user:profile' %}">#}
+                                    {#                                        {% csrf_token %}#}
+                                    {#                                        <div class="row mb-3">#}
+                                    {#                                            <label for="{{ form.old_password.id_for_label }}"#}
+                                    {#                                                   class="col-md-4 col-lg-3 col-form-label">Текущий#}
+                                    {#                                                пароль</label>#}
+                                    {#                                            <div class="col-md-8 col-lg-9">#}
+                                    {#                                                {{ form.old_password }}#}
+                                    {#                                                <input name="password" type="password" class="form-control"#}
+                                    {#                                                       id="currentPassword">#}
+                                    {#                                            </div>#}
+                                    {#                                        </div>#}
+                                    {##}
+                                    {#                                        <div class="row mb-3">#}
+                                    {#                                            <label for="{{ form.new_password1.id_for_label }}"#}
+                                    {#                                                   class="col-md-4 col-lg-3 col-form-label">Новый#}
+                                    {#                                                пароль</label>#}
+                                    {#                                            <div class="col-md-8 col-lg-9">#}
+                                    {#                                                {{ form.new_password1 }}#}
+                                    {#                                                <input name="newpassword" type="password" class="form-control"#}
+                                    {#                                                       id="newPassword">#}
+                                    {#                                            </div>#}
+                                    {#                                        </div>#}
+                                    {##}
+                                    {#                                        <div class="row mb-3">#}
+                                    {#                                            <label for="{{ form.new_password2.id_for_label }}"#}
+                                    {#                                                   class="col-md-4 col-lg-3 col-form-label">Повторите#}
+                                    {#                                                новый пароль</label>#}
+                                    {#                                            <div class="col-md-8 col-lg-9">#}
+                                    {#                                                {{ form.new_password2 }}#}
+                                    {#                                                <input name="renewpassword" type="password" class="form-control"#}
+                                    {#                                                       id="renewPassword">#}
+                                    {#                                            </div>#}
+                                    {#                                        </div>#}
+                                    {##}
+                                    {#                                        <div class="text-center">#}
+                                    {#                                            <button type="submit" class="btn btn-primary">Сменить пароль</button>#}
+                                    {#                                        </div>#}
+                                    {#                                    </form>#}
+                                    <!-- End Change Password Form -->
 
                                 </div>
 
@@ -366,3 +403,4 @@
 {% endblock %}
 
 
+`

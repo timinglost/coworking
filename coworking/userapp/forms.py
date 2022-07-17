@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.forms import ModelForm, CharField, PasswordInput
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserChangeForm, PasswordChangeForm
@@ -40,3 +41,15 @@ class PasswordChangeCustomForm(PasswordChangeForm):
                               widget=PasswordInput(attrs={'class': 'form-control'}),
                               error_messages={
                                   'required': 'Пароли не совпадают. Попробуйте еще раз'})
+
+    def clean_new_password2(self):
+
+        password1 = self.cleaned_data.get('new_password1')
+        password2 = self.cleaned_data.get('new_password2')
+        if password1 and password2:
+            if password1 != password2:
+                raise ValidationError(
+                    'Пароли не совпадают! '
+                    'Пожалуйста введите новый пароль и повторите его для подтверждения.'
+                )
+        return password2

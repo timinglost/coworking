@@ -14,12 +14,12 @@ class UserLoginForm(AuthenticationForm):
 
 
 class UserRegisterForm(UserCreationForm):
-    first_name = forms.CharField(widget=forms.TextInput(
-        attrs={'class': 'form-control', 'placeholder': 'Ваше имя'}))
-    email = forms.CharField(widget=forms.EmailInput(
-        attrs={'class': 'form-control', 'placeholder': 'Email'}))
+    # first_name = forms.CharField(widget=forms.TextInput(
+    #     attrs={'class': 'form-control', 'placeholder': 'Ваше имя'}))
     username = forms.CharField(widget=forms.TextInput(
         attrs={'class': 'form-control', 'placeholder': 'Логин'}))
+    email = forms.CharField(widget=forms.EmailInput(
+        attrs={'class': 'form-control', 'placeholder': 'Email'}))
     password1 = forms.CharField(widget=forms.PasswordInput(
         attrs={'class': 'form-control', 'placeholder': 'Введите пароль'}))
     password2 = forms.CharField(widget=forms.PasswordInput(
@@ -27,7 +27,7 @@ class UserRegisterForm(UserCreationForm):
 
     class Meta:
         model = UserModel
-        fields = 'first_name', 'email', 'username', 'password1', 'password2'
+        fields = 'email', 'username', 'password1', 'password2'
 
     def clean_username(self):
         username = self.cleaned_data.get('username')

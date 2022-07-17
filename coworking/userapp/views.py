@@ -1,8 +1,10 @@
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ValidationError
 from django.utils.translation import gettext as _
 from django.shortcuts import render
 from django.views.generic import CreateView
+from django.contrib.auth.views import PasswordChangeView
 from django.contrib import auth, messages
 from django.shortcuts import redirect
 
@@ -44,23 +46,29 @@ def get_user_favorites_offers(user):
 @login_required
 def user_profile(request):
     title = 'ЛОКАЦИЯ | Профиль пользователя'
+
     if request.method == 'POST':
-        form = PasswordChangeCustomForm(request.user, request.POST)
-        if form.is_valid():
-            user = form.save()
+        passwd_form = PasswordChangeCustomForm(request.user, request.POST)
+
+        if passwd_form.is_valid():
+            user = passwd_form.save()
             update_session_auth_hash(request, user)
             messages.success(request, _('Your password was successfully updated!'))
-            return redirect('main')
+            print(messages.success)
         else:
-            messages.error(request, _('Please correct the error below.'))
-    else:
-        form = PasswordChangeCustomForm(request.user)
+            messages.error(request, _('Entered password is incorrect.\n '
+                                      'The new password must consist of 8 elements including Latin letters in upper and lower case.'))
 
+    else:
+        passwd_form = PasswordChangeCustomForm(request.user, request.GET)
     context = {
         'title': title,
-        'form': form,
+        'passwd_form': passwd_form,
     }
     return render(request, 'userapp/user-profile.html', context)
+
+
+# =============================================================================
 
 
 @login_required
