@@ -15,8 +15,8 @@
             <nav>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{% url 'user:main' %}">Общая информация</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'user:edit' %}">Редактировать профиль</a></li>
                     <li class="breadcrumb-item"><a href="{% url 'user:bookings' %}">Мои бронирования</a></li>
-                    <li class="breadcrumb-item"><a href="{% url 'user:locations' %}">Мои локации</a></li>
                     <li class="breadcrumb-item"><a href="{% url 'user:favorites' %}">Избранное</a></li>
                 </ol>
             </nav>
@@ -36,12 +36,9 @@
                             {% endif %}" alt="Profile foto"
                                  class="rounded-circle">
                             <h2>{{ user.get_full_name }}</h2>
-                            <h3>CEO</h3>
+                            <h3>Арендатор</h3>
                             <div class="social-links mt-2">
-                                <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
-                                <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
-                                <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
-                                <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+
                             </div>
                         </div>
                     </div>
@@ -60,7 +57,7 @@
                                             data-bs-target="#profile-overview">Общая информация
                                     </button>
                                 </li>
-
+<!--
                                 <li class="nav-item">
                                     <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">
                                         Редактировать профиль
@@ -77,9 +74,10 @@
                                     <button class="nav-link" data-bs-toggle="tab"
                                             data-bs-target="#profile-change-password">Сменить пароль
                                     </button>
-                                </li>
+                                </li>-->
 
                             </ul>
+
                             <div class="tab-content pt-2">
 
                                 <div class="tab-pane fade show active profile-overview" id="profile-overview">
@@ -102,6 +100,11 @@
                                     <div class="row">
                                         <div class="col-lg-3 col-md-4 label">Должность</div>
                                         <div class="col-lg-9 col-md-8">{{ user.job_tittle }}</div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-4 label">Статус</div>
+                                        <div class="col-lg-9 col-md-8">Арендатор</div>
                                     </div>
 
                                     <div class="row">

@@ -10,7 +10,7 @@ class UserForm(ModelForm):
     class Meta:
         model = UserModel
         fields = (
-            'first_name', 'last_name', 'username',
+            'first_name', 'last_name',
             'country', 'user_phone', 'email',
             'avatar', 'about', 'company', 'job_tittle',
             'twitter', 'vk', 'instagram')
