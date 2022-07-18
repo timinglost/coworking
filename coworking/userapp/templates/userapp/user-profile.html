@@ -8,14 +8,14 @@
     <!-- ======= Sidebar ======= -->
     {% include 'userapp/includes/inc_sidebar.html' %}
 
-    <main id="main" class="main">
+     <main id="main" class="main">
 
         <div class="pagetitle">
             <h1>Профиль пользователя</h1>
             <nav>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{% url 'user:main' %}">Общая информация</a></li>
-                    <li class="breadcrumb-item"><a href="{% url 'user:edit' %}">Редактировать профиль</a></li>
+                    <li class="breadcrumb-item"><a href="#">Редактировать профиль</a></li>
                     <li class="breadcrumb-item"><a href="{% url 'user:bookings' %}">Мои бронирования</a></li>
                     <li class="breadcrumb-item"><a href="{% url 'user:favorites' %}">Избранное</a></li>
                 </ol>
@@ -23,6 +23,28 @@
         </div><!-- End Page Title -->
 
         <section class="section profile">
+            {% if messages or form.non_field_errors or form.errors %}
+
+                <div class="alert {% if messages %} alert-success
+                              {% else %} alert-danger
+                              {% endif %} alert-dismissible fade show"
+                     role="alert" style="margin-top: 50px;">
+
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+
+                    {% for error in form.non_field_errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+
+                    {% for error in form.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+
+                </div>
+
+            {% endif %}
             <div class="row">
                 <div class="col-xl-4">
 
@@ -57,7 +79,6 @@
                                             data-bs-target="#profile-overview">Общая информация
                                     </button>
                                 </li>
-<!--
                                 <li class="nav-item">
                                     <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">
                                         Редактировать профиль
@@ -74,7 +95,7 @@
                                     <button class="nav-link" data-bs-toggle="tab"
                                             data-bs-target="#profile-change-password">Сменить пароль
                                     </button>
-                                </li>-->
+                                </li>
 
                             </ul>
 
@@ -132,7 +153,9 @@
                                 <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
                                     <!-- Profile Edit Form -->
-                                    <form>
+                                    <form action="" method="post" enctype="multipart/form-data">
+
+          {% csrf_token %}
                                         <div class="row mb-3">
                                             <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Фото
                                                 профиля</label>
@@ -144,116 +167,92 @@
                         {% static 'userapp/assets/img/profile-img.jpg' %}
                         {% endif %}" alt="Profile">
                                                 <div class="pt-2">
-                                                    <a href="#" class="btn btn-primary btn-sm"
-                                                       title="Upload new profile image"><i class="bi bi-upload"></i></a>
-                                                    <a href="#" class="btn btn-danger btn-sm"
-                                                       title="Remove my profile image"><i class="bi bi-trash"></i></a>
+                                                    {{ data_form.avatar }}
                                                 </div>
                                             </div>
                                         </div>
-
                                         <div class="row mb-3">
-                                            <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Полное
-                                                имя</label>
+                                            <label for="firstName" class="col-md-4 col-lg-3 col-form-label">Имя</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <input name="fullName" type="text" class="form-control" id="fullName"
-                                                       value="Kevin Anderson">
+                                                {{ data_form.first_name }}
                                             </div>
                                         </div>
-
+                                        <div class="row mb-3">
+                                            <label for="lastName" class="col-md-4 col-lg-3 col-form-label">Фамилия</label>
+                                            <div class="col-md-8 col-lg-9">
+                                                {{ data_form.last_name }}
+                                            </div>
+                                        </div>
                                         <div class="row mb-3">
                                             <label for="about" class="col-md-4 col-lg-3 col-form-label">О себе</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <textarea name="about" class="form-control" id="about"
-                                                          style="height: 100px">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</textarea>
-                                            </div>
+                                                {{ data_form.about }}
+                                                </div>
                                         </div>
 
                                         <div class="row mb-3">
                                             <label for="company"
                                                    class="col-md-4 col-lg-3 col-form-label">Компания</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <input name="company" type="text" class="form-control" id="company"
-                                                       value="Lueilwitz, Wisoky and Leuschke">
+                                                {{ data_form.company }}
                                             </div>
                                         </div>
 
                                         <div class="row mb-3">
-                                            <label for="Job" class="col-md-4 col-lg-3 col-form-label">Должность</label>
+                                            <label for="job_tittle" class="col-md-4 col-lg-3 col-form-label">Должность</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <input name="job" type="text" class="form-control" id="Job" value="CEO">
+                                                {{ data_form.job_tittle }}
                                             </div>
                                         </div>
 
                                         <div class="row mb-3">
-                                            <label for="Country" class="col-md-4 col-lg-3 col-form-label">Страна</label>
+                                            <label for="country" class="col-md-4 col-lg-3 col-form-label">Страна</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <input name="country" type="text" class="form-control" id="Country"
-                                                       value="Россия">
+                                                {{ data_form.country }}
                                             </div>
                                         </div>
 
+
                                         <div class="row mb-3">
-                                            <label for="Address" class="col-md-4 col-lg-3 col-form-label">Адрес</label>
+                                            <label for="user_phone" class="col-md-4 col-lg-3 col-form-label">Телефон</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <input name="address" type="text" class="form-control" id="Address"
-                                                       value="A108 Adam Street, New York, NY 535022">
+                                                {{ data_form.user_phone }}
                                             </div>
                                         </div>
 
                                         <div class="row mb-3">
-                                            <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Телефон</label>
+                                            <label for="email" class="col-md-4 col-lg-3 col-form-label">Email</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <input name="phone" type="text" class="form-control" id="Phone"
-                                                       value="(436) 486-3538 x29071">
+                                                    {{ data_form.email }}
                                             </div>
                                         </div>
 
                                         <div class="row mb-3">
-                                            <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                <input name="email" type="email" class="form-control" id="Email"
-                                                       value="k.anderson@example.com">
-                                            </div>
-                                        </div>
-
-                                        <div class="row mb-3">
-                                            <label for="Twitter" class="col-md-4 col-lg-3 col-form-label">Twitter
+                                            <label for="twitter" class="col-md-4 col-lg-3 col-form-label">Twitter
                                                 Profile</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <input name="twitter" type="text" class="form-control" id="Twitter"
-                                                       value="-#">
+                                                {{ data_form.twitter }}
                                             </div>
                                         </div>
 
                                         <div class="row mb-3">
-                                            <label for="VK" class="col-md-4 col-lg-3 col-form-label">VK Profile</label>
+                                            <label for="vk" class="col-md-4 col-lg-3 col-form-label">VK Profile</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <input name="facebook" type="text" class="form-control" id="VK"
-                                                       value="-">
+                                                {{ data_form.vk }}
                                             </div>
                                         </div>
 
                                         <div class="row mb-3">
-                                            <label for="Instagram" class="col-md-4 col-lg-3 col-form-label">Instagram
+                                            <label for="instagram" class="col-md-4 col-lg-3 col-form-label">Instagram
                                                 Profile</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <input name="instagram" type="text" class="form-control" id="Instagram"
-                                                       value="https://instagram.com/#">
+                                                {{ data_form.instagram }}
                                             </div>
                                         </div>
 
-                                        <div class="row mb-3">
-                                            <label for="Linkedin" class="col-md-4 col-lg-3 col-form-label">Linkedin
-                                                Profile</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                <input name="linkedin" type="text" class="form-control" id="Linkedin"
-                                                       value="https://linkedin.com/#">
-                                            </div>
-                                        </div>
 
                                         <div class="text-center">
-                                            <button type="submit" class="btn btn-primary">Сохранить Изменения</button>
+                                            <button type="submit" name="change_data" class="btn btn-primary">Сохранить Изменения</button>
                                         </div>
                                     </form><!-- End Profile Edit Form -->
 
@@ -307,44 +306,7 @@
 
                                 <div class="tab-pane fade pt-3" id="profile-change-password">
                                     <!-- Change Password Form -->
-                                    <form method="post" action=" {% url 'user:profile' %}">
-                                        {% csrf_token %}
-                                        <div class="row mb-3">
-                                            <label for="{{ form.old_password.id_for_label }}"
-                                                   class="col-md-4 col-lg-3 col-form-label">Текущий
-                                                пароль</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                {{ form.old_password }}
-                                                {#                                                <input name="password" type="password" class="form-control"#}
-                                                {#                                                       id="currentPassword">#}
-                                            </div>
-                                        </div>
-
-                                        <div class="row mb-3">
-                                            <label for="{{ form.new_password1.id_for_label }}"
-                                                   class="col-md-4 col-lg-3 col-form-label">Новый
-                                                пароль</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                {{ form.new_password1 }}
-                                                {#                                                <input name="newpassword" type="password" class="form-control"#}
-                                                {#                                                       id="newPassword">#}
-                                            </div>
-                                        </div>
-
-                                        <div class="row mb-3">
-                                            <label for="{{ form.new_password2.id_for_label }}"
-                                                   class="col-md-4 col-lg-3 col-form-label">Повторите
-                                                новый пароль</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                {{ form.new_password2 }}
-                                                {#                                                <input name="renewpassword" type="password" class="form-control"#}
-                                                {#                                                       id="renewPassword">#}
-                                            </div>
-                                        </div>
-
-                                        <div class="text-center">
-                                            <button type="submit" class="btn btn-primary">Сменить пароль</button>
-                                        </div>
+                                    {% include 'userapp/includes/change-pass.html' %}
                                     </form><!-- End Change Password Form -->
 
                                 </div>

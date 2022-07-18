@@ -46,21 +46,36 @@ def get_user_favorites_offers(user):
 @login_required
 def user_profile(request):
     title = 'ЛОКАЦИЯ | Профиль пользователя'
-    if request.method == 'POST':
-        form = PasswordChangeCustomForm(request.user, request.POST)
-        if form.is_valid():
-            user = form.save()
+    if request.method == 'POST' and 'change_data' in request.POST:
+        data_form = UserForm(request.POST, request.FILES, instance=request.user)
+        if data_form.is_valid():
+            data_form.save()
+
+            return HttpResponseRedirect(reverse('user:profile'))
+        else:
+            return HttpResponseRedirect(reverse('user:profile'))
+    else:
+        data_form = UserForm(instance=request.user)
+
+    if request.method == 'POST' and 'change_password' in request.POST:
+        passwd_form = PasswordChangeCustomForm(request.user, request.POST)
+
+        if passwd_form.is_valid():
+            user = passwd_form.save()
             update_session_auth_hash(request, user)
             messages.success(request, _('Your password was successfully updated!'))
-            return redirect('main')
+            print(messages.success)
         else:
-            messages.error(request, _('Please correct the error below.'))
+            messages.error(request, _('Entered password is incorrect.\n '
+                                      'The new password must consist of 8 elements including Latin letters in upper and lower case.'))
+
     else:
-        form = PasswordChangeCustomForm(request.user)
+        passwd_form = PasswordChangeCustomForm(request.user, request.GET)
 
     context = {
         'title': title,
-        'form': form,
+        'data_form': data_form,
+        'passwd_form': passwd_form
     }
     return render(request, 'userapp/user-profile.html', context)
 
