@@ -143,6 +143,20 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'userapp.UserModel'
 
-
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+# Отправка подтверждения регистрации на почту
+# Все настройки для исходящей почты
+DOMAIN = 'http://127.0.0.1:8888'
+
+
+EMAIL_USE_SSL = False # ставим True если почта использует SSL
+EMAIL_USE_TLS = True
+
+EMAIL_HOST = ''  # smtp используемой почты
+# EMAIL_HOST_USER = ''  # почта пользователя
+# EMAIL_HOST_PASSWORD = ''  # пароль пользователя
+EMAIL_PORT = ''  #
+
+EMAIL_HOST_USER, EMAIL_HOST_PASSWORD = None, None

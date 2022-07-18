@@ -1,7 +1,10 @@
+import pytz
+from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator
 from django.utils import timezone
+from datetime import datetime, timedelta
 from django.db import models
 
 
@@ -15,14 +18,13 @@ class UserModel(AbstractUser):
     about = models.TextField(max_length=200, blank=True)
     user_phone = models.CharField(max_length=15,
                                   validators=[RegexValidator(r'^\d{1,15}$')], verbose_name='Телефон', blank=True)
+    # ===============================================================
+    # is_email_verified = models.BooleanField(default=False)
+    email = models.EmailField(_('email address'))
+    activation_key = models.CharField(max_length=255, blank=True)
+    activation_key_created = models.DateTimeField(auto_now_add=True, blank=True)
+    # ===============================================================
 
-    # address = AddressField(blank=True, on_delete=models.CASCADE)
-    # user_phone = PhoneNumberField(blank=True, region='IT')
-
-    is_moderator = models.BooleanField(default=False,
-                                       help_text=_(
-                                           'Designates whether the user can control the request '
-                                           'to create a rental card.'))
     is_landlord = models.BooleanField(default=False,
                                       help_text=_(
                                           'Designates whether the user can '
@@ -44,3 +46,17 @@ class UserModel(AbstractUser):
             self.created_at = timezone.now()
         self.updated_at = timezone.now()
         return super(UserModel, self).save(*args, **kwargs)
+
+    def is_activation_key_expired(self):
+        if datetime.now(pytz.timezone(settings.TIME_ZONE)) < (self.activation_key_created + timedelta(hours=48)):
+            return False
+        return True
+
+    # Удаленные поля:
+    # address = AddressField(blank=True, on_delete=models.CASCADE)
+    # user_phone = PhoneNumberField(blank=True, region='IT')
+
+    # is_moderator = models.BooleanField(default=False,
+    #                                    help_text=_(
+    #                                        'Designates whether the user can control the request '
+    #                                        'to create a rental card.'))
