@@ -1,11 +1,37 @@
-from django.forms import ModelForm
+from django.forms import ModelForm, CharField, PasswordInput
+from django import forms
+from django.contrib.auth.forms import AuthenticationForm, UserChangeForm, PasswordChangeForm
 from userapp.models import UserModel, LandlordApplicationModel
 
 
 class UserForm(ModelForm):
     class Meta:
         model = UserModel
-        fields = ('company', 'job_tittle', 'country', 'about', 'user_phone', 'twitter', 'vk', 'instagram', 'avatar')
+        fields = (
+            'first_name', 'last_name', 'username',
+            'country', 'user_phone', 'email',
+            'avatar', 'about', 'company', 'job_tittle',
+            'twitter', 'vk', 'instagram')
+
+
+class PasswordChangeCustomForm(PasswordChangeForm):
+    error_css_class = 'has-error'
+
+    error_messages = {'password_incorrect':
+                          "Password incorrect. Please try again."}
+
+    old_password = CharField(required=True, label='Старый пароль', widget=PasswordInput(
+        attrs={'class': 'form-control'}),
+                             error_messages={'required': 'Неверно введен пароль.'})
+
+    new_password1 = CharField(required=True, label='Новый пароль',
+                              widget=PasswordInput(attrs={'class': 'form-control'}),
+                              error_messages={
+                                  'required': 'Пароль не соответствует стандартам. Используйте цифры и латинские буквы разных регистров.'})
+    new_password2 = CharField(required=True, label='Повторите новый пароль',
+                              widget=PasswordInput(attrs={'class': 'form-control'}),
+                              error_messages={
+                                  'required': 'Пароли не совпадают. Попробуйте еще раз'})
 
 
 class LandlordApplicationForm(ModelForm):
