@@ -55,10 +55,10 @@ def user_profile(request):
             messages.error(request, _('Please correct the error below.'))
     else:
         form = PasswordChangeCustomForm(request.user)
-    profile_data = UserModel.objects.all()
+
     context = {
         'title': title,
-        'profile_data': profile_data
+        'form': form,
     }
     return render(request, 'userapp/user-profile.html', context)
 
