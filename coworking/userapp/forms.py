@@ -35,8 +35,7 @@ class PasswordChangeCustomForm(PasswordChangeForm):
     new_password1 = CharField(required=True, label='Новый пароль',
                               widget=PasswordInput(attrs={'class': 'form-control'}),
                               error_messages={
-                                  'required': 'Пароль не соответствует стандартам. '
-                                              'Используйте цифры и латинские буквы разных регистров.'})
+                                  'required': 'Пароль не соответствует стандартам. Используйте цифры и латинские буквы разных регистров.'})
     new_password2 = CharField(required=True, label='Повторите новый пароль',
                               widget=PasswordInput(attrs={'class': 'form-control'}),
                               error_messages={
