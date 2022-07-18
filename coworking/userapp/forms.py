@@ -1,7 +1,7 @@
 from django.forms import ModelForm, CharField, PasswordInput
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserChangeForm, PasswordChangeForm
-from userapp.models import UserModel
+from userapp.models import UserModel, LandlordApplicationModel
 
 
 class UserForm(ModelForm):
@@ -40,3 +40,7 @@ class PasswordChangeCustomForm(PasswordChangeForm):
                                   'required': 'Пароли не совпадают. Попробуйте еще раз'})
 
 
+class LandlordApplicationForm(ModelForm):
+    class Meta:
+        model = LandlordApplicationModel
+        fields = '__all__'
