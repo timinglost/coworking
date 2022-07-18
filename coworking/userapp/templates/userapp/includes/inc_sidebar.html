@@ -28,13 +28,14 @@
           <span>Избранное</span>
         </a>
       </li>
-
+      {% if not user.is_landlord %}
       <li class="nav-item">
         <a class="nav-link collapsed" href="{% url 'user:landlord-application' %}">
           <i class="bi bi-box"></i>
-          <span>Арендодателям</span>
+          <span>Стать арендодателям</span>
         </a>
       </li>
+      {% endif %}
 
       <!--<li class="nav-item">
         <a class="nav-link collapsed" href="{% url 'user:locations' %}">

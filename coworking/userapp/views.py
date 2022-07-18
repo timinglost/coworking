@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.views.generic import CreateView
 from django.contrib import auth, messages
 from django.shortcuts import redirect
-
+from adminapp.models import Claim
 from createapp.models import Room, OfferImages
 from detailsapp.models import CurrentRentals, CompletedRentals
 from userapp.models import UserModel
@@ -13,6 +13,8 @@ from userapp.forms import UserForm, LandlordApplicationForm
 from django.urls import reverse_lazy
 
 from userapp.forms import PasswordChangeCustomForm
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 
 @login_required
@@ -122,12 +124,24 @@ class UserCreateView(CreateView):
         return context
 
 
-class LandlordApplicationCreateView(CreateView):
-    template_name = 'userapp/landlord-application.html'
-    form_class = LandlordApplicationForm
-    success_url = reverse_lazy('main')
-
-    def get_context_data(self, **kwargs):
-        context = super(LandlordApplicationCreateView, self).get_context_data(**kwargs)
-        context.update({'title': 'Заявка на получение прав арендодателя'})
-        return context
+@login_required
+def claim_landlord(request):
+    title = 'Арендодателям'
+    if request.method == 'POST':
+        landlord_form = LandlordApplicationForm(request.POST)
+        if landlord_form.is_valid():
+            user = request.user
+            new_claim = Claim()
+            new_claim.user_id = user
+            new_claim.text = landlord_form.cleaned_data['text']
+            new_claim.save()
+            return HttpResponseRedirect(reverse('user:main'))
+        else:
+            return HttpResponseRedirect(reverse('user:main'))
+    else:
+        landlord_form = LandlordApplicationForm()
+    context = {
+        'title': title,
+        'landlord_form': landlord_form
+    }
+    return render(request, 'userapp/landlord-application.html', context)
