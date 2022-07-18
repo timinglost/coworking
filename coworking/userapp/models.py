@@ -19,7 +19,6 @@ class UserModel(AbstractUser):
     user_phone = models.CharField(max_length=15,
                                   validators=[RegexValidator(r'^\d{1,15}$')], verbose_name='Телефон', blank=True)
     # ===============================================================
-    # is_email_verified = models.BooleanField(default=False)
     email = models.EmailField(_('email address'))
     activation_key = models.CharField(max_length=255, blank=True)
     activation_key_created = models.DateTimeField(auto_now_add=True, blank=True)
