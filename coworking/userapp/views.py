@@ -1,6 +1,5 @@
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.decorators import login_required
 from django.utils.translation import gettext as _
 from django.shortcuts import render
 from django.views.generic import CreateView
@@ -8,12 +7,13 @@ from django.contrib import auth, messages
 from django.shortcuts import redirect
 
 from createapp.models import Room, OfferImages
-from detailsapp.models import CurrentRentals, CompletedRentals
+from detailsapp.models import CurrentRentals, CompletedRentals, Favorites
 from userapp.models import UserModel
 from userapp.forms import UserForm, LandlordApplicationForm
 from django.urls import reverse_lazy
 
 from userapp.forms import PasswordChangeCustomForm
+
 
 @login_required
 def user(request):
@@ -23,6 +23,7 @@ def user(request):
         'title': title,
     }
     return render(request, 'userapp/user.html', context)
+
 
 def get_user_offers(user):
     return Room.objects.filter(room_owner=user)
