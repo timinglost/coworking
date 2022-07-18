@@ -7,6 +7,7 @@ from userapp.forms import UserForm, LandlordApplicationForm
 from django.urls import reverse_lazy
 
 
+
 @login_required
 def user(request):
     title = 'ЛОКАЦИЯ | Личный кабинет'
@@ -20,9 +21,10 @@ def user(request):
 @login_required
 def user_profile(request):
     title = 'ЛОКАЦИЯ | Профиль пользователя'
-
+    profile_data = UserModel.objects.all()
     context = {
         'title': title,
+        'profile_data': profile_data
     }
     return render(request, 'userapp/user-profile.html', context)
 
@@ -75,5 +77,5 @@ class LandlordApplicationCreateView(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(LandlordApplicationCreateView, self).get_context_data(**kwargs)
-        context.update({'title': 'Заявка на размещение обьявления'})
+        context.update({'title': 'Заявка на получение прав арендодателя'})
         return context
