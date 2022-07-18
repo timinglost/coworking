@@ -1,12 +1,16 @@
 ymaps.ready(init);
 
-
 function init() {
+
   var address = new ymaps.SuggestView(
     'suggest',
     {provider: provider}
     );
-//    console.log(address.state.get('request'))
+
+  if (window.location.pathname === '/offers/') {
+        ChangeURL();
+  };
+
   ymaps.geocode(address.state.get('request'), {
         results: 1
     }).then(function (res) {
@@ -157,35 +161,44 @@ var provider = {
   }
 };
 
-
 function clearForm(oForm) {
-  console.log('resET');
+
   var elements = oForm.elements;
   oForm.reset();
 
+  var searchParams = new URLSearchParams(document.location.search);
+
   for(i=0; i<elements.length; i++) {
 
-	field_type = elements[i].type.toLowerCase();
+    field_type = elements[i].type.toLowerCase();
 
-	switch(field_type) {
+    switch(field_type) {
 
 		case "text":
 		case "password":
 		case "textarea":
-	        case "hidden":
-
+	    case "hidden":
+	        if (searchParams.has(elements[i].name)) {
+	            searchParams.delete(elements[i].name)
+	        }
 			elements[i].defaultValue = "";
 			break;
 
 		case "radio":
 		case "checkbox":
   			if (elements[i].checked) {
+                if (searchParams.has(elements[i].name)) {
+                    searchParams.delete(elements[i].name)
+                }
    				elements[i].defaultChecked = false;
 			}
 			break;
 
 		case "select-one":
 		case "select-multi":
+		    if (searchParams.has(elements[i].name)) {
+	            searchParams.delete(elements[i].name)
+	        }
             		elements[i].selectedIndex = -1;
 			break;
 
@@ -193,4 +206,57 @@ function clearForm(oForm) {
 			break;
 	}
     }
-}
+    window.history.replaceState({}, '', `${location.pathname}?${searchParams}`);
+    location.reload()
+};
+
+const formElement = document.getElementById('citySearchForm'); // извлекаем элемент формы
+formElement.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const formData = new FormData(formElement); // создаём объект FormData, передаём в него элемент формы
+  // теперь можно извлечь данные
+  const newCity = formData.get('City');
+  var urlPathname = document.location.pathname;
+  var searchOption = 'search/';
+  if (urlPathname.indexOf(searchOption) === -1) {
+    window.history.replaceState({}, '', `${location.pathname}${searchOption}`)
+  }
+
+  var searchParams = new URLSearchParams(document.location.search);
+  searchParams.set('City', newCity);
+  window.history.replaceState({}, '', `${location.pathname}?${searchParams}`);
+  location.reload()
+
+});
+
+const mainFormElement = document.getElementById('searchForm'); // извлекаем элемент формы
+mainFormElement.addEventListener('submit', (e) => {
+    e.preventDefault();
+    var searchParams = new URLSearchParams(document.location.search)
+
+    var elements = mainFormElement.elements;
+
+    for(i=0; i<elements.length; i++) {
+        if (elements[i].type.toLowerCase() === 'checkbox') {
+            if (elements[i].checked) {
+                searchParams.set(elements[i].name, elements[i].value)
+			}
+			else {
+			    searchParams.delete(elements[i].name)
+			}
+		}
+        else {
+            searchParams.set(elements[i].name, elements[i].value)
+        }
+    }
+    window.history.replaceState({}, '', `${location.pathname}?${searchParams}`);
+    location.reload()
+});
+
+function ChangeURL(userCity) {
+    var searchParams = new URLSearchParams(document.location.search);
+    searchParams.set('City', 'Москва');
+    var newPathname = '/offers/search/'
+    window.history.replaceState({}, '', `${newPathname}?${searchParams}`);
+    location.reload();
+};

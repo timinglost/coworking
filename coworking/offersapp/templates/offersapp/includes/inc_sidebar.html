@@ -1,26 +1,26 @@
 <aside id="sidebar" class="sidebar">
-
+<!---->
     <ul class="sidebar-nav" id="sidebar-nav">
     </ul>
+<!--    <div class="sidebar">-->
 
     <!-- Multi Columns Form -->
     <form class="row g-3 search-form d-flex align-items-center" id="searchForm" method="GET"
           action="{% url 'offers:search_results' %}">
-        <div class="col-md-12">
-            <legend class="col-form-label col-sm-2 pt-0"><strong>Адрес</strong></legend>
+<!--        <div class="col-md-12 hidden">-->
+<!--            <legend class="col-form-label col-sm-2 pt-0"><strong>Адрес</strong></legend>-->
+<!--            <div class="col-md-12">-->
+<!--                <input type="hidden" name="City" placeholder="Город" class="hidden"-->
+<!--                       value="{{ city|default:'' }}">-->
+<!--            </div>-->
+<!--        </div>-->
 
-            <div class="col-md-12">
-                <input type="city_name_text" name="City" placeholder="Город" class="form-control" id="suggest"
-                       value="{{ city|default:'' }}">
-            </div>
-        </div>
-
-        <!--     <div class="col-md-12">-->
-        <!--        <legend class="col-form-label col-sm-2 pt-0"><strong>Дата</strong></legend>-->
-        <!--        <div class="col-md-12">-->
-        <!--          <input type="date" name="Date" placeholder="Дата" class="form-control">-->
-        <!--        </div>-->
-        <!--      </div>-->
+<!--             <div class="col-md-12">-->
+<!--                <legend class="col-form-label col-sm-2 pt-0"><strong>Дата</strong></legend>-->
+<!--                <div class="col-md-12">-->
+<!--                  <input type="date" name="Date" placeholder="Дата" class="form-control">-->
+<!--                </div>-->
+<!--              </div>-->
 
         <div class="col-md-12">
             <legend class="col-form-label col-sm-2 pt-0"><strong>Цена&nbspза&nbspчас&nbspаренды</strong></legend>
@@ -71,5 +71,6 @@
             <button type="reset" onclick="clearForm(this.form);" class="btn btn-secondary reset-btn">Сбросить</button>
         </div>
     </form><!-- End Multi Columns Form -->
-
+<!--        </div>-->
+<!---->
 </aside>
