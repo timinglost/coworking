@@ -1,0 +1,26 @@
+{% extends 'userapp/base.html' %}
+{% load static %}
+   {% block content %}
+
+  <!-- ======= Header ======= -->
+  {% include 'userapp/includes/inc_header.html' %}
+
+<!-- ======= Sidebar ======= -->
+  {% include 'userapp/includes/inc_sidebar.html' %}
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+      <h4>Вы можете подать заявку на получение статуса арендодателя и получить максимальный функционал для размещения объявлений </h4>
+    </div><!-- End Page Title -->
+
+
+
+
+<form method="POST">
+    {% csrf_token %}
+    {{form.as_p}}
+    <input type="submit" value="Отправить">
+</form>
+
+{% endblock %}

@@ -9,7 +9,7 @@ from django.shortcuts import redirect
 from createapp.models import Room, OfferImages
 from detailsapp.models import CurrentRentals, CompletedRentals, Favorites
 from userapp.models import UserModel
-from userapp.forms import UserForm
+from userapp.forms import UserForm, LandlordApplicationForm
 from django.urls import reverse_lazy
 
 from userapp.forms import PasswordChangeCustomForm
@@ -97,7 +97,6 @@ def user_locations(request):
     }
     return render(request, 'userapp/user-locations.html', context)
 
-
 @login_required
 def user_favorites(request):
     title = 'ЛОКАЦИЯ | Избранное'
@@ -120,4 +119,15 @@ class UserCreateView(CreateView):
     def get_context_data(self, **kwargs):
         context = super(UserCreateView, self).get_context_data(**kwargs)
         context.update({'title': 'Редактирование профиля'})
+        return context
+
+
+class LandlordApplicationCreateView(CreateView):
+    template_name = 'userapp/landlord-application.html'
+    form_class = LandlordApplicationForm
+    success_url = reverse_lazy('main')
+
+    def get_context_data(self, **kwargs):
+        context = super(LandlordApplicationCreateView, self).get_context_data(**kwargs)
+        context.update({'title': 'Заявка на получение прав арендодателя'})
         return context
