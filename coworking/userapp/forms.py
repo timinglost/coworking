@@ -2,6 +2,7 @@ from django.forms import ModelForm, CharField, PasswordInput
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserChangeForm, PasswordChangeForm
 from userapp.models import UserModel, LandlordApplicationModel
+from adminapp.models import Claim
 
 
 # from phonenumber_field.formfields import PhoneNumberField
@@ -43,6 +44,9 @@ class PasswordChangeCustomForm(PasswordChangeForm):
 
 
 class LandlordApplicationForm(ModelForm):
+    text = forms.CharField(widget=forms.Textarea(
+        attrs={'class': "form-control", 'id': "inputText", 'name': "text", 'rows': "10"}))
+
     class Meta:
-        model = LandlordApplicationModel
-        fields = '__all__'
+        model = Claim
+        fields = ['text']

@@ -18,7 +18,7 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 from .views import user, user_profile, user_bookings, user_favorites, user_locations, UserCreateView, \
-    LandlordApplicationCreateView
+    LandlordApplicationCreateView, claim_landlord
 
 app_name = 'userapp'
 
@@ -29,7 +29,7 @@ urlpatterns = [
     path('bookings/', user_bookings, name='bookings'),
     path('locations/', user_locations, name='locations'),
     path('favorites/', user_favorites, name='favorites'),
-    path('landlord-application/', LandlordApplicationCreateView.as_view(), name='landlord-application'),
+    path('landlord-application/', claim_landlord, name='landlord-application'),
 ]
 
 if settings.DEBUG:
