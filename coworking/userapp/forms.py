@@ -13,6 +13,12 @@ class UserForm(ModelForm):
             'avatar', 'about', 'company', 'job_tittle',
             'twitter', 'vk', 'instagram')
 
+    # def __int__(self, *args, **kwargs):
+    #     super(UserForm, self).__int__(*args, **kwargs)
+    #
+    #     for field_name, field in self.fields.items():
+    #         field.widget.attrs['class'] = 'form-control'
+
 
 class PasswordChangeCustomForm(PasswordChangeForm):
     error_css_class = 'has-error'

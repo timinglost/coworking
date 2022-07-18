@@ -8,7 +8,7 @@ from django.contrib import auth, messages
 from django.shortcuts import redirect
 
 from createapp.models import Room, OfferImages
-from detailsapp.models import CurrentRentals, CompletedRentals, Favorites
+from detailsapp.models import CurrentRentals, CompletedRentals
 from userapp.models import UserModel
 from userapp.forms import UserForm, LandlordApplicationForm
 from django.urls import reverse_lazy
