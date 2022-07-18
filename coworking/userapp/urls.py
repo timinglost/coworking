@@ -18,7 +18,7 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 from .views import user, user_profile, user_bookings, user_favorites, user_locations, UserCreateView, \
-    LandlordApplicationCreateView, claim_landlord
+    claim_landlord
 
 app_name = 'userapp'
 
