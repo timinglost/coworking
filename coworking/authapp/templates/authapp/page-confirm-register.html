@@ -20,17 +20,17 @@
                             </div>
                             <!-- End Logo -->
 
-                            <div class="card mb-3">
+                            <div class="card mb-2">
 
                                 <div class="card-body">
 
                                     <div class="pt-4 pb-2">
-                                        <h5 class="card-title text-center pb-0 fs-4">Create an Account</h5>
+                                        <h5 class="card-title text-center pb-4 fs-4">Create an Account</h5>
                                         {% if user.is_authenticated %}
-                                            <h3>Регистрация прошла успешно!</h3>
+                                            <h3 class="card-title text-center pb-0 fs-4">Регистрация прошла успешно!</h3>
                                             <p>Пользователь {{ user.email }} успешно активирован.</p>
                                         {% else %}
-                                            <h3>Ошибка подтверждения регистрации</h3>
+                                            <h3 class="card-title text-center pb-0 fs-4">Ошибка подтверждения регистрации</h3>
                                             <p>Пользователь не был активирован!</p>
 
 

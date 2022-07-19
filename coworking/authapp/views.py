@@ -1,5 +1,6 @@
 from django.core.mail import send_mail
 from django.shortcuts import render, HttpResponseRedirect, redirect
+from django.utils.translation import gettext as _
 
 from django.contrib import auth, messages
 from django.urls import reverse, reverse_lazy
@@ -73,8 +74,10 @@ class UserRegisterView(CreateView):
             user.save()
             # to get the domain of the current site
             if send_verify_mail(user):
+                messages.success(self.request, _('Сообщение подтверждения регистрации отправленно на почту.'))
                 print('Сообщение подтверждения регистрации отправленно на почту.')
             else:
+                messages.error(self.request, _('Ошибка отправки сообщения!'))
                 print('Ошибка отправки сообщения!')
 
         return super(UserRegisterView, self).form_valid(form)
@@ -88,13 +91,13 @@ class UserRegisterView(CreateView):
 # ===================================================
 def verify(request, email, activation_key):
     # user = UserModel.objects.filter(email).first()
-    user = UserModel.objects.get(email=email)
+    user = UserModel.objects.filter(email=email).first()
     if user:
         if user.activation_key == activation_key and not user.is_activation_key_expired():
             user.is_active = True
             user.save()
-            auth.login(request, user)
-            return render(request, 'authapp/page-confirm-register.html')
+            auth.login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+        return render(request, 'authapp/page-confirm-register.html')
 
     return redirect('main')
 

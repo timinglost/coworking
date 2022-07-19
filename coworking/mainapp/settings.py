@@ -150,13 +150,15 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 # Все настройки для исходящей почты
 DOMAIN = 'http://127.0.0.1:8888'
 
-
-EMAIL_USE_SSL = False # ставим True если почта использует SSL
+EMAIL_USE_SSL = False  # ставим True если почта использует SSL
 EMAIL_USE_TLS = True
+#
+EMAIL_HOST = 'smtp.mailtrap.io'  # smtp используемой почты
+EMAIL_HOST_USER = '188ea878b29d30'  # почта пользователя
+EMAIL_HOST_PASSWORD = 'ba1f32fab0fa6a'  # пароль пользователя
+EMAIL_PORT = 2525  #
 
-EMAIL_HOST = ''  # smtp используемой почты
-# EMAIL_HOST_USER = ''  # почта пользователя
-# EMAIL_HOST_PASSWORD = ''  # пароль пользователя
-EMAIL_PORT = ''  #
+# EMAIL_HOST_USER, EMAIL_HOST_PASSWORD = None, None
 
-EMAIL_HOST_USER, EMAIL_HOST_PASSWORD = None, None
+# EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'  # положить письма в файл
+# EMAIL_FILE_PATH = 'logs/email-messages/'
