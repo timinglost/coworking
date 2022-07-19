@@ -9,6 +9,14 @@ class RatingNames(models.Model):
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Время обновления записи')
 
 
+class OffersRatings(models.Model):
+    offer = models.ForeignKey(Room, on_delete=models.CASCADE)
+    summary_rating = models.FloatField(verbose_name='Суммарная оценка')
+    reviews_number = models.PositiveIntegerField(verbose_name='Количество отзывов')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Время создания записи')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='Время обновления записи')
+
+
 class CurrentRentals(models.Model):
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
     offer = models.ForeignKey(Room, on_delete=models.CASCADE)

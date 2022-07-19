@@ -34,6 +34,17 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
+            name='OffersRatings',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('summary_rating', models.FloatField(verbose_name='Суммарная оценка')),
+                ('reviews_number', models.PositiveIntegerField(verbose_name='Количество отзывов')),
+                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='Время создания записи')),
+                ('updated_at', models.DateTimeField(auto_now=True, verbose_name='Время обновления записи')),
+                ('offer', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='createapp.room')),
+            ],
+        ),
+        migrations.CreateModel(
             name='Rating',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
