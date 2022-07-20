@@ -58,7 +58,13 @@
                             {% endif %}" alt="Profile foto"
                                  class="rounded-circle">
                             <h2>{{ user.get_full_name }}</h2>
-                            <h3>Арендатор</h3>
+                            <h3>
+                                {% if user.is_landlord %}
+                                Арендодатель
+                                {% else %}
+                                Арендатор
+                                {% endif %}
+                            </h3>
                             <div class="social-links mt-2">
 
                             </div>
@@ -85,11 +91,11 @@
                                     </button>
                                 </li>
 
-                                <li class="nav-item">
-                                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-settings">
-                                        Настройки
-                                    </button>
-                                </li>
+<!--                                <li class="nav-item">-->
+<!--                                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-settings">-->
+<!--                                        Настройки-->
+<!--                                    </button>-->
+<!--                                </li>-->
 
                                 <li class="nav-item">
                                     <button class="nav-link" data-bs-toggle="tab"
@@ -114,6 +120,11 @@
                                     </div>
 
                                     <div class="row">
+                                        <div class="col-lg-3 col-md-4 label ">О себе</div>
+                                        <div class="col-lg-9 col-md-8">{{ user.about }}</div>
+                                    </div>
+
+                                    <div class="row">
                                         <div class="col-lg-3 col-md-4 label">Компания</div>
                                         <div class="col-lg-9 col-md-8">{{ user.company }}</div>
                                     </div>
@@ -125,7 +136,13 @@
 
                                     <div class="row">
                                         <div class="col-lg-3 col-md-4 label">Статус</div>
-                                        <div class="col-lg-9 col-md-8">Арендатор</div>
+                                        <div class="col-lg-9 col-md-8">
+                                            {% if user.is_landlord %}
+                                                Арендодатель
+                                            {% else %}
+                                                Арендатор
+                                            {% endif %}
+                                        </div>
                                     </div>
 
                                     <div class="row">
@@ -133,10 +150,6 @@
                                         <div class="col-lg-9 col-md-8">{{ user.country }}</div>
                                     </div>
 
-                                    <div class="row">
-                                        <div class="col-lg-3 col-md-4 label">Адресс</div>
-                                        <div class="col-lg-9 col-md-8">{{ user.country }}</div>
-                                    </div>
 
                                     <div class="row">
                                         <div class="col-lg-3 col-md-4 label">Телефон</div>
@@ -146,6 +159,21 @@
                                     <div class="row">
                                         <div class="col-lg-3 col-md-4 label">Email</div>
                                         <div class="col-lg-9 col-md-8">{{ user.email }}</div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-4 label">Twitter</div>
+                                        <div class="col-lg-9 col-md-8">{{ user.twitter }}</div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-4 label">VK</div>
+                                        <div class="col-lg-9 col-md-8">{{ user.vk }}</div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-4 label">Instagram</div>
+                                        <div class="col-lg-9 col-md-8">{{ user.instagram }}</div>
                                     </div>
 
                                 </div>

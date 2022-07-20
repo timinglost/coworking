@@ -36,14 +36,15 @@
         </a>
       </li>
       {% endif %}
-
-      <!--<li class="nav-item">
+      {% if user.is_landlord %}
+      <li class="nav-item">
         <a class="nav-link collapsed" href="{% url 'user:locations' %}">
           <i class="bi bi-box"></i>
           <span>Мои локации</span>
 
         </a>
-      </li>-->
+      </li>
+      {% endif %}
     </ul>
 
   </aside><!-- End Sidebar-->
