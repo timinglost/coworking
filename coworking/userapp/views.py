@@ -128,17 +128,6 @@ def user_favorites(request):
     return render(request, 'userapp/user-favorites.html', context)
 
 
-class UserCreateView(CreateView):
-    template_name = 'userapp/user-edit.html'
-    form_class = UserForm
-    success_url = reverse_lazy('main')
-
-    def get_context_data(self, **kwargs):
-        context = super(UserCreateView, self).get_context_data(**kwargs)
-        context.update({'title': 'Редактирование профиля'})
-        return context
-
-
 @login_required
 def claim_landlord(request):
     title = 'Арендодателям'
