@@ -32,7 +32,7 @@ class UserForm(ModelForm):
     instagram = forms.CharField(widget=forms.TextInput(
         attrs={'type': "text",  'name': "instagram", 'class': "form-control", 'id': "instagram"}))
     avatar = forms.ImageField(required=False, widget=ClearableFileInput(
-        attrs={'class': 'file-input', 'name': "avatar", 'id': 'formFile'}))
+        attrs={'class': 'form-control', 'name': "avatar", 'id': 'formFile'}))
 
     class Meta:
         model = UserModel
