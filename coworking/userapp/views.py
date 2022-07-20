@@ -63,11 +63,11 @@ def user_profile(request):
         if passwd_form.is_valid():
             user = passwd_form.save()
             update_session_auth_hash(request, user)
-            messages.success(request, _('Your password was successfully updated!'))
+            messages.success(request, _('Ваш пароль был успешно обновлен!'))
             print(messages.success)
         else:
-            messages.error(request, _('Entered password is incorrect.\n '
-                                      'The new password must consist of 8 elements including Latin letters in upper and lower case.'))
+            messages.error(request, _('Введенный пароль неверный.\n '
+                                      'Новый пароль должен состоять из 8 элементов, включая латинские буквы в верхнем и нижнем регистре.'))
 
     else:
         passwd_form = PasswordChangeCustomForm(request.user, request.GET)
