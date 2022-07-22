@@ -21,16 +21,15 @@
     </div> -->
     <!-- End Page Title -->
 
-    <section class="section dashboard">
+    <section class="section">
         {% if object_list %}
 
         <div class="row">
             <!-- Left side columns -->
-            <div class="col-lg-8">
-                <div class="row">
+            <div class="col-lg-6">
+<!--                <div class="card">-->
                     <!-- Card with an image on left -->
                     {% for room, room_images in offers_dict.items %}
-
                     <div class="card mb-3">
                         <div class="row g-0">
                             <div class="col-md-4">
@@ -62,35 +61,12 @@
                         </div>
                     </div>
                     {% endfor %}
-                </div>
-            </div><!-- End Left side columns -->
-
-<!--             &lt;!&ndash; Right side columns &ndash;&gt;-->
-<!--            <div class="col-lg-4">-->
-<!--                &lt;!&ndash; News & Updates Traffic &ndash;&gt;-->
-<!--                <div class="card">-->
-
-<!--                    <div class="card-body pb-0">-->
-<!--                      <h5 class="card-title">Новости</h5>-->
-
-<!--                      <div class="news">-->
-<!--                          {% for news in news_list%}-->
-<!--                            <div class="post-item clearfix">-->
-<!--                              <img src="{{ news.image }}" alt="">-->
-<!--                              <h4><a href="{{ news.link }}">{{ news.name }}</a></h4>-->
-<!--                              <p>{{ news.text }}</p>-->
-<!--                            </div>-->
-<!--                          {% endfor %}-->
-
-<!--              </div>&lt;!&ndash; End sidebar recent posts&ndash;&gt;-->
-
-<!--            </div>-->
-<!--          </div>&lt;!&ndash; End News & Updates &ndash;&gt;-->
-<!--            </div>-->
-<!--            &lt;!&ndash; End Right side columns &ndash;&gt;-->
+<!--                </div>-->
+            </div>
+            <!-- End Left side columns -->
 
             <!-- Right side columns -->
-            <div class="col-lg-4">
+            <div class="col-lg-6">
                 <!-- maps -->
                 <div class="card" id="map">
                 </div>
@@ -101,12 +77,11 @@
 
         {% else %}
         <div class="row">
-            <div class="col-lg-8">
-                <div class="row"><h5>
+            <div class="col-lg-12" style="text-align: center;">
+                <h5>
                     К сожалению по вашему запросу ничего не найдено =( <br>
                     Попробуйте изменить условия поиска
                 </h5>
-                </div>
             </div>
         </div>
         {% endif %}
