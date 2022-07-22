@@ -24,7 +24,6 @@ app_name = 'userapp'
 
 urlpatterns = [
     path('', user, name='main'),
-    # path('edit/', UserCreateView.as_view(), name='edit'),
     path('profile/', user_profile, name='profile'),
     path('bookings/', user_bookings, name='bookings'),
     path('locations/', user_locations, name='locations'),
