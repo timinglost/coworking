@@ -76,9 +76,11 @@ class UserRegisterView(CreateView):
             if send_verify_mail(user):
                 messages.success(self.request, _('Сообщение подтверждения регистрации отправленно на почту.'))
                 print('Сообщение подтверждения регистрации отправленно на почту.')
+                return redirect('auth:login')
             else:
                 messages.error(self.request, _('Ошибка отправки сообщения!'))
                 print('Ошибка отправки сообщения!')
+                return redirect('auth:register')
 
         return super(UserRegisterView, self).form_valid(form)
 
@@ -96,16 +98,26 @@ def verify(request, email, activation_key):
         if user.activation_key == activation_key and not user.is_activation_key_expired():
             user.is_active = True
             user.save()
-            auth.login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+            # auth.login(request, user, backend='django.contrib.auth.backends.ModelBackend')
         return render(request, 'authapp/page-confirm-register.html')
 
     return redirect('main')
 
 
+from django.template.loader import render_to_string
+
+
 def send_verify_mail(user):
     subject = 'Verify your account'
     link = reverse('authapp:verify', args=[user.email, user.activation_key])
-    body_message = f'{settings.DOMAIN}{link}'
-    return send_mail(subject, body_message, settings.EMAIL_HOST_USER, [user.email], fail_silently=False)
+    template = render_to_string('authapp/email_template.html',
+                                {'name': user.username, 'link': f"{settings.DOMAIN}{link}"})
+
+    return send_mail(
+        subject,  # subject
+        template,  # message
+        settings.EMAIL_HOST_USER,  # from_email
+        [user.email],  # recipient_list - список получателей
+        fail_silently=False, auth_password='zbdjzgrddsiaufqs')
 
     # ===================================================

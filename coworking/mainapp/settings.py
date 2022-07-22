@@ -46,6 +46,11 @@ INSTALLED_APPS = [
     'feedbackapp',
     'adminapp',
     'createapp',
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
 ]
 
 MIDDLEWARE = [
@@ -149,16 +154,50 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 # Отправка подтверждения регистрации на почту
 # Все настройки для исходящей почты
 DOMAIN = 'http://127.0.0.1:8888'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-EMAIL_USE_SSL = False  # ставим True если почта использует SSL
 EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False  # ставим True если почта использует SSL
 #
-EMAIL_HOST = 'smtp.mailtrap.io'  # smtp используемой почты
-EMAIL_HOST_USER = '188ea878b29d30'  # почта пользователя
-EMAIL_HOST_PASSWORD = 'ba1f32fab0fa6a'  # пароль пользователя
-EMAIL_PORT = 2525  #
+EMAIL_HOST = 'smtp.gmail.com'  # smtp используемой почты
+EMAIL_PORT = 587  #
+# ========================================================
+# EMAIL_HOST = 'smtp.mailtrap.io'  # smtp используемой почты mailtrap
+# EMAIL_PORT = 2525  #
+
+# ========================================================
+# ========================================================
+EMAIL_HOST_USER = 'andreydatsenko777@gmail.com'  # почта пользователя, если пусто Джанго не пытается пройти аутентификацию
+EMAIL_HOST_PASSWORD = 'zbdjzgrddsiaufqs' # пароль пользователя
+# ========================================================
 
 # EMAIL_HOST_USER, EMAIL_HOST_PASSWORD = None, None
-
 # EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'  # положить письма в файл
 # EMAIL_FILE_PATH = 'logs/email-messages/'
+
+# ======================================================
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}
+
+SITE_ID = 2
+
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+
+# CLIENT_ID = '533038250353-q26oprmp3nqmsakth9f1on08nbmjvm7h.apps.googleusercontent.com'
+# SECRET_KEY = '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'
+
