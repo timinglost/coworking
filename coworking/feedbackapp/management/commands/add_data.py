@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 from feedbackapp.models import Contact, QuestionCategory, Question
 from detailsapp.models import RatingNames
-from createapp.models import ConvenienceType, Convenience
+from createapp.models import ConvenienceType, Convenience, RoomCategory
 
 contact = {
     "first_address": "A108 Adam Street,",
@@ -69,7 +69,8 @@ conveniences = [{'name': 'Wi-Fi', 'file_name': 'wifi.html', 'convenience_type': 
                 {'name': 'Принтер/сканер', 'file_name': 'scanner.html', 'convenience_type': 'Оборудование'},
                 {'name': 'Факс', 'file_name': 'fax.html', 'convenience_type': 'Оборудование'},
                 {'name': 'Флипчарт', 'file_name': 'flipchart.html', 'convenience_type': 'Оборудование'},
-                {'name': 'Переговорные комнаты', 'file_name': 'conference_room.html', 'convenience_type': 'Специальные зоны'},
+                {'name': 'Переговорные комнаты', 'file_name': 'conference_room.html',
+                 'convenience_type': 'Специальные зоны'},
                 {'name': 'Телефон', 'file_name': 'phone.html', 'convenience_type': 'Специальные зоны'},
                 {'name': 'Шкафчики', 'file_name': 'locker.html', 'convenience_type': 'Специальные зоны'},
                 {'name': 'Техническая поддержка', 'file_name': 'support.html', 'convenience_type': 'Услуги'},
@@ -80,6 +81,8 @@ conveniences = [{'name': 'Wi-Fi', 'file_name': 'wifi.html', 'convenience_type': 
                 {'name': 'Парковка', 'file_name': 'parking.html', 'convenience_type': 'Транспорт'},
                 {'name': 'Велопарковка', 'file_name': 'bike_parking.html', 'convenience_type': 'Транспорт'},
                 {'name': 'Спортзал', 'file_name': 'gym.html', 'convenience_type': 'Здоровье'}]
+room_categorys = [{'name': 'Open space'}, {'name': 'Office'}, {'name': 'Private office'}, {'name': 'Conference room'},
+                  {'name': 'Video studio'}, ]
 
 
 class Command(BaseCommand):
@@ -113,3 +116,7 @@ class Command(BaseCommand):
             convenience['convenience_type'] = _type
             new_convenience = Convenience(**convenience)
             new_convenience.save()
+        RoomCategory.objects.all().delete()
+        for room_category in room_categorys:
+            new_rc = RoomCategory(**room_category)
+            new_rc.save()

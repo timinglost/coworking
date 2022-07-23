@@ -57,6 +57,7 @@ urlpatterns = [
     path('users/active/<int:pk>', staff_edit, name='staff_edit'),
     #арендодатели
     path('landlords/', landlords, name='landlords'),
+    path('landlords-history/', landlords_history, name='landlords_history'),
     path('landlord/<int:pk>', landlord, name='landlord'),
     path('landlord/claim_accept/<int:pk>', claim_accept, name='claim_accept'),
     path('landlord/claim_reject/<int:pk>', claim_reject, name='claim_reject'),
