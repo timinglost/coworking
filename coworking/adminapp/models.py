@@ -21,6 +21,11 @@ class Claim(models.Model):
         verbose_name='активна',
         default=True)
 
+    is_approved = models.BooleanField(
+        verbose_name='одобрено',
+        blank=True,
+        null=True)
+
     def __str__(self):
         return f"{self.user_id.first_name} {self.user_id.last_name}"
 
