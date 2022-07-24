@@ -1,7 +1,7 @@
 from createapp.models import Room, OfferImages, Convenience, ConvenienceRoom
 from detailsapp.models import OffersRatings
 from django.db.models import Q
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import ListView
 
 from datetime import date
@@ -9,6 +9,7 @@ from pprint import pprint
 
 from lxml import html
 
+from mainapp.forms import SearchMainForm
 from .utils import create_url, get_response, validate_data
 
 
@@ -163,6 +164,15 @@ class SearchResultsView(ListView):
     template_name = 'offersapp/search_results.html'
     conveniences = get_conveniences()
 
+    def get(self, request, *args, **kwargs):
+        form = SearchMainForm(data=request.GET)
+        if not form.is_valid():
+            context = {
+                'form': form
+            }
+            return render(request, 'mainapp/index.html', context)
+        return super(SearchResultsView, self).get(request, *args, **kwargs)
+
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(SearchResultsView, self).get_context_data()
 
@@ -180,7 +190,7 @@ class SearchResultsView(ListView):
 
     def get_queryset(self):
 
-        city = self.request.GET.get('City')
+        city = self.request.GET.get('city')
         rating = self.request.GET.get('rating')
         min_price = self.request.GET.get('min_price')
         max_price = self.request.GET.get('max_price')

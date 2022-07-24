@@ -2,46 +2,37 @@
 <section id="Search" class="search bg-blue search_test">
     <div class="search_overlay"></div>
     <div class="container">
-        <!-- <div class="row"> -->
         <div class="main-block">
             <h1 class="text-uppercase text-white">
                 Бронируем офисы для работы
             </h1>
             <h3 class="text-white">Найдите свой вариант для комфортной работы</h3>
-
-            <div class="main-block-field">
-                <!--                <div class="search-bar">-->
                 <form class=""
                       method="GET"
                       action="{% url 'offers:search_results' %}"
                       novalidate>
-                    <div class="col-md-12">
-                        <div class="form-floating">
-                            <input type="text"
-                                   name="City"
-                                   placeholder="Город"
-                                   class="form-control"
-                                   id="suggest"
-                                   value="{{ city|default:'' }}" required>
-                            <label for="suggest">Город или адрес</label>
-<!--                            <div class="invalid-feedback">-->
-<!--                                Нужно выбрать город!-->
-<!--                            </div>-->
+                    <div class="main-search-block">
+                        <div class="col-md-12">
+                            <div class="form-floating">
+                                {{ form.city }}
+                                <label for="suggest">Город или адрес</label>
+                                {% if "city" in form.errors %}
+                                <div class="alert alert-danger">
+                                    <strong>{{ form.errors.city }}</strong>
+                                </div>
+                                {% endif %}
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="form-floating">
-                            <input type="date" class="form-control" id="dateIn" name="date-in" placeholder="Дата">
-                            <label for="dateIn">Дата</label>
+                        <div class="col-md-12">
+                            <div class="form-floating">
+                                {{ form.date }}
+                                <label for="dateIn">Дата</label>
+                            </div>
                         </div>
+                        <div class="col-md-3">
+                        <button type="submit" class="btn btn-primary">Найти</button>
+                      </div>
                     </div>
-                    <div class="col-md-3">
-                    <button type="submit" class="btn btn-primary">Найти</button>
-                  </div>
-
                 </form>
-                <!--                </div>-->
-            </div>
-
         </div>
 </section>
