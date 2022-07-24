@@ -7,14 +7,12 @@
                     </div>
 
                     <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-
                         <!-- Wrapper for slides -->
                         <div class="carousel-inner" role="listbox">
                             <div class="item active">
                                 <div class="container">
                                     <div class="row">
-<!--                                        {% for room in rooms %}-->
-
+                                        {% for room in rooms %}
                                         <div class="col-sm-4">
                                             <div class="port_item xs-m-top-30">
                                                 <div class="port_img">
@@ -24,46 +22,12 @@
                                                     </div>
                                                 </div>
                                                 <div class="port_caption m-top-20">
-                                                    <h5>Москва</h5>
-                                                    <h6>Красная Площадь</h6>
+                                                    <h5>{{ room.name }}</h5>
+                                                    <h6>{{ room.address.city }}</h6>
                                                 </div>
                                             </div>
                                         </div>
-
-<!--                                        {% endfor %}-->
-
-
-                                        <div class="col-sm-4">
-                                            <div class="port_item xs-m-top-30">
-                                                <div class="port_img">
-                                                    <img src="{% static 'mainapp/assets/images/work-img2.jpg' %}" alt="" />
-                                                    <div class="port_overlay text-center">
-                                                        <a href="{% static 'mainapp/assets/images/work-img2.jpg' %}" class="popup-img">+</a>
-                                                    </div>
-                                                </div>
-                                                <div class="port_caption m-top-20">
-                                                    <h5>Санкт-Петербург</h5>
-                                                    <h6>"Газпром Арена" </h6>
-                                                </div>
-                                            </div>
-                                        </div>
-
-
-                                        <div class="col-sm-4">
-                                            <div class="port_item xs-m-top-30">
-                                                <div class="port_img">
-                                                    <img src="{% static 'mainapp/assets/images/work-img3.jpg' %}" alt="" />
-                                                    <div class="port_overlay text-center">
-                                                        <a href="{% static 'mainapp/assets/images/work-img3.jpg' %}" class="popup-img">+</a>
-                                                    </div>
-                                                </div>
-                                                <div class="port_caption m-top-20">
-                                                    <h5>Сыктывкар</h5>
-                                                    <h6>Сухановская</h6>
-                                                </div>
-                                            </div>
-                                        </div>
-
+                                        {% endfor %}
                                     </div>
                                 </div>
                             </div>

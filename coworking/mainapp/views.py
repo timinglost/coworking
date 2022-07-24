@@ -1,17 +1,15 @@
 from django.shortcuts import render
 
+from createapp.models import Room
 from mainapp.forms import SearchMainForm
 
 
 def main(request):
     title = 'ЛОКАЦИЯ | Сервис для поиска коворкинга в России'
     form = SearchMainForm()
-    rooms = []
     context = {
         'title': title,
         'form': form,
-        'rooms': rooms
+        'rooms': Room.objects.all()[:3]
     }
     return render(request, 'mainapp/index.html', context)
-
-
