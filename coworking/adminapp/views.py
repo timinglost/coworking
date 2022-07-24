@@ -88,6 +88,7 @@ def claim_accept(request, pk):
     user_ll.is_landlord = True
     user_ll.save()
     claim_landlord.is_active = False
+    claim_landlord.is_approved = True
     claim_landlord.save()
     return HttpResponseRedirect(reverse('admin_staff:landlords'))
 
@@ -96,6 +97,7 @@ def claim_accept(request, pk):
 def claim_reject(request, pk):
     claim_landlord = get_object_or_404(Claim, pk=pk)
     claim_landlord.is_active = False
+    claim_landlord.is_approved = False
     claim_landlord.save()
     return HttpResponseRedirect(reverse('admin_staff:landlords'))
 
@@ -122,6 +124,16 @@ def landlords(request):
     }
     return render(request, 'adminapp/landlords/landlords.html', context)
 
+
+@user_passes_test(check_admin_staff)
+def landlords_history(request):
+    title = 'Админка - Арендодалели'
+    claim_landlords = Claim.objects.filter(is_active=False)
+    context = {
+        'title': title,
+        'claim_landlords': claim_landlords
+    }
+    return render(request, 'adminapp/landlords/landlords-history.html', context)
 
 @user_passes_test(check_admin_staff)
 def convenience_delete(request, pk_conv, pk):
