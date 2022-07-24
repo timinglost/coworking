@@ -3,7 +3,7 @@
 
 {% block content %}
 {% include 'mainapp/includes/inc_header.html' %}
-
+<link href="{% static 'mainapp/assets/css/create_ad_style.css' %}" rel="stylesheet">
 
 <section id="home" class="home bg-black fix" xmlns="http://www.w3.org/1999/html">
     <div class="overlay"></div>
@@ -105,10 +105,8 @@
                             </div>
 
                             <div id="map" class="map"></div>
-                            <script src="https://api-maps.yandex.ru/2.1?apikey=fe838c94-89e2-4657-a2ef-061f23ff1a53&lang=ru_RU"
-                                    type="text/javascript">
-                            </script>
-                            <script src="{% static 'mainapp/assets/js/script.js' %}"></script>
+                            {% include 'mainapp/includes/inc_yandex_map.html' %}
+                            <script src="{% static 'mainapp/assets/js/create_ad_script.js' %}"></script>
 
                             <div id="amenities">
                                 {% include 'createapp/includes/inc_amenities.html' %}
