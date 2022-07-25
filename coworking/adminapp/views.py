@@ -12,7 +12,7 @@ from createapp.models import *
 from userapp.models import UserModel
 from createapp.models import ConvenienceType, Convenience
 from adminapp.models import Claim
-from offersapp.views import get_offers, add_images_info
+from offersapp.views import get_offers
 from detailsapp.models import CurrentRentals
 
 
@@ -23,6 +23,15 @@ def check_admin(user):
 
 def check_admin_staff(user):
     return user.is_staff
+
+
+def add_images_info(rooms):
+    offers_dict = {}
+    for room in rooms:
+        room_images = OfferImages.objects.filter(room=room)
+        # room_images = [_ for _ in room_images]
+        offers_dict[room] = room_images
+    return offers_dict
 
 
 @user_passes_test(check_admin)
