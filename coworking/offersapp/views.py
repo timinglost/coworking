@@ -167,10 +167,7 @@ class SearchResultsView(ListView):
     def get(self, request, *args, **kwargs):
         form = SearchMainForm(data=request.GET)
         if not form.is_valid():
-            context = {
-                'form': form
-            }
-            return render(request, 'mainapp/index.html', context)
+            return redirect('main')
         return super(SearchResultsView, self).get(request, *args, **kwargs)
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -180,7 +177,7 @@ class SearchResultsView(ListView):
         context['offers_dict'] = offers_dict_with_images
         # context['news_list'] = get_news_data('yandex.ru/news')
         context['title'] = 'ЛОКАЦИЯ | Поиск помещений'
-        context['city'] = self.request.GET.get('City')
+        context['city'] = self.request.GET.get('city')
         context['min_price'] = self.request.GET.get('min_price')
         context['max_price'] = self.request.GET.get('max_price')
         context['rating'] = self.request.GET.get('rating')
@@ -201,7 +198,7 @@ class SearchResultsView(ListView):
 
         # отфильтруем помещения по городу и стоимости за час
         rooms_filtered_by_city_and_price = Room.objects.filter(
-            Q(is_active=True),
+           # Q(is_active=True),
             Q(address__city__icontains=city),
             Q(payment_per_hour__gte=min_price),
             Q(payment_per_hour__lte=max_price)
