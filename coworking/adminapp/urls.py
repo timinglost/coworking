@@ -58,6 +58,7 @@ urlpatterns = [
     #арендодатели
     path('landlords/', landlords, name='landlords'),
     path('landlords-history/', landlords_history, name='landlords_history'),
+    path('landlord-history/<int:pk>/', landlord_history, name='landlord_history'),
     path('landlord/<int:pk>', landlord, name='landlord'),
     path('landlord/claim_accept/<int:pk>', claim_accept, name='claim_accept'),
     path('landlord/claim_reject/<int:pk>', claim_reject, name='claim_reject'),
