@@ -68,7 +68,7 @@
                     <div class="col-md-8">
                         <div class="card-body">
 
-                            <a href="{% url 'details:details' room.pk %}" target="_blank">
+                            <a href="{% url 'details:details' room.pk %}">
                                 <h5 class="card-title">{{ room.name }}</h5>
                             </a>
                             <p class="card-text">Стоимость: {{ room.payment_per_hour }} руб/час</p>

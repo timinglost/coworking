@@ -184,7 +184,7 @@ def get_available_seats(request, pk, start_date, end_date):
                             })
                             prev_date = rental_date
             seats_result = [_ for _ in seats_result if int(list(_.keys())[0]) > 0]
-            if len(seats_result) > 1 and prev_date + timedelta(hours=24-delta_hours) < end_date:
+            if len(seats_result) > 1 and prev_date + timedelta(hours=24 - delta_hours) < end_date:
                 current_start_date = prev_date + timedelta(hours=delta_hours)
                 current_end_date = end_date
                 seats_result.append({

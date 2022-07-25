@@ -121,6 +121,7 @@ def user_locations(request):
     }
     return render(request, 'userapp/user-locations.html', context)
 
+
 @login_required
 def user_favorites(request):
     title = 'ЛОКАЦИЯ | Избранное'

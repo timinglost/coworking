@@ -3,15 +3,16 @@ from django.shortcuts import render, HttpResponseRedirect, redirect
 from django.contrib import auth, messages
 from django.urls import reverse, reverse_lazy
 from django.views.generic.edit import CreateView, UpdateView
-from authapp.forms import UserRegisterForm, UserLoginForm
+from authapp.forms import UserRegisterForm, UserLoginForm, LandlordRegisterForm
 from django.contrib.auth.models import AbstractUser
-
 
 # ================================================================
 # =========================== Login ==============================
+from userapp.models import UserModel
+
 
 def login(request):
-    title = 'Pages / Login - NiceAdmin Bootstrap Template'
+    title = 'Авторизация'
 
     if request.method == "POST":
         form = UserLoginForm(data=request.POST)
@@ -51,14 +52,31 @@ def user_logout(request):
 
 # ================================================================
 
+def choose_type(request):
+    return render(request, 'authapp/choose_type.html')
+
+
 class UserRegisterView(CreateView):
-    model = AbstractUser
+    model = UserModel
     form_class = UserRegisterForm
-    template_name = 'authapp/pages-register.html'
+    template_name = 'authapp/user-register.html'
     success_url = reverse_lazy('auth:login')
     success_message = 'Пользователь успешно зарегистрирован.'
 
     def get_context_data(self, **kwargs):
         context = super(UserRegisterView, self).get_context_data(**kwargs)
-        context.update({'title': 'Pages / Register - NiceAdmin Bootstrap Template'})
+        context.update({'title': 'Регистрация пользователя'})
+        return context
+
+
+class LandlordRegisterView(CreateView):
+    model = UserModel
+    form_class = LandlordRegisterForm
+    template_name = 'authapp/landlord-register.html'
+    success_url = reverse_lazy('auth:login')
+    success_message = 'Арендодатель успешно зарегистрирован.'
+
+    def get_context_data(self, **kwargs):
+        context = super(LandlordRegisterView, self).get_context_data(**kwargs)
+        context.update({'title': 'Регистрация арендодателя'})
         return context

@@ -1,7 +1,7 @@
 from django.forms import ModelForm, CharField, PasswordInput, ClearableFileInput
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserChangeForm, PasswordChangeForm
-from userapp.models import UserModel, LandlordApplicationModel
+from userapp.models import UserModel
 from adminapp.models import Claim
 from django.core.exceptions import ValidationError
 
@@ -10,27 +10,17 @@ from django.core.exceptions import ValidationError
 
 class UserForm(ModelForm):
     first_name = forms.CharField(widget=forms.TextInput(
-        attrs={'type': "text",  'name': "first_name", 'class': "form-control", 'id': "firstName"}))
+        attrs={'type': "text", 'name': "first_name", 'class': "form-control", 'id': "firstName"}))
     last_name = forms.CharField(widget=forms.TextInput(
-        attrs={'type': "text",  'name': "last_name", 'class': "form-control", 'id': "lastName"}))
+        attrs={'type': "text", 'name': "last_name", 'class': "form-control", 'id': "lastName"}))
     about = forms.CharField(widget=forms.Textarea(
         attrs={'class': "form-control", 'name': "about", 'id': "about", 'style': "height: 100px"}))
-    company = forms.CharField(widget=forms.TextInput(
-        attrs={'type': "text",  'name': "company", 'class': "form-control", 'id': "company"}))
-    job_tittle = forms.CharField(widget=forms.TextInput(
-        attrs={'type': "text",  'name': "job_tittle", 'class': "form-control", 'id': "job_tittle"}))
-    country = forms.CharField(widget=forms.TextInput(
-        attrs={'type': "text",  'name': "country", 'class': "form-control", 'id': "country"}))
+    city = forms.CharField(widget=forms.TextInput(
+        attrs={'type': "text", 'name': "city", 'class': "form-control", 'id': "city"}))
     user_phone = forms.CharField(widget=forms.TextInput(
-        attrs={'type': "text",  'name': "user_phone", 'class': "form-control", 'id': "user_phone"}))
+        attrs={'type': "text", 'name': "user_phone", 'class': "form-control", 'id': "user_phone"}))
     email = forms.CharField(widget=forms.TextInput(
-        attrs={'type': "text",  'name': "email", 'class': "form-control", 'id': "email"}))
-    twitter = forms.CharField(widget=forms.TextInput(
-        attrs={'type': "text",  'name': "twitter", 'class': "form-control", 'id': "twitter"}))
-    vk = forms.CharField(widget=forms.TextInput(
-        attrs={'type': "text",  'name': "vk", 'class': "form-control", 'id': "vk"}))
-    instagram = forms.CharField(widget=forms.TextInput(
-        attrs={'type': "text",  'name': "instagram", 'class': "form-control", 'id': "instagram"}))
+        attrs={'type': "text", 'name': "email", 'class': "form-control", 'id': "email"}))
     avatar = forms.ImageField(required=False, widget=ClearableFileInput(
         attrs={'class': 'form-control', 'name': "avatar", 'id': 'formFile'}))
 
@@ -38,10 +28,8 @@ class UserForm(ModelForm):
         model = UserModel
         fields = (
             'first_name', 'last_name',
-            'country', 'user_phone', 'email',
-            'avatar', 'about', 'company', 'job_tittle',
-            'twitter', 'vk', 'instagram')
-
+            'city', 'user_phone', 'email',
+            'avatar', 'about')
 
     # def __int__(self, *args, **kwargs):
     #     super(UserForm, self).__int__(*args, **kwargs)
