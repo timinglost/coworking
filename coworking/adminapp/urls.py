@@ -47,6 +47,7 @@ urlpatterns = [
     path('offers-convenience/add/<int:pk_conv>', convenience_add, name='convenience_add'),
     path('offers-convenience-edit/<int:pk_conv>/<int:pk>/', convenience_edit, name='convenience_edit'),
     path('offers-convenience-delete/<int:pk_conv>/<int:pk>/', convenience_delete, name='convenience_delete'),
+    path('user-booking/', booking, name='booking'),
     # категории объявлений
     path('room-category/', room_category, name='room_category'),
     path('room-category-edit/<int:pk>', room_category_edit, name='room_category_edit'),
@@ -55,6 +56,7 @@ urlpatterns = [
     #пользователи
     path('users/', users, name='users'),
     path('users/active/<int:pk>', staff_edit, name='staff_edit'),
+    path('user/<int:pk>/', user, name='user'),
     #арендодатели
     path('landlords/', landlords, name='landlords'),
     path('landlords-history/', landlords_history, name='landlords_history'),
