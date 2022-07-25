@@ -168,11 +168,12 @@ function clearForm(oForm) {
 };
 
 const formElement = document.getElementById('citySearchForm'); // извлекаем элемент формы
+
 formElement.addEventListener('submit', (e) => {
   e.preventDefault();
   const formData = new FormData(formElement); // создаём объект FormData, передаём в него элемент формы
   // теперь можно извлечь данные
-  const newCity = formData.get('City');
+  const newCity = formData.get('city');
   var urlPathname = document.location.pathname;
   var searchOption = 'search/';
   if (urlPathname.indexOf(searchOption) === -1) {
@@ -180,7 +181,7 @@ formElement.addEventListener('submit', (e) => {
   }
 
   var searchParams = new URLSearchParams(document.location.search);
-  searchParams.set('City', newCity);
+  searchParams.set('city', newCity);
   window.history.replaceState({}, '', `${location.pathname}?${searchParams}`);
   location.reload()
 
@@ -212,7 +213,7 @@ mainFormElement.addEventListener('submit', (e) => {
 
 function ChangeURL(userCity) {
     var searchParams = new URLSearchParams(document.location.search);
-    searchParams.set('City', 'Москва');
+    searchParams.set('сity', 'Москва');
     var newPathname = '/offers/search/'
     window.history.replaceState({}, '', `${newPathname}?${searchParams}`);
     location.reload();

@@ -12,7 +12,7 @@
     <div class="search-bar">
         <form class="search-form d-flex align-items-center" id="citySearchForm" method="GET"
           action="{% url 'offers:search_results' %}">
-            <input type="city_name_text" name="City" placeholder="Город" class="form-control" id="suggest"
+            <input type="city_name_text" name="city" placeholder="Город" class="form-control" id="suggest"
                        value="{{ city|default:'' }}">
             <button type="submit" title="Search"><i class="bi bi-search"></i></button>
         </form>
