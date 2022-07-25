@@ -30,7 +30,7 @@
                 <tbody>
                 {% for claim in claim_landlords %}
                   <tr>
-                    <td><a class="nav-link collapsed" href="{% url 'admin_staff:landlord' claim.pk %}">
+                    <td><a class="nav-link collapsed" href="{% url 'admin_staff:landlord_history' claim.pk %}">
                         {{ claim.user_id.first_name }} {{ claim.user_id.last_name }}
                     </a></td>
                     <td>{{ claim.user_id.email }}</td>

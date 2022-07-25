@@ -25,6 +25,18 @@ def check_admin_staff(user):
 
 
 @user_passes_test(check_admin_staff)
+def landlord_history(request, pk):
+    title = 'Админка - Арендодалели'
+
+    claim_landlord = get_object_or_404(Claim, pk=pk)
+    context = {
+        'title': title,
+        'claim_landlord': claim_landlord
+    }
+    return render(request, 'adminapp/landlords/landlord-history.html', context)
+
+
+@user_passes_test(check_admin_staff)
 def criterion_delete(request, pk):
     criterion_item = get_object_or_404(RatingNames, pk=pk)
     criterion_item.delete()
