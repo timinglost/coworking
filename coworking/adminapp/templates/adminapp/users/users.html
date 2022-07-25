@@ -30,7 +30,9 @@
                 {% for users in all_users %}
                   <tr>
                     <th scope="row">{{ users.pk }}</th>
-                    <td>{{ users.first_name }}</td>
+                    <td><a class="nav-link collapsed" href="{% url 'admin_staff:user' users.pk %}">
+                            {{ users.first_name }}
+                        </a></td>
                       <td>{{ users.username }}</td>
 
                     <td>{{ users.email }}</td>
@@ -89,7 +91,9 @@
                 {% for users in staff_users %}
                   <tr>
                     <th scope="row">{{ users.pk }}</th>
-                    <td>{{ users.first_name }}</td>
+                    <td><a class="nav-link collapsed" href="{% url 'admin_staff:user' users.pk %}">
+                            {{ users.first_name }}
+                        </a></td>
                       <td>{{ users.username }}</td>
 
                     <td>{{ users.email }}</td>

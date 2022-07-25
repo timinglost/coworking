@@ -13,6 +13,7 @@ from userapp.models import UserModel
 from createapp.models import ConvenienceType, Convenience
 from adminapp.models import Claim
 from offersapp.views import get_offers, add_images_info
+from detailsapp.models import CurrentRentals
 
 
 
@@ -22,6 +23,30 @@ def check_admin(user):
 
 def check_admin_staff(user):
     return user.is_staff
+
+
+@user_passes_test(check_admin)
+def user(request, pk):
+    title = 'Админка - Пользователь'
+
+    this_user = get_object_or_404(UserModel, pk=pk)
+
+    context = {
+        'title': title,
+        'this_user': this_user
+    }
+    return render(request, 'adminapp/users/user.html', context)
+
+
+@user_passes_test(check_admin_staff)
+def booking(request):
+    title = 'Админка - Истории бронирований'
+    user_booking = CurrentRentals.objects.all()
+    context = {
+        'title': title,
+        'user_booking': user_booking
+    }
+    return render(request, 'adminapp/offers/booking.html', context)
 
 
 @user_passes_test(check_admin_staff)
