@@ -223,3 +223,26 @@ function ChangeURL(userCity) {
 function updateTextInput(val) {
           document.getElementById('textInput').value=val;
         };
+
+
+const collapsedConv = document.querySelectorAll('.collapse')
+const collapseCountSpan = document.getElementById('collapse_conv_count')
+collapseCountSpan.innerText=collapsedConv.length
+
+const collapsedBtn = document.querySelector('.collapsed')
+
+collapsedBtn.addEventListener('click', function(event){
+    if (collapsedBtn.innerText === 'Скрыть'){
+        collapsedBtn.innerText = `Показать еще ${collapsedConv.length}`
+    }
+    else {
+        collapsedBtn.innerText = 'Скрыть'
+    };
+});
+
+
+const cardBody = document.querySelectorAll('.card-body')
+cardBody.forEach(
+console.log('1')
+)
+

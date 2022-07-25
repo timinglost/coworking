@@ -60,10 +60,14 @@
         <div class="col-md-12">
             <legend class="col-form-label col-sm-2 pt-0"><strong>Предлагаемые&nbspудобства</strong></legend>
 
-<!--            {% if forloop.counter0 > 5 %}collapse{% endif %}-->
-            <div class="col-sm-10" id="conv_collapse">
+            <!--            {% if forloop.counter0 > 5 %}collapse{% endif %}-->
+            <div class="col-sm-10">
                 {% for conv in conveniences_list %}
-                <div class="form-check" id="conv">
+                <div class="{% if forloop.counter0 < 4 %}form-check
+                            {% else %}form-check collapse{% endif %}"
+                     id="{% if forloop.counter0 < 4 %}conv
+                            {% else %}conv_collapse{% endif %}">
+
                     <input class="form-check-input"
                            type="checkbox"
                            id="{{ conv.name }}"
@@ -79,9 +83,12 @@
                     </label>
                 </div>
                 {% endfor %}
+                <a data-bs-toggle="collapse" href="#conv_collapse" role="button" aria-expanded="false"
+                   aria-controls="conv_collapse" class="collapsed">
+                    Показать ещё <span id="collapse_conv_count"></span>
+                </a>
             </div>
         </div>
-
 
         <div class="text-center">
             <button type="submit" class="btn btn-primary">Поиск</button>
