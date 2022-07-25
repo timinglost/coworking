@@ -198,7 +198,7 @@ class SearchResultsView(ListView):
 
         # отфильтруем помещения по городу и стоимости за час
         rooms_filtered_by_city_and_price = Room.objects.filter(
-           # Q(is_active=True),
+            Q(is_active=True),
             Q(address__city__icontains=city),
             Q(payment_per_hour__gte=min_price),
             Q(payment_per_hour__lte=max_price)
