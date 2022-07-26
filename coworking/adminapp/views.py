@@ -16,8 +16,6 @@ from offersapp.views import get_offers
 from detailsapp.models import CurrentRentals, CompletedRentals
 
 
-
-
 def check_admin(user):
     return user.is_superuser
 
@@ -51,8 +49,17 @@ def user(request, pk):
 @user_passes_test(check_admin_staff)
 def booking(request):
     title = 'Админка - Истории бронирований'
-    user_booking = CurrentRentals.objects.all()
-    user_booking_completed = CompletedRentals.objects.all()
+
+    if request.method == 'POST':
+        start = request.POST.get('start_date')
+        end = request.POST.get('end_date')
+        user_booking = CurrentRentals.objects.filter(start_date__range=[start, end]).filter(
+            end_date__range=[start, end])
+        user_booking_completed = CompletedRentals.objects.filter(start_date__range=[start, end]).filter(
+            end_date__range=[start, end])
+    else:
+        user_booking = CurrentRentals.objects.all()
+        user_booking_completed = CompletedRentals.objects.all()
     context = {
         'title': title,
         'user_booking': user_booking,
@@ -183,6 +190,7 @@ def landlords_history(request):
         'claim_landlords': claim_landlords
     }
     return render(request, 'adminapp/landlords/landlords-history.html', context)
+
 
 @user_passes_test(check_admin_staff)
 def convenience_delete(request, pk_conv, pk):

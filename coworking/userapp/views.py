@@ -66,8 +66,18 @@ def get_user_favorites_offers(user):
 @login_required
 def booking_history(request):
     title = 'Админка - Истории бронирований'
-    user_booking = CurrentRentals.objects.filter(offer__room_owner=request.user)
-    user_booking_completed = CompletedRentals.objects.filter(offer__room_owner=request.user)
+    if request.method == 'POST':
+        start = request.POST.get('start_date')
+        end = request.POST.get('end_date')
+        user_booking = CurrentRentals.objects.filter(offer__room_owner=request.user).filter(
+            start_date__range=[start, end]).filter(
+            end_date__range=[start, end])
+        user_booking_completed = CompletedRentals.objects.filter(offer__room_owner=request.user).filter(
+            start_date__range=[start, end]).filter(
+            end_date__range=[start, end])
+    else:
+        user_booking = CurrentRentals.objects.filter(offer__room_owner=request.user)
+        user_booking_completed = CompletedRentals.objects.filter(offer__room_owner=request.user)
     context = {
         'title': title,
         'user_booking': user_booking,
