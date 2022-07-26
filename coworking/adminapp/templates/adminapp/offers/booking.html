@@ -9,6 +9,23 @@
   {% include 'adminapp/includes/inc_sidebar.html' %}
 
   <main id="main" class="main">
+      <section class="section">
+      <div class="row">
+        <div class="col-lg-6">
+            <div class="card">
+            <div class="card-body">
+                <form action="" method="post">
+                    {% csrf_token %}
+
+                    <label for="inputStartDate" class="col-sm-2 col-form-label">С (включая):</label>
+                      <input type="date" name="start_date" id="dateIn" class="form-control" placeholder="Дата" required>
+
+                    <label for="inputEndDate" class="col-sm-2 col-form-label">По (не включая):</label>
+
+                      <input type="date" name="end_date" id="dateIn" class="form-control" placeholder="Дата" required>
+                  <button type="submit" class="btn btn-primary">Поиск</button>
+                </form>
+        </div></div></div></div></section>
       <div class="row">
 
           <div class="card">
