@@ -6,7 +6,7 @@
   {% include 'userapp/includes/inc_header.html' %}
 
   <!-- ======= Sidebar ======= -->
-  {% include 'adminapp/includes/inc_sidebar.html' %}
+  {% include 'userapp/includes/inc_sidebar.html' %}
 
   <main id="main" class="main">
       <div class="row">
@@ -33,7 +33,7 @@
                   <tr>
                     <th scope="row">{{ booking.pk }}</th>
                     <td>
-                        <a class="nav-link collapsed" href="{% url 'admin_staff:user' booking.user.pk %}">
+                        <a class="nav-link collapsed" href="{% url 'user:users' booking.user.pk %}">
                             {{ booking.user.get_full_name }}
                         </a>
                     </td>
@@ -78,7 +78,7 @@
                   <tr>
                     <th scope="row">{{ booking.pk }}</th>
                     <td>
-                        <a class="nav-link collapsed" href="{% url 'admin_staff:user' booking.user.pk %}">
+                        <a class="nav-link collapsed" href="{% url 'user:users' booking.user.pk %}">
                             {{ booking.user.get_full_name }}
                         </a>
                     </td>
