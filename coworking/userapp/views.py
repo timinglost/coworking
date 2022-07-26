@@ -25,6 +25,19 @@ from django.db import transaction
 
 
 @login_required
+def users(request, pk):
+    title = 'Админка - Пользователь'
+
+    this_user = get_object_or_404(UserModel, pk=pk)
+
+    context = {
+        'title': title,
+        'this_user': this_user
+    }
+    return render(request, 'userapp/users.html', context)
+
+
+@login_required
 def user(request):
     title = 'ЛОКАЦИЯ | Личный кабинет'
 
@@ -48,6 +61,19 @@ def get_user_completed_rentals(user):
 
 def get_user_favorites_offers(user):
     return Favorites.objects.filter(user=user)
+
+
+@login_required
+def booking_history(request):
+    title = 'Админка - Истории бронирований'
+    user_booking = CurrentRentals.objects.filter(offer__room_owner=request.user)
+    user_booking_completed = CompletedRentals.objects.filter(offer__room_owner=request.user)
+    context = {
+        'title': title,
+        'user_booking': user_booking,
+        'user_booking_completed': user_booking_completed
+    }
+    return render(request, 'userapp/booking-history.html', context)
 
 
 @login_required

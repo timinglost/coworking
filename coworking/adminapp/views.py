@@ -13,7 +13,8 @@ from userapp.models import UserModel
 from createapp.models import ConvenienceType, Convenience
 from adminapp.models import Claim
 from offersapp.views import get_offers
-from detailsapp.models import CurrentRentals
+from detailsapp.models import CurrentRentals, CompletedRentals
+
 
 
 
@@ -51,9 +52,11 @@ def user(request, pk):
 def booking(request):
     title = 'Админка - Истории бронирований'
     user_booking = CurrentRentals.objects.all()
+    user_booking_completed = CompletedRentals.objects.all()
     context = {
         'title': title,
-        'user_booking': user_booking
+        'user_booking': user_booking,
+        'user_booking_completed': user_booking_completed
     }
     return render(request, 'adminapp/offers/booking.html', context)
 
