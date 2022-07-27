@@ -1,6 +1,5 @@
 from django.conf import settings
 from django.conf.urls.static import static
-from django.contrib import admin
 from django.urls import path
 
 from detailsapp.views import show_details, create_rental, add_favorite, send_review, get_available_seats
