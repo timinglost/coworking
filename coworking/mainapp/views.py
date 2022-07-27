@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 
 from createapp.models import Room, OfferImages
+from detailsapp.models import OffersRatings
 from mainapp.forms import SearchMainForm
 
 
@@ -13,7 +14,7 @@ def main(request):
         form = SearchMainForm(data=request.GET)
     else:
         form = SearchMainForm()
-    rooms = list(Room.objects.all()[:3])
+    rooms = list(map(lambda it: it.offer, OffersRatings.objects.order_by('summary_rating')[:3]))
     offer_images = OfferImages.objects.filter(room__in=rooms)
     context = {
         'title': title,
