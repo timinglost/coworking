@@ -4,6 +4,7 @@ import pytz
 from django.conf import settings
 from datetime import datetime, timedelta
 
+from django.contrib.auth.decorators import login_required
 from django.db.models import Avg
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, HttpResponseRedirect
@@ -293,11 +294,12 @@ def show_details(request, pk):
         return render(request, 'detailsapp/error.html')
 
 
+@login_required
 def create_rental(request, pk):
     offer = get_object_or_404(Room, pk=pk)
-    start_date = datetime.strptime(f"{request.POST['start_date'] + ' ' + str(offer.start_working_hours)}",
+    start_date = datetime.strptime(f"{request.POST['date-from'] + ' ' + str(offer.start_working_hours)}",
                                    "%Y-%m-%d %H:%M:%S")
-    end_date = datetime.strptime(f"{request.POST['end_date'] + ' ' + str(offer.end_working_hours)}",
+    end_date = datetime.strptime(f"{request.POST['date-to'] + ' ' + str(offer.end_working_hours)}",
                                  "%Y-%m-%d %H:%M:%S")
     working_hours = int((end_date - start_date).days * int((end_date - start_date).seconds / 3600) +
                         int((end_date - start_date).seconds / 3600))

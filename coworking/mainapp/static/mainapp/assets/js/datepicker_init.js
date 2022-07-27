@@ -1,22 +1,31 @@
-$(document).ready(() => {
+function initDatePicker(config){
+    config = config ?? {};
+    const format = config.format ?? 'DD/MM/YYYY';
+    const inputId = config.inputId ?? 'date-range';
+    const fromId = config.fromId ?? 'date-from';
+    const toId = config.toId ?? 'date-to';
 
-    const initialStart = moment().startOf('day');
-    const initialEnd = moment().startOf('day').add(8, 'day');
+    $(document).ready(() => {
 
-    const onDateSelected = (start, end, label) => {
-        $('#date-from').val(start.format('DD/MM/YYYY'));
-        $('#date-to').val(end.format('DD/MM/YYYY'));
-    };
+        const initialStart = moment().startOf('day');
+        const initialEnd = moment().startOf('day').add(8, 'day');
 
-    onDateSelected(initialStart, initialEnd);
+        const onDateSelected = (start, end, label) => {
+            $('#' + fromId).val(start.format(format));
+            $('#' + toId).val(end.format(format));
+        };
 
-    $('#date-range').daterangepicker({
-        opens: 'left',
-        minDate: moment().startOf('day'),
-        startDate: initialStart,
-        endDate: initialEnd,
-         locale: {
-          format: 'DD/MM/YYYY'
-        }
-    }, onDateSelected);
-});
+        onDateSelected(initialStart, initialEnd);
+
+        $('#' + inputId).daterangepicker({
+            opens: 'left',
+            minDate: moment().startOf('day'),
+            startDate: initialStart,
+            endDate: initialEnd,
+             locale: {
+              format: format
+            }
+        }, onDateSelected);
+    });
+}
+
