@@ -22,8 +22,10 @@
                                                     </div>
                                                 </div>
                                                 <div class="port_caption m-top-20">
-                                                    <h5>{{ offer_image.room.name }}</h5>
-                                                    <h6>{{ offer_image.room.address.city }}</h6>
+                                                     <a href="{% url 'details:details' offer_image.room.pk %}" target="_blank">
+                                                        <h5>{{ offer_image.room.name }}</h5>
+                                                        <h6>{{ offer_image.room.address.city }}</h6>
+                                                     </a>
                                                 </div>
                                             </div>
                                         </div>
