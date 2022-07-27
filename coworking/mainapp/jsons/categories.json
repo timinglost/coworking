@@ -1,0 +1,29 @@
+[
+  {
+   "name": "Open space",
+    "created_at": "2022-07-27T20:52:07.718Z",
+    "updated_at": "2022-07-27T20:52:07.718Z"
+
+
+  },
+  {
+   "name": "Office",
+    "created_at": "2022-07-27T20:52:07.718Z",
+    "updated_at": "2022-07-27T20:52:07.718Z"
+       },
+  {
+   "name": "Private office",
+    "created_at": "2022-07-27T20:52:07.718Z",
+    "updated_at": "2022-07-27T20:52:07.718Z"
+      },
+  {
+    "name": "Conference room",
+    "created_at": "2022-07-27T20:52:07.718Z",
+    "updated_at": "2022-07-27T20:52:07.718Z"
+     },
+  {
+   "name": "Video studio",
+    "created_at": "2022-07-27T20:52:07.718Z",
+    "updated_at": "2022-07-27T20:52:07.718Z"
+    }
+]
