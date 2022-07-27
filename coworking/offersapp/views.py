@@ -192,6 +192,9 @@ class SearchResultsView(ListView):
         min_price = self.request.GET.get('min_price')
         max_price = self.request.GET.get('max_price')
 
+        date_from = self.request.GET.get('date_from')
+        date_to = self.request.GET.get('date_to')
+
         rating = int(rating) if rating else 0
         min_price = int(min_price) if min_price else 0
         max_price = int(max_price) if max_price else 10 ** 9
