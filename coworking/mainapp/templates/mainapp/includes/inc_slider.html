@@ -15,19 +15,20 @@
                             <div class="item active">
                                 <div class="container">
                                     <div class="row">
-                                        {% for offer_image in offer_images %}
+                                        {% for room, data in room_data.items %}
                                         <div class="col-sm-4">
                                             <div class="port_item xs-m-top-30">
                                                 <div class="port_img">
-                                                    <img src="{{ offer_image.image.url }}" alt="" />
+                                                    <img src="{{ data.image.url }}" alt="" />
                                                     <div class="port_overlay text-center">
-                                                        <a href="{{ offer_image.image.url }}" class="popup-img">+</a>
+                                                        <a href="{{ data.image.url }}" class="popup-img">+</a>
                                                     </div>
                                                 </div>
                                                 <div class="port_caption m-top-20">
-                                                     <a href="{% url 'details:details' offer_image.room.pk %}" target="_blank">
-                                                        <h5>{{ offer_image.room.name }}</h5>
-                                                        <h6>{{ offer_image.room.address.city }}</h6>
+                                                     <a href="{% url 'details:details' room.pk %}" target="_blank">
+                                                        <h5>{{ room.name }}</h5>
+                                                        <h6>{{ room.address.city }}</h6>
+                                                         <h5> Рейтинг <strong>{{ data.rating }}</strong></h5>
                                                      </a>
                                                 </div>
                                             </div>
