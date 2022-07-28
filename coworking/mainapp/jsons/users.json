@@ -1,11 +1,24 @@
 [
   {
-    "avatar":"authapp/media/users_avatar",
-    "city":"Moscow",
-    "about":"Арендодатель",
-    "user_phone":"89152369809",
-    "is_landlord":"True",
-     "created_at": "2022-07-27T20:52:07.718Z",
-    "updated_at": "2022-07-27T20:52:07.718Z"
+   "pk": 1,
+      "password": "pbkdf2_sha256$320000$OrEZpDDXKr7GkDvYfUrIXd$H+zDHMYG2FxyJzUMJvKaNNkrzMZ5R2KtHvWyyTx4sIk=",
+      "last_login": "2022-07-28T14:37:30.349Z",
+      "is_superuser": false,
+      "username": "NataliZ",
+      "first_name": "Natali",
+      "last_name": "Zhivlova",
+      "email": "NataZhivlova2@yandex.ru",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-07-28T14:37:23.850Z",
+      "avatar": "",
+      "city": "Moscow",
+      "about": "-",
+      "user_phone": "89197772682",
+      "is_landlord": true,
+      "created_at": "2022-07-28T14:37:25.506Z",
+      "updated_at": "2022-07-28T14:37:25.506Z",
+      "groups": [],
+      "user_permissions": []
   }
 ]
