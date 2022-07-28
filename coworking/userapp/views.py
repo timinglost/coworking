@@ -138,7 +138,7 @@ def change_ad(request, pk):
             )
 
     context = {
-        'title': 'Добавить новое объявление',
+        'title': 'Обновить объявление',
         'form': form,
         'conv_types': conv_types,
         'conveniences': conveniences,

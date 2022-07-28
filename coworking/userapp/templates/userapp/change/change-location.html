@@ -126,6 +126,14 @@
                             <div id="map" class="map"></div>
                             {% include 'mainapp/includes/inc_yandex_map.html' %}
                             <script src="{% static 'mainapp/assets/js/create_ad_script.js' %}"></script>
+                            <script>
+<!--                                var adr = {{ this_address }};-->
+                                    var adr = 'Москва ул. 1-й Красногвардейский проезд, 21с1';
+                                    function adAddress() {
+                                        $('#address').val(adr);
+                                    };
+                                    setTimeout(adAddress, 2000);
+                            </script>
 
 
                             <div id="amenities">
@@ -151,7 +159,6 @@
     var arr = {{ this_conv|safe }};
     var elm = document.querySelectorAll('.amenity-clickable');
     elm.forEach(function(item, i, elm) {
-    console.log(item.getAttribute('convid'));
     if (arr.includes(Number(item.getAttribute('convid')))) {
         item.click();
     };
