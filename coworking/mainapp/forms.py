@@ -7,10 +7,6 @@ class SearchMainForm(Form):
                            required=True,
                            widget=TextInput(attrs={'id': 'suggest', 'class': 'form-control',
                                                    'placeholder': 'Город'}))
-    date = forms.CharField(label="Даты",
-                           required=False,
-                           widget=TextInput(attrs={'id': 'date-range', 'class': 'form-control',
-                                                   'placeholder': 'Даты'}))
 
     date_from = forms.CharField(required=False, widget=forms.HiddenInput(attrs={'id': 'date-from'}))
     date_to = forms.CharField(required=False, widget=forms.HiddenInput(attrs={'id': 'date-to'}))
