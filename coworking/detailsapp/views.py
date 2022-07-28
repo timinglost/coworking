@@ -4,6 +4,7 @@ import pytz
 from django.conf import settings
 from datetime import datetime, timedelta
 
+from django.contrib.auth.decorators import login_required
 from django.db.models import Avg
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, HttpResponseRedirect
@@ -282,9 +283,11 @@ def show_details(request, pk):
         context['rating_dict'] = rating_dict
         context['reviews'] = reviews
         context['sum_rating'] = sum_rating
-        if 'user/bookings' in request.META.get('HTTP_REFERER') or \
-                'user/locations' in request.META.get('HTTP_REFERER') or \
-                'admin' in request.META.get('HTTP_REFERER'):
+        context['in_fav'] = Favorites.objects.filter(user=request.user, offer__pk=pk).exists()
+        refs = request.META.get('HTTP_REFERER', '')
+        if 'user/bookings' in refs or \
+                'user/locations' in refs or \
+                'admin' in refs:
             context['show'] = False
         else:
             context['show'] = True
@@ -293,11 +296,12 @@ def show_details(request, pk):
         return render(request, 'detailsapp/error.html')
 
 
+@login_required()
 def create_rental(request, pk):
     offer = get_object_or_404(Room, pk=pk)
-    start_date = datetime.strptime(f"{request.POST['start_date'] + ' ' + str(offer.start_working_hours)}",
+    start_date = datetime.strptime(f"{request.POST['date-from'] + ' ' + str(offer.start_working_hours)}",
                                    "%Y-%m-%d %H:%M:%S")
-    end_date = datetime.strptime(f"{request.POST['end_date'] + ' ' + str(offer.end_working_hours)}",
+    end_date = datetime.strptime(f"{request.POST['date-to'] + ' ' + str(offer.end_working_hours)}",
                                  "%Y-%m-%d %H:%M:%S")
     working_hours = int((end_date - start_date).days * int((end_date - start_date).seconds / 3600) +
                         int((end_date - start_date).seconds / 3600))
@@ -365,7 +369,17 @@ def send_review(request, pk):
         return render(request, 'detailsapp/offer_feedback.html', context=context)
 
 
+@login_required()
 def add_favorite(request, pk):
-    favorite_offer = Favorites(user=request.user, offer=get_object_or_404(Room, pk=pk))
-    favorite_offer.save()
+    obj, created = Favorites.objects.get_or_create(user=request.user, offer=get_object_or_404(Room, pk=pk))
+    if created:
+        obj.save()
+    return HttpResponseRedirect(reverse('user:favorites'))
+
+
+@login_required()
+def del_favorite(request, pk):
+    favorites = Favorites.objects.filter(user=request.user, offer__pk=pk)
+    for fav in favorites:
+        fav.delete()
     return HttpResponseRedirect(reverse('user:favorites'))

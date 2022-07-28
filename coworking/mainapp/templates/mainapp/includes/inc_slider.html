@@ -1,4 +1,7 @@
 {% load static %}
+<script type="text/javascript">
+    initDatePicker();
+</script>
 <section id="product" class="product text-center">
             <div class="container">
                 <div class="main_product roomy-80">
@@ -22,8 +25,10 @@
                                                     </div>
                                                 </div>
                                                 <div class="port_caption m-top-20">
-                                                    <h5>{{ offer_image.room.name }}</h5>
-                                                    <h6>{{ offer_image.room.address.city }}</h6>
+                                                     <a href="{% url 'details:details' offer_image.room.pk %}" target="_blank">
+                                                        <h5>{{ offer_image.room.name }}</h5>
+                                                        <h6>{{ offer_image.room.address.city }}</h6>
+                                                     </a>
                                                 </div>
                                             </div>
                                         </div>
