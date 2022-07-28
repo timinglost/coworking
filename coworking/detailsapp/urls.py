@@ -10,7 +10,7 @@ urlpatterns = [
     path('del_fav/<int:pk>/', del_favorite, name='del_favorite'),
     path('new_rent/<int:pk>/', create_rental, name='create_rental'),
     path('review/<int:pk>/', send_review, name='send_review'),
-    path('<int:pk>/<str:start_date>/<str:end_date>/',
+    path('<int:pk>/<str:start_date>/<str:end_date>/<int:seats>/',
          get_available_seats, name='get_seats')
 ]
 

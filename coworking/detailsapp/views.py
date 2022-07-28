@@ -63,7 +63,7 @@ def check_start_time(current_time, start_time):
         return False
 
 
-def get_available_seats(request, pk, start_date, end_date):
+def get_available_seats(request, pk, start_date, end_date, seats):
     if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
         offer = get_active_offer(pk=pk)
         start_date = datetime.strptime(start_date + ' ' + str(offer.start_working_hours), "%Y-%m-%d %H:%M:%S").replace(
@@ -104,41 +104,65 @@ def get_available_seats(request, pk, start_date, end_date):
                                 continue
                             current_end_date = rental_date[0] + timedelta(hours=-delta_hours)
                             current_start_date = prev_date
-                            seats_result.append({
-                                f'{offer.seats_number - sum([_.seats for _ in rentals if datetime_in_range(start_date=current_start_date, end_date=current_end_date, current_start_date=_.start_date, current_end_date=_.end_date)])}': {
-                                    'start_date': current_start_date,
-                                    'end_date': current_end_date}
-                            })
+                            available_seats = offer.seats_number - sum([_.seats for _ in rentals if
+                                                                        datetime_in_range(start_date=current_start_date,
+                                                                                          end_date=current_end_date,
+                                                                                          current_start_date=_.start_date,
+                                                                                          current_end_date=_.end_date)])
+                            if available_seats >= seats:
+                                seats_result.append({
+                                    f'{seats}': {
+                                        'start_date': current_start_date,
+                                        'end_date': current_end_date}
+                                })
                             prev_date = rental_date[0]
                         else:
                             current_start_date = prev_date + timedelta(hours=delta_hours)
                             if current_start_date == rental_date[0]:
                                 continue
                             current_end_date = rental_date[0] + timedelta(hours=-delta_hours)
-                            seats_result.append({
-                                f'{offer.seats_number - sum([_.seats for _ in rentals if datetime_in_range(end_date=current_end_date, start_date=current_start_date, current_start_date=_.start_date, current_end_date=_.end_date)])}': {
-                                    'start_date': current_start_date,
-                                    'end_date': current_end_date}
-                            })
+                            available_seats = offer.seats_number - sum([_.seats for _ in rentals if
+                                                                        datetime_in_range(start_date=current_start_date,
+                                                                                          end_date=current_end_date,
+                                                                                          current_start_date=_.start_date,
+                                                                                          current_end_date=_.end_date)])
+                            if available_seats >= seats:
+                                seats_result.append({
+                                    f'{seats}': {
+                                        'start_date': current_start_date,
+                                        'end_date': current_end_date}
+                                })
                             prev_date = rental_date[0]
                     else:
                         if check_start_time(current_time=prev_date, start_time=str(offer.start_working_hours)):
                             current_start_date = prev_date
                             current_end_date = rental_date[0]
-                            seats_result.append({
-                                f'{offer.seats_number - sum([_.seats for _ in rentals if datetime_in_range(end_date=current_end_date, start_date=current_start_date, current_start_date=_.start_date, current_end_date=_.end_date)])}': {
-                                    'start_date': current_start_date,
-                                    'end_date': current_end_date}
-                            })
+                            available_seats = offer.seats_number - sum([_.seats for _ in rentals if
+                                                                        datetime_in_range(start_date=current_start_date,
+                                                                                          end_date=current_end_date,
+                                                                                          current_start_date=_.start_date,
+                                                                                          current_end_date=_.end_date)])
+                            if available_seats >= seats:
+                                seats_result.append({
+                                    f'{seats}': {
+                                        'start_date': current_start_date,
+                                        'end_date': current_end_date}
+                                })
                             prev_date = rental_date[0]
                         else:
                             current_start_date = prev_date + timedelta(hours=delta_hours)
                             current_end_date = rental_date[0]
-                            seats_result.append({
-                                f'{offer.seats_number - sum([_.seats for _ in rentals if datetime_in_range(end_date=current_end_date, start_date=current_start_date, current_start_date=_.start_date, current_end_date=_.end_date)])}': {
-                                    'start_date': current_start_date,
-                                    'end_date': current_end_date}
-                            })
+                            available_seats = offer.seats_number - sum([_.seats for _ in rentals if
+                                                                        datetime_in_range(start_date=current_start_date,
+                                                                                          end_date=current_end_date,
+                                                                                          current_start_date=_.start_date,
+                                                                                          current_end_date=_.end_date)])
+                            if available_seats >= seats:
+                                seats_result.append({
+                                    f'{seats}': {
+                                        'start_date': current_start_date,
+                                        'end_date': current_end_date}
+                                })
                             prev_date = rental_date[0]
                 else:
                     if check_start_time(current_time=rental_date, start_time=str(offer.start_working_hours)):
@@ -148,51 +172,81 @@ def get_available_seats(request, pk, start_date, end_date):
                                 continue
                             current_end_date = rental_date + timedelta(hours=-delta_hours)
                             current_start_date = prev_date
-                            seats_result.append({
-                                f'{offer.seats_number - sum([_.seats for _ in rentals if datetime_in_range(end_date=current_end_date, start_date=current_start_date, current_start_date=_.start_date, current_end_date=_.end_date)])}': {
-                                    'start_date': current_start_date,
-                                    'end_date': current_end_date}
-                            })
+                            available_seats = offer.seats_number - sum([_.seats for _ in rentals if
+                                                                        datetime_in_range(start_date=current_start_date,
+                                                                                          end_date=current_end_date,
+                                                                                          current_start_date=_.start_date,
+                                                                                          current_end_date=_.end_date)])
+                            if available_seats >= seats:
+                                seats_result.append({
+                                    f'{seats}': {
+                                        'start_date': current_start_date,
+                                        'end_date': current_end_date}
+                                })
                             prev_date = rental_date
                         else:
                             current_start_date = prev_date + timedelta(hours=delta_hours)
                             if current_start_date == rental_date:
                                 continue
                             current_end_date = rental_date + timedelta(hours=-delta_hours)
-                            seats_result.append({
-                                f'{offer.seats_number - sum([_.seats for _ in rentals if datetime_in_range(end_date=current_end_date, start_date=current_start_date, current_start_date=_.start_date, current_end_date=_.end_date)])}': {
-                                    'start_date': current_start_date,
-                                    'end_date': current_end_date}
-                            })
+                            available_seats = offer.seats_number - sum([_.seats for _ in rentals if
+                                                                        datetime_in_range(start_date=current_start_date,
+                                                                                          end_date=current_end_date,
+                                                                                          current_start_date=_.start_date,
+                                                                                          current_end_date=_.end_date)])
+                            if available_seats >= seats:
+                                seats_result.append({
+                                    f'{seats}': {
+                                        'start_date': current_start_date,
+                                        'end_date': current_end_date}
+                                })
                             prev_date = rental_date
                     else:
                         if check_start_time(current_time=prev_date, start_time=str(offer.start_working_hours)):
                             current_start_date = prev_date
                             current_end_date = rental_date
-                            seats_result.append({
-                                f'{offer.seats_number - sum([_.seats for _ in rentals if datetime_in_range(end_date=current_end_date, start_date=current_start_date, current_start_date=_.start_date, current_end_date=_.end_date)])}': {
-                                    'start_date': current_start_date,
-                                    'end_date': current_end_date}
-                            })
+                            available_seats = offer.seats_number - sum([_.seats for _ in rentals if
+                                                                        datetime_in_range(start_date=current_start_date,
+                                                                                          end_date=current_end_date,
+                                                                                          current_start_date=_.start_date,
+                                                                                          current_end_date=_.end_date)])
+                            if available_seats >= seats:
+                                seats_result.append({
+                                    f'{seats}': {
+                                        'start_date': current_start_date,
+                                        'end_date': current_end_date}
+                                })
                             prev_date = rental_date
                         else:
                             current_start_date = prev_date + timedelta(hours=delta_hours)
                             current_end_date = rental_date
-                            seats_result.append({
-                                f'{offer.seats_number - sum([_.seats for _ in rentals if datetime_in_range(end_date=current_end_date, start_date=current_start_date, current_start_date=_.start_date, current_end_date=_.end_date)])}': {
-                                    'start_date': current_start_date,
-                                    'end_date': current_end_date}
-                            })
+                            available_seats = offer.seats_number - sum([_.seats for _ in rentals if
+                                                                        datetime_in_range(start_date=current_start_date,
+                                                                                          end_date=current_end_date,
+                                                                                          current_start_date=_.start_date,
+                                                                                          current_end_date=_.end_date)])
+                            if available_seats >= seats:
+                                seats_result.append({
+                                    f'{seats}': {
+                                        'start_date': current_start_date,
+                                        'end_date': current_end_date}
+                                })
                             prev_date = rental_date
             seats_result = [_ for _ in seats_result if int(list(_.keys())[0]) > 0]
             if len(seats_result) > 1 and prev_date + timedelta(hours=24 - delta_hours) < end_date:
                 current_start_date = prev_date + timedelta(hours=delta_hours)
                 current_end_date = end_date
-                seats_result.append({
-                    f'{offer.seats_number - sum([_.seats for _ in rentals if datetime_in_range(end_date=current_end_date, start_date=current_start_date, current_start_date=_.start_date, current_end_date=_.end_date)])}': {
-                        'start_date': current_start_date,
-                        'end_date': current_end_date}
-                })
+                available_seats = offer.seats_number - sum([_.seats for _ in rentals if
+                                                            datetime_in_range(start_date=current_start_date,
+                                                                              end_date=current_end_date,
+                                                                              current_start_date=_.start_date,
+                                                                              current_end_date=_.end_date)])
+                if available_seats >= seats:
+                    seats_result.append({
+                        f'{seats}': {
+                            'start_date': current_start_date,
+                            'end_date': current_end_date}
+                    })
             new_result = []
             prev_seats = 0
             prev_end_date = seats_result[0][list(seats_result[0].keys())[0]]["end_date"]

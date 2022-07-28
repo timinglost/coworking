@@ -7,16 +7,27 @@
 
 </script>
 <form class="date-form" action="{% url 'details:create_rental' offer.pk %}" method="post">
-    <div style="display: flex; flex-direction: column; gap: 2rem; justify-content: center; align-items: left; ">
+    <div style="display: flex; flex-direction: column; gap: 0.5rem; justify-content: center; align-items: stretch; ">
         {% csrf_token %}
         <div class="dates" style="display: flex; align-items: left; justify-content: left;">
             <label for="date-range">Выберите даты:</label>
-            <input type="text" class="form-control" id="date-range" style="max-width: 200px; border-radius: 5px">
+            <input type="text" class="form-control" id="date-range" style="border-radius: 5px">
         </div>
-        {% include 'detailsapp/includes/inc_seats.html' %}
+        <div style="display: flex; gap: 1rem; margin-right: 5px;">
+            <label for="select_seats">Выберите, сколько нужно мест:</label>
+            <select class="form-select select-seats" aria-label="Default select example" id="select_seats" name="seats">
+                <option disabled selected value> Выберите кол-во мест</option>
+                {% for seat in seats_number %}
+                <option value="{{seat}}">{{seat}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-peoples hidden">
+            {% include 'detailsapp/includes/inc_seats.html' %}
+        </div>
         <p style="margin: 5px; font-size: 1.5rem;">Цена: {{offer.payment_per_hour}} руб/ч</p>
         {% if user.is_authenticated %}
-        <button type="submit" class="btn btn-primary date-btn">Принять</button>
+        <button type="submit" class="btn btn-primary date-btn hidden">Принять</button>
         <p class="form-desc">Выберите необходимые даты и кол-во человек</p>
         {% else %}
         <p class="form-desc">Для оформления заявки необходимо авторизоваться\зарегистрироваться</p>
