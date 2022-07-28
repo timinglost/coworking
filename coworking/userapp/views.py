@@ -64,6 +64,78 @@ def get_user_favorites_offers(user):
 
 
 @login_required
+@transaction.atomic
+def change_ad(request, pk):
+    this_room = get_object_or_404(Room, pk=pk)
+    this_conv_room = ConvenienceRoom.objects.filter(room_id=this_room.pk)
+    this_conv = []
+    for conv in this_conv_room:
+        conv_el = get_object_or_404(Convenience, pk=conv.convenience_id)
+        conv_id = conv_el.pk
+        this_conv.append(conv_id)
+    this_adr_room = get_object_or_404(Address, pk=this_room.address.pk)
+    this_address = f'{this_adr_room.city}, {this_adr_room.street}, {this_adr_room.building}'
+    if request.method == 'POST':
+        form = CreateAdForm(data=request.POST, files=request.FILES, instance=this_room)
+        image_form = ImageForm(data=request.POST, files=request.FILES)
+        if form.is_valid() and image_form.is_valid():
+            try:
+                address = check_address(form.cleaned_data['address'])
+                room = form.save(commit=False)
+                room.room_owner = request.user
+                address.save()
+                room.address = address
+                room.save()
+
+                selected_amenities = set(
+                    filter(lambda it: len(it) > 0, form.cleaned_data['selected_amenities'].split(',')))
+                for conv in this_conv_room:
+                    conv.delete()
+                con_list = []
+                for amenity_id in selected_amenities:
+                    c_room = ConvenienceRoom()
+                    c_room.room_id = room.pk
+                    c_room.convenience_id = amenity_id
+                    con_list.append(c_room)
+
+                ConvenienceRoom.objects.bulk_create(con_list)
+
+                for image in image_form.files.getlist('image'):
+                    OfferImages.objects.create(room=room, image=ContentFile(image.read(), image.name))
+
+            except ValidationError as e:
+                form.add_error('address', e)
+            return HttpResponseRedirect(reverse('user:locations'))
+    else:
+        form = CreateAdForm(instance=this_room, initial={'address': this_address})
+        conv_types = []
+        conveniences = list(Convenience.objects.all())
+        for conv_type in ConvenienceType.objects.all():
+            type_dict = {}
+            conv_types.append(type_dict)
+            type_dict['name'] = conv_type.name
+            type_dict['conveniences'] = list(
+                map(
+                    lambda it:
+                    {'name': it.name,
+                     'id': it.pk,
+                     'html': read_template(it.file_name)},
+                    filter(lambda it: it.convenience_type == conv_type, conveniences)
+                )
+            )
+
+    context = {
+        'title': 'Добавить новое объявление',
+        'form': form,
+        'conv_types': conv_types,
+        'conveniences': conveniences,
+        'this_conv': this_conv,
+        'this_address': this_address
+    }
+    return render(request, 'userapp/change/change-location.html', context)
+
+
+@login_required
 def booking_history(request):
     title = 'Админка - Истории бронирований'
     if request.method == 'POST':

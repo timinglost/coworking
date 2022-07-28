@@ -18,7 +18,7 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 from .views import user, user_profile, user_bookings, user_favorites, user_locations, claim_landlord
-from .views import booking_history, users
+from .views import booking_history, users, change_ad
 
 
 app_name = 'userapp'
@@ -32,6 +32,7 @@ urlpatterns = [
     path('landlord-application/', claim_landlord, name='landlord-application'),
     path('booking-history/', booking_history, name='booking_history'),
     path('users/<int:pk>', users, name='users'),
+    path('change-ad/<int:pk>', change_ad, name='change_ad'),
 ]
 
 if settings.DEBUG:
