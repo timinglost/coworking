@@ -283,7 +283,10 @@ def show_details(request, pk):
         context['rating_dict'] = rating_dict
         context['reviews'] = reviews
         context['sum_rating'] = sum_rating
-        context['in_fav'] = Favorites.objects.filter(user=request.user, offer__pk=pk).exists()
+        if not request.user.is_anonymous:
+            context['in_fav'] = Favorites.objects.filter(user=request.user, offer__pk=pk).exists()
+        else:
+            context['in_fav'] = False
         refs = request.META.get('HTTP_REFERER', '')
         if 'user/bookings' in refs or \
                 'user/locations' in refs or \
