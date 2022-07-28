@@ -1,18 +1,20 @@
 window.onload = function () {
     var seats = document.querySelector('.select-seats')
-    var date_form = document.querySelector('input[id=date-range]')
     var periods = document.querySelector('.form-peoples')
     var confirm_btn = document.querySelector('.date-btn')
-    var apply_btn = document.querySelector('.applyBtn')
-    var start_date = document.querySelector('input[id=date-from]')
-    var end_date = document.querySelector('input[id=date-to]')
+    var start_date = document.querySelector('input[id=start_date]')
+    var end_date = document.querySelector('input[id=end_date]')
 
-    date_form.addEventListener('change', function (event) {
-            console.log('change')
-            console.log(date_form.value)
+    start_date.addEventListener('change', function (event) {
+            document.querySelector('.date-btn').classList.add('hidden');
+            RenderSeats(start_date.value, end_date.value, seats.value);
+        });
+    end_date.addEventListener('change', function (event) {
+            document.querySelector('.date-btn').classList.add('hidden');
             RenderSeats(start_date.value, end_date.value, seats.value);
         });
     seats.addEventListener('change', function (event) {
+            document.querySelector('.date-btn').classList.add('hidden');
             RenderSeats(start_date.value, end_date.value, seats.value);
     });
 
@@ -35,17 +37,24 @@ window.onload = function () {
                         selected_dates = Array.from(selected_dates)
                         var date_from = selected_dates[0][0].split('/').reverse().join('-');
                         var date_to = selected_dates[1][0].split('/').reverse().join('-');
-                        document.querySelector('input[id=date-from]').value = date_from;
-                        document.querySelector('input[id=date-to]').value = date_to;
-                        document.querySelector('input[id=date-range]').value = date_from + ' - ' + date_to;
-                        document.querySelector('.date-btn').classList.remove('hidden');
+                        document.querySelector('input[id=start_date]').value = date_from;
+                        document.querySelector('input[id=end_date]').value = date_to;
                         $.ajax({
-                        url: window.location.pathname + document.querySelector('input[id=date-from]').value + "/" + document.querySelector('input[id=date-to]').value + "/" + seats + "/",
+                        url: window.location.pathname + date_from + "/" + date_to + "/" + seats + "/",
 
                         success: function (data) {
                             $('.form-peoples').html(data.result);
+                            $(document).ready(function () {
+                             $('select.period-select').on('change', function(event){
+                                document.querySelector('.date-btn').classList.remove('hidden');
+                             })
+                            })
                             }
+
                         })
+                    }
+                    else{
+                        document.querySelector('.date-btn').classList.remove('hidden');
                     }
 
                 });

@@ -64,6 +64,8 @@ def check_start_time(current_time, start_time):
 
 
 def get_available_seats(request, pk, start_date, end_date, seats):
+    start_date_str = start_date
+    end_date_str = end_date
     if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
         offer = get_active_offer(pk=pk)
         start_date = datetime.strptime(start_date + ' ' + str(offer.start_working_hours), "%Y-%m-%d %H:%M:%S").replace(
@@ -232,6 +234,9 @@ def get_available_seats(request, pk, start_date, end_date, seats):
                                         'end_date': current_end_date}
                                 })
                             prev_date = rental_date
+            if len(seats_result) == 0:
+                return get_available_seats(request=request, pk=pk, start_date=start_date_str, end_date=end_date_str,
+                                           seats=seats - 1)
             seats_result = [_ for _ in seats_result if int(list(_.keys())[0]) > 0]
             if len(seats_result) > 1 and prev_date + timedelta(hours=24 - delta_hours) < end_date:
                 current_start_date = prev_date + timedelta(hours=delta_hours)
@@ -263,13 +268,13 @@ def get_available_seats(request, pk, start_date, end_date, seats):
             if len(new_result) == 1 and start_date >= new_result[0][list(new_result[0].keys())[0]][
                 "start_date"] and end_date <= new_result[0][list(new_result[0].keys())[0]]["end_date"]:
                 context = {
-                    'seats_number': [_ for _ in range(1, int(list(new_result[0].keys())[0]) + 1)]
+                    'available_seats': [_ for _ in range(1, int(list(new_result[0].keys())[0]) + 1)]
                 }
                 result = render_to_string('detailsapp/includes/inc_seats.html', context)
                 return JsonResponse({'result': result})
         except:
             context = {
-                'seats_number': [_ for _ in range(1, offer.seats_number + 1)]
+                'available_seats': [_ for _ in range(1, offer.seats_number + 1)]
             }
             result = render_to_string('detailsapp/includes/inc_seats.html', context)
             return JsonResponse({'result': result})
