@@ -95,6 +95,25 @@
                                 <label for="{{ form.image.id_for_label }}">Фото</label>
                                 {{ form.image }}
                                 <div id="uploaded-files"></div>
+                                <script>
+                                    const uploadedFiles = $('#uploaded-files');
+                                    uploadedFiles.empty();
+                                    const fileList = {{ this_image|safe }}
+                                    for(let i=0; i < fileList.length; i++) {
+                                        var fileName1 = fileList[i].split('/')[1]
+
+
+                                        const img = $(`<img class="preview-img" src="/media/${fileList[i]}"></img>`);
+
+                                        const container = $('<div class="preview-img-container"/>');
+                                        const description = $('<span/>');
+                                        description.text(`${fileName1}`);
+                                        container.append(img);
+                                        container.append(description);
+
+                                        uploadedFiles.append(container);
+                                    }
+                                </script>
                             </div>
 
                             <div style="width: 100%; padding-bottom: 15px">

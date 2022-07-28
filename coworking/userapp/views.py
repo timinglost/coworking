@@ -17,11 +17,12 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from createapp.views import read_template
 from createapp.models import OfferImages, ConvenienceType, Convenience, ConvenienceRoom, Address
-from createapp.forms import CreateAdForm, ImageForm
+from createapp.forms import ImageForm
 from createapp.geo_checker import check_address
 from django.core.files.base import ContentFile
 from django.core.exceptions import ValidationError
 from django.db import transaction
+from .forms import CreateAdForm
 
 
 @login_required
@@ -67,14 +68,22 @@ def get_user_favorites_offers(user):
 @transaction.atomic
 def change_ad(request, pk):
     this_room = get_object_or_404(Room, pk=pk)
+
     this_conv_room = ConvenienceRoom.objects.filter(room_id=this_room.pk)
     this_conv = []
     for conv in this_conv_room:
         conv_el = get_object_or_404(Convenience, pk=conv.convenience_id)
         conv_id = conv_el.pk
         this_conv.append(conv_id)
+
     this_adr_room = get_object_or_404(Address, pk=this_room.address.pk)
     this_address = f'{this_adr_room.city}, {this_adr_room.street}, {this_adr_room.building}'
+
+    this_image_room = OfferImages.objects.filter(room=this_room).values()
+    this_image = []
+    for i in this_image_room:
+        this_image.append(i['image'])
+
     if request.method == 'POST':
         form = CreateAdForm(data=request.POST, files=request.FILES, instance=this_room)
         image_form = ImageForm(data=request.POST, files=request.FILES)
@@ -99,6 +108,10 @@ def change_ad(request, pk):
                     con_list.append(c_room)
 
                 ConvenienceRoom.objects.bulk_create(con_list)
+                if request.FILES:
+                    images = OfferImages.objects.filter(room=this_room)
+                    for image in images:
+                        image.delete()
 
                 for image in image_form.files.getlist('image'):
                     OfferImages.objects.create(room=room, image=ContentFile(image.read(), image.name))
@@ -130,7 +143,8 @@ def change_ad(request, pk):
         'conv_types': conv_types,
         'conveniences': conveniences,
         'this_conv': this_conv,
-        'this_address': this_address
+        'this_address': this_address,
+        'this_image': this_image
     }
     return render(request, 'userapp/change/change-location.html', context)
 
