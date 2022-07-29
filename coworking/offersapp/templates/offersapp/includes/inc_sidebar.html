@@ -11,17 +11,6 @@
             method="GET"
             action="{% url 'offers:search_results' %}"
     >
-        <div class="col-md-7">
-            <label class="col-form-label col-sm-2 pt-0"><strong>Дата</strong></label>
-            <input type="date" id="startDate" name="date_from"
-                   value="{{ date_from }}"
-                   min="2018-01-01" class="form-control">
-        </div>
-        <div class="col-md-7">
-            <input type="date" id="endDate" name="date_to"
-                   value="{{ date_to }}"
-                   min="01-01-2018" class="form-control">
-        </div>
         <div class="col-md-12">
             <div class="form-floating">
                 <input
