@@ -4,16 +4,22 @@ ymaps.ready(init);
 
 function init() {
 
-  var address = new ymaps.SuggestView(
-    'suggest',
-    {provider: provider}
-    );
+    var address = new ymaps.SuggestView('suggest', {provider: provider});
 
-  if (window.location.pathname === '/offers/') {
+    if (window.location.pathname === '/offers/') {
         ChangeURL();
-  };
+    };
 
-  ymaps.geocode(address.state.get('request'), {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+
+    initDatePicker({
+        format: 'YYYY-MM-DD',
+        initialStart: urlParams.get('date_from'),
+        initialEnd: urlParams.get('date_to'),
+    });
+
+    ymaps.geocode(address.state.get('request'), {
         results: 1
     }).then(function (res) {
             // Выбираем первый результат геокодирования.
@@ -36,7 +42,7 @@ function init() {
             });
         });
 
-  var myPlacemark,
+    var myPlacemark,
         myMap = new ymaps.Map('map', {
             center: [55.753994, 37.622093],
             zoom: 9
@@ -255,10 +261,3 @@ collapseCategoryBtn.addEventListener('click', function(event){
         collapseCategoryBtn.innerText = 'Скрыть'
     };
 });
-
-
-const cardBody = document.querySelectorAll('.card-body')
-cardBody.forEach(
-console.log('1')
-)
-
