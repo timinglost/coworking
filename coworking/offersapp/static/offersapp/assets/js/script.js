@@ -13,6 +13,8 @@ function init() {
         ChangeURL();
   };
 
+  initDatePicker();
+
   ymaps.geocode(address.state.get('request'), {
         results: 1
     }).then(function (res) {
@@ -255,10 +257,3 @@ collapseCategoryBtn.addEventListener('click', function(event){
         collapseCategoryBtn.innerText = 'Скрыть'
     };
 });
-
-
-const cardBody = document.querySelectorAll('.card-body')
-cardBody.forEach(
-console.log('1')
-)
-
