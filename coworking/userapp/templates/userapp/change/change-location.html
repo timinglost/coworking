@@ -26,11 +26,11 @@
                      style="padding-left:30px; padding-right: 30px;">
                     <div class="card-header" style="padding-top: 40px; padding-bottom: 30px;"><h2
                             class="text-center font-weight-light my-4">
-                        Новое объявление</h2>
+                        Редактирование объявления</h2>
                     </div>
                     <div class="card-body">
 
-                        <form action="{% url 'create:main' %}" method="post"
+                        <form action="" method="post"
                               enctype="multipart/form-data">
                             {% csrf_token %}
                             <div class="form-group">
@@ -95,6 +95,25 @@
                                 <label for="{{ form.image.id_for_label }}">Фото</label>
                                 {{ form.image }}
                                 <div id="uploaded-files"></div>
+                                <script>
+                                    const uploadedFiles = $('#uploaded-files');
+                                    uploadedFiles.empty();
+                                    const fileList = {{ this_image|safe }}
+                                    for(let i=0; i < fileList.length; i++) {
+                                        var fileName1 = fileList[i].split('/')[1]
+
+
+                                        const img = $(`<img class="preview-img" src="/media/${fileList[i]}"></img>`);
+
+                                        const container = $('<div class="preview-img-container"/>');
+                                        const description = $('<span/>');
+                                        description.text(`${fileName1}`);
+                                        container.append(img);
+                                        container.append(description);
+
+                                        uploadedFiles.append(container);
+                                    }
+                                </script>
                             </div>
 
                             <div style="width: 100%; padding-bottom: 15px">
@@ -107,6 +126,15 @@
                             <div id="map" class="map"></div>
                             {% include 'mainapp/includes/inc_yandex_map.html' %}
                             <script src="{% static 'mainapp/assets/js/create_ad_script.js' %}"></script>
+                            <script>
+                                var adrElm = document.querySelector('#address');
+                                var adr = adrElm.value;
+                                function adAddress() {
+                                        $('#address').val(adr);
+                                };
+                                setTimeout(adAddress, 2000);
+                            </script>
+
 
                             <div id="amenities">
                                 {% include 'createapp/includes/inc_amenities.html' %}
@@ -116,7 +144,7 @@
 
                             <button class="btn btn-primary"
                                     style="margin-top:30px; margin-bottom:30px;"
-                                    type="submit" onclick="onNewAd(event)">Разместить
+                                    type="submit">Обновить
                             </button>
                         </form>
                     </div><!-- End off slid item -->
@@ -127,7 +155,15 @@
         </div>
         <!--End off container -->
 </section>
-
+<script>
+    var arr = {{ this_conv|safe }};
+    var elm = document.querySelectorAll('.amenity-clickable');
+    elm.forEach(function(item, i, elm) {
+    if (arr.includes(Number(item.getAttribute('convid')))) {
+        item.click();
+    };
+});
+</script>
 <!--product section-->
 <!--Team section-->
 {% include 'mainapp/includes/inc_footer.html' %}
@@ -137,5 +173,4 @@
 {% block js %}
 
 {% include 'mainapp/includes/inc_js.html' %}
-
 {% endblock %}

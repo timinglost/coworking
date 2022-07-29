@@ -31,7 +31,12 @@
     {% for review in reviews %}
     <div class="message">
         <div class="user-photo">
-            <img src="{% static 'detailsapp/img/messages-1.jpg' %}" alt="" class="rounded-circle">
+            <img src="{% if user.avatar %}
+                            {{ user.avatar.url }}
+                            {% else %}
+                            {% static 'userapp/assets/img/profile-img.jpg' %}
+                       {% endif %}"
+                 alt="" class="rounded-circle">
         </div>
         <div class="message-content">
             <!--            <h4 class="message-user">{{review.user.first_name}} {{review.user.last_name}}</h4>-->
