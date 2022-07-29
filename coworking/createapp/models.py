@@ -44,6 +44,10 @@ class Room(models.Model):
         verbose_name='активна',
         default=False
     )
+    is_published = models.BooleanField(
+        verbose_name='опубликовано',
+        default=False
+    )
 
     def __str__(self):
         return f'{self.name} | {self.category.name}'
