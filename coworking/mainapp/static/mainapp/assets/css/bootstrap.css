@@ -1966,7 +1966,8 @@ pre code {
     width: 33.33333333%;
   }
   .col-md-3 {
-    width: 25%;
+    flex: 1 1 auto;
+    width: 33%;
   }
   .col-md-2 {
     width: 16.66666667%;

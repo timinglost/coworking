@@ -5,14 +5,14 @@ from django.db import migrations, models, transaction
 import django.db.models.deletion
 
 
-def fill_names(apps, schema_editor):
-    with transaction.atomic():
-        RatingNames = apps.get_model('detailsapp', 'RatingNames')
-        for name in ['Качество помещения', 'Рабочая обстановка', 'Качество удобств', 'Соответствие цена-качество',
-                     'Соответствие фото']:
-            obj = RatingNames()
-            obj.name = name
-            obj.save()
+# def fill_names(apps, schema_editor):
+#     with transaction.atomic():
+#         RatingNames = apps.get_model('detailsapp', 'RatingNames')
+#         for name in ['Качество помещения', 'Рабочая обстановка', 'Качество удобств', 'Соответствие цена-качество',
+#                      'Соответствие фото']:
+#             obj = RatingNames()
+#             obj.name = name
+#             obj.save()
 
 
 class Migration(migrations.Migration):
@@ -108,5 +108,5 @@ class Migration(migrations.Migration):
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),
-        migrations.RunPython(fill_names),
+        # migrations.RunPython(fill_names),
     ]

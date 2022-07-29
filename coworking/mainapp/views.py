@@ -1,7 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 
 from createapp.models import Room, OfferImages
 from detailsapp.models import OffersRatings
+from feedbackapp.models import Contact, QuestionCategory, Question
 from mainapp.forms import SearchMainForm
 
 
@@ -18,6 +19,7 @@ def main(request):
     rooms = list(map(lambda x: x.offer, offer_ratings))
     offer_images = OfferImages.objects.filter(room__in=rooms)
 
+
     room_data = {}
 
     for rating in offer_ratings:
@@ -27,11 +29,13 @@ def main(request):
 
     for image in offer_images:
         room_data[image.room]['image'] = image.image
-
     context = {
         'title': title,
         'form': form,
-        'room_data': room_data
+        'room_data': room_data,
+        'contact_data':  Contact.objects.get(pk=1),
+        'for_users': Question.objects.filter(category=QuestionCategory.objects.filter(name="Пользователям").first()),
+        'for_landlords': Question.objects.filter(category=QuestionCategory.objects.filter(name="Арендодателям").first()),
     }
     if has_query and form.is_valid():
         return redirect('offers/search/?' + request.GET.urlencode())

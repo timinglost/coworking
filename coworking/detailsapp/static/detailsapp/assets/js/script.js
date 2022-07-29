@@ -2,26 +2,39 @@ window.onload = function () {
     var seats = document.querySelector('.select-seats')
     var periods = document.querySelector('.form-peoples')
     var confirm_btn = document.querySelector('.date-btn')
-    var start_date = document.querySelector('input[id=start_date]')
-    var end_date = document.querySelector('input[id=end_date]')
+    var date_start = document.querySelector('input[id=start_date]')
+    var date_end = document.querySelector('input[id=end_date]')
 
     start_date.addEventListener('change', function (event) {
+            var current_start_date = new Date(date_start.value).toISOString().split('T')[0];
+            var today = new Date().toISOString().split('T')[0];
+            if (current_start_date < today) {
+                date_start.value = today
+            }
             document.querySelector('.date-btn').classList.add('hidden');
-            RenderSeats(start_date.value, end_date.value, seats.value);
+            RenderSeats(date_start.value, date_end.value, seats.value);
         });
     end_date.addEventListener('change', function (event) {
+            var current_end_date = new Date(date_end.value).toISOString().split('T')[0];
+            var today = new Date().toISOString().split('T')[0];
+            if (current_end_date < today) {
+                date_end.value = today
+            }
             document.querySelector('.date-btn').classList.add('hidden');
-            RenderSeats(start_date.value, end_date.value, seats.value);
+            RenderSeats(date_start.value, date_end.value, seats.value);
         });
     seats.addEventListener('change', function (event) {
             document.querySelector('.date-btn').classList.add('hidden');
-            RenderSeats(start_date.value, end_date.value, seats.value);
+            RenderSeats(date_start.value, date_end.value, seats.value);
     });
 
 
     function RenderSeats(start_date, end_date, seats) {
-        console.log(start_date, end_date, seats)
         if(start_date && end_date && seats) {
+            if (start_date > end_date) {
+                end_date = start_date;
+                date_end.value = start_date;
+            }
 
             periods.classList.remove('hidden');
             $.ajax({

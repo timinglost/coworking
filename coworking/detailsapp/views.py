@@ -13,6 +13,7 @@ from django.urls import reverse
 from createapp.models import Room, Address, RoomCategory, OfferImages, Convenience, ConvenienceRoom, ConvenienceType
 from detailsapp.models import CurrentRentals, Favorites, RatingNames, Evaluations, CompletedRentals, Rating, \
     OffersRatings
+from feedbackapp.models import Question, QuestionCategory, Contact
 
 
 def get_active_offer(pk):
@@ -67,13 +68,18 @@ def get_available_seats(request, pk, start_date, end_date, seats):
     start_date_str = start_date
     end_date_str = end_date
     if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
+
         offer = get_active_offer(pk=pk)
         start_date = datetime.strptime(start_date + ' ' + str(offer.start_working_hours), "%Y-%m-%d %H:%M:%S").replace(
             tzinfo=pytz.utc)
         end_date = datetime.strptime(end_date + ' ' + str(offer.end_working_hours), "%Y-%m-%d %H:%M:%S").replace(
             tzinfo=pytz.utc)
-        seats_result = []
+        today = datetime.strptime(str(datetime.today().date()) + ' ' + str(offer.start_working_hours),
+                                  "%Y-%m-%d %H:%M:%S").replace(
+            tzinfo=pytz.utc)
         delta_hours = int(24 - int(offer.end_working_hours.hour - offer.start_working_hours.hour))
+        seats_result = []
+
         try:
             qs = list(CurrentRentals.objects.filter(offer=offer).order_by('start_date', 'end_date'))
             if qs[-1].end_date < start_date or qs[0].start_date > end_date:
@@ -322,6 +328,11 @@ def get_offer_context(offer):
             'convenience_types': conv_types,
             'conveniences': conveniences,
             'room_conveniences_id': room_conveniences_id,
+            'contact_data': Contact.objects.get(pk=1),
+            'for_users': Question.objects.filter(
+                category=QuestionCategory.objects.filter(name="Пользователям").first()),
+            'for_landlords': Question.objects.filter(
+                category=QuestionCategory.objects.filter(name="Арендодателям").first()),
         }
         return context
     except:
