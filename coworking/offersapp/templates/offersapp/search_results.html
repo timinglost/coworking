@@ -26,16 +26,16 @@
 
         <div class="row">
             <!-- Left side columns -->
-            <div class="col-lg-6">
+            <div class="col-lg-7">
                 <!--                <div class="card">-->
                 <!-- Card with an image on left -->
-                {% for room, room_images in offers_dict.items %}
+                {% for room, room_info in object_list.items %}
                 <div class="card mb-3">
                     <div class="row g-0">
                         <div class="col-md-4">
                             <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
                                 <div class="carousel-inner">
-                                    {% for image in room_images %}
+                                    {% for image in room_info.images %}
                                     <div class="carousel-item {% if forloop.counter0 == 0 %}active{% endif %}">
                                         <img src="/media/{{ image.image }}" class="d-block w-100" alt="...">
                                     </div>
@@ -43,28 +43,29 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-5">
                             <div class="card-body">
                                 <a href="{% url 'details:details' room.pk %}" target="_blank">
                                     <h5 class="card-title">{{ room.name }}</h5>
+
+                                    <p class="card-text"><span>{{ room.category.name }}</span></p>
+                                    <p class="card-text">Описание: {{ room.description }}</p>
+
+                                    <p class="card-text" id="address">{{ room.address.city }}, {{ room.address.street }},
+                                        {{ room.address.building }}</p>
                                 </a>
-                                <p class="card-text">Описание: {{ room.description }}</p>
-                                <p class="card-text">Стоимость: {{ room.payment_per_hour }}</p>
-                                <p class="card-text" id="address">Адрес:
-                                    г.{{ room.address.city }}, {{ room.address.street }},
-                                    д. {{ room.address.building }}</p>
-                                <p class="card-text hidden" id="lattitude">широта: {{ room.address.latitude
-                                    }}</p>
-                                <p class="card-text hidden" id="longitude">долгота: {{ room.address.longitude
-                                    }}</p>
                             </div>
                         </div>
                         <div class="col-md-2">
-                            <p class="card-text">
-                                {% if room.summary_rating %}
-                                    Рейтинг: {{ room.summary_rating }}
+                            <p class="card-text" style="position: absolute;top: 10px; font-size: small;">
+                                {% if room_info.rating.0.summary_rating %}
+                                Отзывов: {{ room_info.rating.0.reviews_number }}
+                                |
+                                Рейтинг: <strong>{{ room_info.rating.0.summary_rating }}</strong>
                                 {% endif %}
                             </p>
+                            <span class="card-text" style="position: absolute;bottom: 10px;">{{ room.payment_per_hour }}
+                                &#8381 за час</span>
                         </div>
                     </div>
                 </div>
@@ -74,7 +75,7 @@
             <!-- End Left side columns -->
 
             <!-- Right side columns -->
-            <div class="col-lg-6">
+            <div class="col-lg-5">
                 <!-- maps -->
                 <div class="card" id="map">
                 </div>

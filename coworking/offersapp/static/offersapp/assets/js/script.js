@@ -101,7 +101,7 @@ var provider = {
     var result = suggest.then( items => {
       for (const i of items) {
         resultArray.push({
-          value: i.value.split(',').pop().replace(/\s+/g, ''),
+          value: i.value.split(',').pop().trim(),
           displayName: i.displayName.split(',').slice(0,2)
         });
       }
@@ -126,6 +126,7 @@ function clearForm(oForm) {
     switch(field_type) {
 
 		case "text":
+		case "number":
 		case "password":
 		case "textarea":
 	    case "hidden":
@@ -225,18 +226,33 @@ function updateTextInput(val) {
         };
 
 
-const collapsedConv = document.querySelectorAll('.collapse')
-const collapseCountSpan = document.getElementById('collapse_conv_count')
-collapseCountSpan.innerText=collapsedConv.length
+const collapsedConv = document.querySelectorAll('.conv')
+const collapsedCategory = document.querySelectorAll('.category')
 
-const collapsedBtn = document.querySelector('.collapsed')
+const collapseCategoryCountSpan = document.getElementById('collapse_category_count')
+const collapseConvCountSpan = document.getElementById('collapse_conv_count')
 
-collapsedBtn.addEventListener('click', function(event){
-    if (collapsedBtn.innerText === 'Скрыть'){
-        collapsedBtn.innerText = `Показать еще ${collapsedConv.length}`
+collapseCategoryCountSpan.innerText=collapsedCategory.length;
+collapseConvCountSpan.innerText=collapsedConv.length;
+
+const collapseConvBtn = document.getElementById('collapse_conv')
+const collapseCategoryBtn = document.getElementById('collapse_category')
+
+collapseConvBtn.addEventListener('click', function(event){
+    if (collapseConvBtn.innerText === 'Скрыть'){
+        collapseConvBtn.innerText = `Показать еще ${collapsedConv.length}`
     }
     else {
-        collapsedBtn.innerText = 'Скрыть'
+        collapseConvBtn.innerText = 'Скрыть'
+    };
+});
+
+collapseCategoryBtn.addEventListener('click', function(event){
+    if (collapseCategoryBtn.innerText === 'Скрыть'){
+        collapseCategoryBtn.innerText = `Показать еще ${collapsedCategory.length}`
+    }
+    else {
+        collapseCategoryBtn.innerText = 'Скрыть'
     };
 });
 
