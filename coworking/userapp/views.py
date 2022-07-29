@@ -95,6 +95,7 @@ def change_ad(request, pk):
                 address.save()
                 room.address = address
                 room.save()
+                this_adr_room.delete()
 
                 selected_amenities = set(
                     filter(lambda it: len(it) > 0, form.cleaned_data['selected_amenities'].split(',')))
