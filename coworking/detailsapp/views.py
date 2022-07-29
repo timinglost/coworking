@@ -74,9 +74,6 @@ def get_available_seats(request, pk, start_date, end_date, seats):
             tzinfo=pytz.utc)
         end_date = datetime.strptime(end_date + ' ' + str(offer.end_working_hours), "%Y-%m-%d %H:%M:%S").replace(
             tzinfo=pytz.utc)
-        today = datetime.strptime(str(datetime.today().date()) + ' ' + str(offer.start_working_hours),
-                                  "%Y-%m-%d %H:%M:%S").replace(
-            tzinfo=pytz.utc)
         delta_hours = int(24 - int(offer.end_working_hours.hour - offer.start_working_hours.hour))
         seats_result = []
 
