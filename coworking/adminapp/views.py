@@ -12,7 +12,8 @@ from createapp.models import *
 from userapp.models import UserModel
 from createapp.models import ConvenienceType, Convenience
 from adminapp.models import Claim
-from offersapp.views import get_offers, add_images_info
+from offersapp.views import get_offers
+from detailsapp.models import CurrentRentals
 
 
 
@@ -22,6 +23,51 @@ def check_admin(user):
 
 def check_admin_staff(user):
     return user.is_staff
+
+
+def add_images_info(rooms):
+    offers_dict = {}
+    for room in rooms:
+        room_images = OfferImages.objects.filter(room=room)
+        # room_images = [_ for _ in room_images]
+        offers_dict[room] = room_images
+    return offers_dict
+
+
+@user_passes_test(check_admin)
+def user(request, pk):
+    title = 'Админка - Пользователь'
+
+    this_user = get_object_or_404(UserModel, pk=pk)
+
+    context = {
+        'title': title,
+        'this_user': this_user
+    }
+    return render(request, 'adminapp/users/user.html', context)
+
+
+@user_passes_test(check_admin_staff)
+def booking(request):
+    title = 'Админка - Истории бронирований'
+    user_booking = CurrentRentals.objects.all()
+    context = {
+        'title': title,
+        'user_booking': user_booking
+    }
+    return render(request, 'adminapp/offers/booking.html', context)
+
+
+@user_passes_test(check_admin_staff)
+def landlord_history(request, pk):
+    title = 'Админка - Арендодалели'
+
+    claim_landlord = get_object_or_404(Claim, pk=pk)
+    context = {
+        'title': title,
+        'claim_landlord': claim_landlord
+    }
+    return render(request, 'adminapp/landlords/landlord-history.html', context)
 
 
 @user_passes_test(check_admin_staff)
@@ -88,6 +134,7 @@ def claim_accept(request, pk):
     user_ll.is_landlord = True
     user_ll.save()
     claim_landlord.is_active = False
+    claim_landlord.is_approved = True
     claim_landlord.save()
     return HttpResponseRedirect(reverse('admin_staff:landlords'))
 
@@ -96,6 +143,7 @@ def claim_accept(request, pk):
 def claim_reject(request, pk):
     claim_landlord = get_object_or_404(Claim, pk=pk)
     claim_landlord.is_active = False
+    claim_landlord.is_approved = False
     claim_landlord.save()
     return HttpResponseRedirect(reverse('admin_staff:landlords'))
 
@@ -122,6 +170,16 @@ def landlords(request):
     }
     return render(request, 'adminapp/landlords/landlords.html', context)
 
+
+@user_passes_test(check_admin_staff)
+def landlords_history(request):
+    title = 'Админка - Арендодалели'
+    claim_landlords = Claim.objects.filter(is_active=False)
+    context = {
+        'title': title,
+        'claim_landlords': claim_landlords
+    }
+    return render(request, 'adminapp/landlords/landlords-history.html', context)
 
 @user_passes_test(check_admin_staff)
 def convenience_delete(request, pk_conv, pk):

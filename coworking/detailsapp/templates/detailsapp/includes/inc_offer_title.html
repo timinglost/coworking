@@ -7,7 +7,7 @@
         <p class="desc-header-p">Телефон: {{offer.phone_number}}</p>
 <!--        <a href="#view_map">Показать на карте</a>-->
     </div>
-    {% if show %}
+    {% if show and user.is_authenticated %}
     <div class="short-links-func">
         <a class="favorite" href="{% url 'details:add_favorite' offer.pk %}">
             <div class="heart"></div>

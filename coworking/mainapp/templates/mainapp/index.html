@@ -1,70 +1,59 @@
 {% extends 'mainapp/base.html' %}
 {% load static %}
 {% block content %}
-        {% include 'mainapp/includes/inc_header.html' %}
+{% include 'mainapp/includes/inc_header.html' %}
 
 
-        <section id="home" class="home bg-black fix">
-            <div class="overlay"></div>
-            <div class="container">
-                <div class="row">
-                    <div class="main_home">
-                        <div class="col-md-12">
-                            <div class="hello_slid">
-                                <div class="slid_item xs-text-center">
-                                    <div class="col-sm-4">
-                                        <img src="{% static 'mainapp/assets/images/hello-phone.png' %}" alt="" />
-                                    </div>
-                                    <div class="col-sm-8">
-                                        <div class="home_text xs-m-top-30">
-                                            <h2 class="text-white">Добро пожаловать в <strong>ЛОКАЦИЮ</strong></h2>
-                                            <h1 class="text-white">Мы поможем вам найти пространство для работы</h1>
-                                            <!-- <h3 class="text-white">  <strong>Concept</strong> into The Market </h3> -->
-                                        </div>
+<!--        <section id="home" class="home bg-black fix">-->
+<!--            <div class="overlay"></div>-->
+<!--            <div class="container">-->
+<!--                <div class="row">-->
+<!--                    <div class="main_home">-->
+<!--                        <div class="col-md-12">-->
+<!--                            <div class="hello_slid">-->
+<!--                                <div class="slid_item xs-text-center">-->
+<!--&lt;!&ndash;                                    <div class="col-sm-4">&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <img src="{% static 'mainapp/assets/images/hello-phone.png' %}" alt="" />&ndash;&gt;-->
+<!--&lt;!&ndash;                                    </div>&ndash;&gt;-->
+<!--                                    <div class="col-sm-8">-->
+<!--                                        <div class="home_text xs-m-top-30">-->
+<!--                                            <h2 class="text-white">Добро пожаловать в <strong>ЛОКАЦИЮ</strong></h2>-->
+<!--                                            <h1 class="text-white">Мы поможем вам найти пространство для работы</h1>-->
+<!--                                            &lt;!&ndash; <h3 class="text-white">  <strong>Concept</strong> into The Market </h3> &ndash;&gt;-->
+<!--                                        </div>-->
 
-                                        <!-- <div class="home_btns m-top-40">
-                                                <a href="" class="btn btn-primary m-top-20">Button #1 </a>
-                                                <a href="" class="btn btn-default m-top-20">Button #2 </a>
-                                            </div> -->
-                                    </div>
-                                </div><!-- End off slid item -->
+<!--                                        &lt;!&ndash; <div class="home_btns m-top-40">-->
+<!--                                                <a href="" class="btn btn-primary m-top-20">Button #1 </a>-->
+<!--                                                <a href="" class="btn btn-default m-top-20">Button #2 </a>-->
+<!--                                            </div> &ndash;&gt;-->
+<!--                                    </div>-->
+<!--                                </div>&lt;!&ndash; End off slid item &ndash;&gt;-->
 
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!--End off row-->
-            </div>
-            <!--End off container -->
-        </section>
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                &lt;!&ndash;End off row&ndash;&gt;-->
+<!--            </div>-->
+<!--            &lt;!&ndash;End off container &ndash;&gt;-->
+<!--        </section>-->
 
-        {% include 'mainapp/includes/inc_search.html' %}
-
-
+{% include 'mainapp/includes/inc_search.html' %}
 
 
-        <!--product section-->
-        {% include 'mainapp/includes/inc_slider.html' %}
+<!--product section-->
+{% include 'mainapp/includes/inc_slider.html' %}
 
+<!--Team section-->
+{% include 'mainapp/includes/inc_team.html' %}<!-- End off Team section -->
 
-        <!--Team section-->
-        {% include 'mainapp/includes/inc_team.html' %}<!-- End off Team section -->
-
-
-
-
-
-
-    {% include 'mainapp/includes/inc_footer.html' %}
-
-
-
+{% include 'mainapp/includes/inc_footer.html' %}
 
 
 {% endblock %}
-    <!-- JS includes -->
+<!-- JS includes -->
 {% block js %}
 
-    {% include 'mainapp/includes/inc_js.html' %}
+{% include 'mainapp/includes/inc_js.html' %}
 
 {% endblock %}

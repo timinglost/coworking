@@ -95,7 +95,7 @@
                             <div class="col-md-8">
                                 <div class="card-body">
 
-                                    <a href="{% url 'details:details' room.pk %}" target="_blank">
+                                    <a href="{% url 'details:details' room.pk %}">
                                         <h5 class="card-title">{{ room.name }}</h5>
                                     </a>
                                     <p class="card-text">Описание: {{ room.description }}</p>
@@ -117,7 +117,7 @@
             <!-- Right side columns -->
             <div class="col-lg-4">
                 <!-- News & Updates Traffic -->
-                {% cache 600 news_div %}
+                {% cache 3600 news_div %}
                 <div class="card" id="news_div">
                     <div class="card-body pb-0">
                         <h5 class="card-title">Новости</h5>

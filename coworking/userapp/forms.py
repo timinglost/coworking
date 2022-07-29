@@ -1,20 +1,35 @@
-from django.core.exceptions import ValidationError
-from django.forms import ModelForm, CharField, PasswordInput
+from django.forms import ModelForm, CharField, PasswordInput, ClearableFileInput
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserChangeForm, PasswordChangeForm
 from userapp.models import UserModel
+from adminapp.models import Claim
+from django.core.exceptions import ValidationError
 
 
 # from phonenumber_field.formfields import PhoneNumberField
 
 class UserForm(ModelForm):
+    first_name = forms.CharField(widget=forms.TextInput(
+        attrs={'type': "text", 'name': "first_name", 'class': "form-control", 'id': "firstName"}))
+    last_name = forms.CharField(widget=forms.TextInput(
+        attrs={'type': "text", 'name': "last_name", 'class': "form-control", 'id': "lastName"}))
+    about = forms.CharField(widget=forms.Textarea(
+        attrs={'class': "form-control", 'name': "about", 'id': "about", 'style': "height: 100px"}))
+    city = forms.CharField(widget=forms.TextInput(
+        attrs={'type': "text", 'name': "city", 'class': "form-control", 'id': "city"}))
+    user_phone = forms.CharField(widget=forms.TextInput(
+        attrs={'type': "text", 'name': "user_phone", 'class': "form-control", 'id': "user_phone"}))
+    email = forms.CharField(widget=forms.TextInput(
+        attrs={'type': "text", 'name': "email", 'class': "form-control", 'id': "email"}))
+    avatar = forms.ImageField(required=False, widget=ClearableFileInput(
+        attrs={'class': 'form-control', 'name': "avatar", 'id': 'formFile'}))
+
     class Meta:
         model = UserModel
         fields = (
-            'first_name', 'last_name', 'username',
-            'country', 'user_phone', 'email',
-            'avatar', 'about', 'company', 'job_tittle',
-            'twitter', 'vk', 'instagram')
+            'first_name', 'last_name',
+            'city', 'user_phone', 'email',
+            'avatar', 'about')
 
     # def __int__(self, *args, **kwargs):
     #     super(UserForm, self).__int__(*args, **kwargs)
@@ -53,3 +68,12 @@ class PasswordChangeCustomForm(PasswordChangeForm):
                     'Пожалуйста введите новый пароль и повторите его для подтверждения.'
                 )
         return password2
+
+
+class LandlordApplicationForm(ModelForm):
+    text = forms.CharField(widget=forms.Textarea(
+        attrs={'class': "form-control", 'id': "inputText", 'name': "text", 'rows': "10"}))
+
+    class Meta:
+        model = Claim
+        fields = ['text']

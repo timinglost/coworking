@@ -36,8 +36,8 @@
                     </button>
                 </li>
             </ul>
-            <div class="row align-items-top">
-                <div class="tab-pane fade show active current-rentals" id="current-rentals">
+            <div class="tab-content pt-2" id="borderedTabContent">
+                <div class="tab-pane fade show active" id="current-rentals">
                     <div class="col-lg-9">
                         {% for rental, rental_images in current_rentals_dict.items %}
                         <div class="card mb-3">
@@ -81,7 +81,7 @@
                                 <div class="col-md-8">
                                     <div class="card-body">
 
-                                        <a href="{% url 'details:details' rental.offer.pk %}" target="_blank">
+                                        <a href="{% url 'details:details' rental.offer.pk %}">
                                             <h5 class="card-title">{{ rental.offer.name }}</h5>
                                         </a>
                                         <p class="card-text" id="address">Адрес:
@@ -104,7 +104,7 @@
                         {% endfor %}
                     </div>
                 </div>
-                <div class="tab-pane fade completed-rentals" id="completed-rentals">
+                <div class="tab-pane fade" id="completed-rentals">
                     <div class="col-lg-9">
                         {% for rental, rental_images in completed_rentals_dict.items %}
                         <div class="card mb-3">

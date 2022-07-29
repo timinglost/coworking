@@ -21,76 +21,60 @@
     </div> -->
     <!-- End Page Title -->
 
-    <section class="section dashboard">
+    <section class="section">
         {% if object_list %}
 
         <div class="row">
             <!-- Left side columns -->
-            <div class="col-lg-8">
-                <div class="row">
-                    <!-- Card with an image on left -->
-                    {% for room, room_images in offers_dict.items %}
-
-                    <div class="card mb-3">
-                        <div class="row g-0">
-                            <div class="col-md-4">
-                                <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-                                    <div class="carousel-inner">
-                                        {% for image in room_images %}
-                                        <div class="carousel-item {% if forloop.counter0 == 0 %}active{% endif %}">
-                                            <img src="/media/{{ image.image }}" class="d-block w-100" alt="...">
-                                        </div>
-                                        {% endfor %}
+            <div class="col-lg-6">
+                <!--                <div class="card">-->
+                <!-- Card with an image on left -->
+                {% for room, room_images in offers_dict.items %}
+                <div class="card mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                                <div class="carousel-inner">
+                                    {% for image in room_images %}
+                                    <div class="carousel-item {% if forloop.counter0 == 0 %}active{% endif %}">
+                                        <img src="/media/{{ image.image }}" class="d-block w-100" alt="...">
                                     </div>
-
-                                </div>
-                            </div>
-                            <div class="col-md-8">
-                                <div class="card-body">
-                                    <a href="{% url 'details:details' room.pk %}" target="_blank">
-                                        <h5 class="card-title">{{ room.name }}</h5>
-                                    </a>
-                                    <p class="card-text">Описание: {{ room.description }}</p>
-                                    <p class="card-text">Стоимость: {{ room.payment_per_hour }}</p>
-                                    <p class="card-text" id="address">Адрес:
-                                        г.{{ room.address.city }}, {{ room.address.street }},
-                                        д. {{ room.address.building }}</p>
-                                    <p class="card-text hidden" id="lattitude">широта: {{ room.address.latitude }}</p>
-                                    <p class="card-text hidden" id="longitude">долгота: {{ room.address.longitude }}</p>
+                                    {% endfor %}
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-6">
+                            <div class="card-body">
+                                <a href="{% url 'details:details' room.pk %}" target="_blank">
+                                    <h5 class="card-title">{{ room.name }}</h5>
+                                </a>
+                                <p class="card-text">Описание: {{ room.description }}</p>
+                                <p class="card-text">Стоимость: {{ room.payment_per_hour }}</p>
+                                <p class="card-text" id="address">Адрес:
+                                    г.{{ room.address.city }}, {{ room.address.street }},
+                                    д. {{ room.address.building }}</p>
+                                <p class="card-text hidden" id="lattitude">широта: {{ room.address.latitude
+                                    }}</p>
+                                <p class="card-text hidden" id="longitude">долгота: {{ room.address.longitude
+                                    }}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <p class="card-text">
+                                {% if room.summary_rating %}
+                                    Рейтинг: {{ room.summary_rating }}
+                                {% endif %}
+                            </p>
+                        </div>
                     </div>
-                    {% endfor %}
                 </div>
-            </div><!-- End Left side columns -->
-
-<!--             &lt;!&ndash; Right side columns &ndash;&gt;-->
-<!--            <div class="col-lg-4">-->
-<!--                &lt;!&ndash; News & Updates Traffic &ndash;&gt;-->
-<!--                <div class="card">-->
-
-<!--                    <div class="card-body pb-0">-->
-<!--                      <h5 class="card-title">Новости</h5>-->
-
-<!--                      <div class="news">-->
-<!--                          {% for news in news_list%}-->
-<!--                            <div class="post-item clearfix">-->
-<!--                              <img src="{{ news.image }}" alt="">-->
-<!--                              <h4><a href="{{ news.link }}">{{ news.name }}</a></h4>-->
-<!--                              <p>{{ news.text }}</p>-->
-<!--                            </div>-->
-<!--                          {% endfor %}-->
-
-<!--              </div>&lt;!&ndash; End sidebar recent posts&ndash;&gt;-->
-
-<!--            </div>-->
-<!--          </div>&lt;!&ndash; End News & Updates &ndash;&gt;-->
-<!--            </div>-->
-<!--            &lt;!&ndash; End Right side columns &ndash;&gt;-->
+                {% endfor %}
+                <!--                </div>-->
+            </div>
+            <!-- End Left side columns -->
 
             <!-- Right side columns -->
-            <div class="col-lg-4">
+            <div class="col-lg-6">
                 <!-- maps -->
                 <div class="card" id="map">
                 </div>
@@ -101,12 +85,11 @@
 
         {% else %}
         <div class="row">
-            <div class="col-lg-8">
-                <div class="row"><h5>
+            <div class="col-lg-12" style="text-align: center;">
+                <h5>
                     К сожалению по вашему запросу ничего не найдено =( <br>
                     Попробуйте изменить условия поиска
                 </h5>
-                </div>
             </div>
         </div>
         {% endif %}

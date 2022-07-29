@@ -1,6 +1,7 @@
 from createapp.models import Room, OfferImages, Convenience, ConvenienceRoom
+from detailsapp.models import OffersRatings
 from django.db.models import Q
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import ListView
 
 from datetime import date
@@ -8,6 +9,7 @@ from pprint import pprint
 
 from lxml import html
 
+from mainapp.forms import SearchMainForm
 from .utils import create_url, get_response, validate_data
 
 
@@ -71,6 +73,18 @@ def add_images_info(rooms):
     return offers_dict
 
 
+def add_ratings(rooms, rating):
+    rooms_dict = {}
+    for room in rooms:
+        room_rating_info = OffersRatings.objects.filter(
+            Q(offer=room),
+            Q(summary_rating__gte=rating))
+        # room_rating_info = [_ for _ in room_rating_info]
+        if room_rating_info:
+            rooms_dict[room] = room_rating_info
+    return rooms_dict
+
+
 def get_actions():
     '''
     функция получения акций для посетителей
@@ -80,39 +94,6 @@ def get_actions():
         'text': 'В июле первые 10 заказчиков получат скидку за аренду 25%',
     }
     return actions
-
-
-def main(request, page=1):
-    title = 'ЛОКАЦИЯ | Каталог помещений'
-
-    offers_list = get_offers()
-    offers_dict = add_images_info(offers_list)
-    current_actions = get_actions()
-    news_list = get_news_data('yandex.ru/news')
-    conveniences_list = get_conveniences()
-
-    # paginator = Paginator(offers_list, 5)
-    #
-    # try:
-    #     offers_paginator = paginator.page(page)
-    # except PageNotAnInteger:
-    #     offers_paginator = paginator.page(1)
-    # except EmptyPage:
-    #     offers_paginator = paginator.page(paginator.num_pages)
-    # print(offers_list)
-
-    context = {
-        'title': title,
-        'offers_list': offers_list,
-        # 'offers_list': offers_paginator,
-        'actions': current_actions,
-        'offers_dict': offers_dict,
-        'news_list': news_list,
-        'conveniences_list': conveniences_list,
-        # 'form': form,
-    }
-
-    return render(request, 'offersapp/index.html', context)
 
 
 def get_conveniences_name():
@@ -146,30 +127,72 @@ def get_room_conveniences(room_with_convenience):
     return room_conveniences
 
 
+def main(request, page=1):
+    title = 'ЛОКАЦИЯ | Каталог помещений'
+
+    offers_list = get_offers()
+    offers_dict = add_images_info(offers_list)
+    current_actions = get_actions()
+    news_list = get_news_data('yandex.ru/news')
+    conveniences_list = get_conveniences()
+
+    # paginator = Paginator(offers_list, 5)
+    #
+    # try:
+    #     offers_paginator = paginator.page(page)
+    # except PageNotAnInteger:
+    #     offers_paginator = paginator.page(1)
+    # except EmptyPage:
+    #     offers_paginator = paginator.page(paginator.num_pages)
+    # print(offers_list)
+
+    context = {
+        'title': title,
+        'offers_list': offers_list,
+        # 'offers_list': offers_paginator,
+        'actions': current_actions,
+        'offers_dict': offers_dict,
+        'news_list': news_list,
+        'conveniences_list': conveniences_list,
+    }
+
+    return render(request, 'offersapp/index.html', context)
+
+
 class SearchResultsView(ListView):
     model = Room
     template_name = 'offersapp/search_results.html'
     conveniences = get_conveniences()
 
+    def get(self, request, *args, **kwargs):
+        form = SearchMainForm(data=request.GET)
+        if not form.is_valid():
+            return redirect('main')
+        return super(SearchResultsView, self).get(request, *args, **kwargs)
+
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(SearchResultsView, self).get_context_data()
 
-        offers_dict = add_images_info(context['object_list'])
-        context['offers_dict'] = offers_dict
+        offers_dict_with_images = add_images_info(context['object_list'])
+        context['offers_dict'] = offers_dict_with_images
         # context['news_list'] = get_news_data('yandex.ru/news')
         context['title'] = 'ЛОКАЦИЯ | Поиск помещений'
-        context['city'] = self.request.GET.get('City')
+        context['city'] = self.request.GET.get('city')
         context['min_price'] = self.request.GET.get('min_price')
         context['max_price'] = self.request.GET.get('max_price')
+        context['rating'] = self.request.GET.get('rating')
         context['conveniences_list'] = self.conveniences
 
         return context
 
     def get_queryset(self):
-        city = self.request.GET.get('City')
+
+        city = self.request.GET.get('city')
+        rating = self.request.GET.get('rating')
         min_price = self.request.GET.get('min_price')
         max_price = self.request.GET.get('max_price')
 
+        rating = int(rating) if rating else 0
         min_price = int(min_price) if min_price else 0
         max_price = int(max_price) if max_price else 10 ** 9
 
@@ -181,7 +204,9 @@ class SearchResultsView(ListView):
             Q(payment_per_hour__lte=max_price)
         )
 
-        rooms_filtered_by_city_and_price = [_ for _ in rooms_filtered_by_city_and_price]
+        filtered_rooms = [_ for _ in rooms_filtered_by_city_and_price]
+        if rating:
+            filtered_rooms = add_ratings(filtered_rooms, rating)
 
         requested_conveniences = get_convenience_from_request(self.request.GET)
 
@@ -189,7 +214,7 @@ class SearchResultsView(ListView):
         if requested_conveniences:
             rooms_filtered_by_conv = []
 
-            for room in rooms_filtered_by_city_and_price:
+            for room in filtered_rooms:
                 room_with_convenience = ConvenienceRoom.objects.filter(room_id=room.id)
                 # проверка на наличие в помещениях каких-либо дополнительных удобств
                 if room_with_convenience:
@@ -204,4 +229,4 @@ class SearchResultsView(ListView):
             return rooms_filtered_by_conv
 
         else:
-            return rooms_filtered_by_city_and_price
+            return filtered_rooms
