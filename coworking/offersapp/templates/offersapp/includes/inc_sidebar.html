@@ -16,7 +16,6 @@
                 <input
                         type="text"
                         id="date-range"
-                        name="date-range"
                         placeholder="Даты"
                         class="form-control"
                         value="{{ date_from }} - {{ date_to }}"
@@ -24,6 +23,8 @@
                 <label for="date-range">Даты</label>
             </div>
         </div>
+        <input type="hidden" name="date_from" id="date-from">
+        <input type="hidden" name="date_to" id="date-to">
         <div class="col-md-12">
             <label for="rating"><strong>Рейтинг: </strong></label>
             <output>{{ rating|default:'0' }}</output>
