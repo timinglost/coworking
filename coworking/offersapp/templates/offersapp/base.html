@@ -33,7 +33,10 @@
     <link href="{% static 'offersapp/assets/vendor/quill/quill.bubble.css' %}" rel="stylesheet">
     <link href="{% static 'offersapp/assets/vendor/remixicon/remixicon.css' %}" rel="stylesheet">
     <link href="{% static 'offersapp/assets/vendor/simple-datatables/style.css' %}" rel="stylesheet">
-    <link href="{% static 'offersapp/assets/fonts/font-awesome/css/font-awesome.css' %}" rel="stylesheet">
+    <link href="{% static 'offersapp/assets/css/daterangepicker.css' %}" rel="stylesheet">
+
+<!--    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">-->
+
     <!-- Main CSS File -->
     <link href="{% static 'offersapp/assets/css/style.css' %}" rel="stylesheet">
     <style>
@@ -44,6 +47,18 @@
 </head>
 <!--<body class="toggle-sidebar">-->
 <body>
+<!-- Preloader -->
+<div id="loading">
+    <div id="loading-center">
+        <div id="loading-center-absolute">
+            <div class="object" id="object_one"></div>
+            <div class="object" id="object_two"></div>
+            <div class="object" id="object_three"></div>
+            <div class="object" id="object_four"></div>
+        </div>
+    </div>
+</div>
+<!--End off Preloader -->
 {% block content %}
 {% endblock %}
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
