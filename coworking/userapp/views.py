@@ -280,3 +280,20 @@ def claim_landlord(request):
         'landlord_form': landlord_form
     }
     return render(request, 'userapp/landlord-application.html', context)
+
+
+# @login_required
+# def location_update(request, pk):
+#     ad = get_object_or_404(Room, pk=pk)
+#     if request.user == ad.user:
+#         if request.method == "POST":
+#             form = CreateAdForm(request.POST, instance=ad)
+#             image_form = ImageForm(data=request.POST, files=request.FILES)
+#
+#
+# @login_required
+# def location_remove(request, pk):
+#     ad = Room.objects.get(pk=pk)
+#     if request.user == ad.user:
+#         Room.objects.filter(id=pk).delete()
+#         return redirect('userapp/user-locations.html')
