@@ -5,22 +5,22 @@ let check_was_done = false;
 
 
 
-function onNewAd(event){
-    if(check_was_done) {
+function onNewAd(event) {
+    if (check_was_done) {
         check_was_done = false;
         return;
     }
     event.preventDefault();
     const address = $('#address').val();
 
-    if(!address){
+    if (!address) {
         showError('Address must not be empty');
         return;
     }
 
     checkAddress(address)
         .then(result => {
-            if(result.error){
+            if (result.error) {
                 showError(result.error);
                 return;
             }
@@ -31,11 +31,11 @@ function onNewAd(event){
         })
 }
 
-function onFileUpload(event){
+function onFileUpload(event) {
     const uploadedFiles = $('#uploaded-files');
     uploadedFiles.empty();
     const fileList = event.target.files;
-    for(let i=0; i < fileList.length; i++) {
+    for (let i = 0; i < fileList.length; i++) {
         const { name: fileName, size } = fileList[i];
         const fileSize = (size / 1000).toFixed(2);
 
@@ -54,28 +54,28 @@ function onFileUpload(event){
     }
 }
 
-function onAmenitySelected(event){
+function onAmenitySelected(event) {
     let div = $(event.target);
-    while(!div.hasClass('amenity-clickable')) {
+    while (!div.hasClass('amenity-clickable')) {
         div = div.parent();
     }
 
     const convid = div.attr('convid');
-    if(!convid) {
+    if (!convid) {
         return;
     }
     const prevValue = $('#id_selected_amenities').val();
     const currentAmenities = prevValue ? prevValue.split(',') : [];
     if (div.attr('selected')) {
         div.removeAttr('selected');
-        div.children().css({'color': 'var(--black_40)', 'font-weight': 'normal'});
+        div.children().css({ 'color': 'var(--black_40)', 'font-weight': 'normal' });
         const index = currentAmenities.indexOf(convid);
         if (index > -1) { // only splice array when item is found
-          currentAmenities.splice(index, 1); // 2nd parameter means remove one item only
+            currentAmenities.splice(index, 1); // 2nd parameter means remove one item only
         }
-    }else {
+    } else {
         div.attr('selected', true);
-        div.children().css({'color': 'black', 'font-weight': 'bolder'});
+        div.children().css({ 'color': 'black', 'font-weight': 'bolder' });
         currentAmenities.push(convid);
     }
     $('#id_selected_amenities').val(currentAmenities.join(','));
@@ -87,7 +87,7 @@ function showError(message) {
     $('#address-notice').css('display', 'block');
 }
 
-function clearAddressErrors(){
+function clearAddressErrors() {
     $('#address').removeClass('input_error');
     $('#address-notice').css('display', 'none');
 }
@@ -95,17 +95,17 @@ function clearAddressErrors(){
 function init() {
 
 
-    $(document).ready(function(){
-        $('#id_image').attr("multiple","true");
+    $(document).ready(function () {
+        $('#id_image').attr("multiple", "true");
     });
 
     var suggestView = new ymaps.SuggestView('address');
     $('#address').change(() => clearAddressErrors());
     suggestView.events.add(
         'select',
-         e => checkAddress(e.get('item').value)
-                .then(result => showResult(result.obj))
-     );
+        e => checkAddress(e.get('item').value)
+            .then(result => showResult(result.obj))
+    );
 
     var myPlacemark,
         myMap = new ymaps.Map('map', {
@@ -122,7 +122,7 @@ function init() {
             myMap.setCenter(coords);
             getAddress(coords);
         }
-     );
+    );
 
     // Слушаем клик на карте.
     myMap.events.add('click', function (e) {
@@ -157,14 +157,14 @@ function init() {
 
         var mapContainer = $('#map'),
             bounds = obj.properties.get('boundedBy'),
-        // Рассчитываем видимую область для текущего положения пользователя.
+            // Рассчитываем видимую область для текущего положения пользователя.
             mapState = ymaps.util.bounds.getCenterAndZoom(
                 bounds,
                 [mapContainer.width(), mapContainer.height()]
             ),
-        // Сохраняем полный адрес для сообщения под картой.
+            // Сохраняем полный адрес для сообщения под картой.
             address = [obj.getCountry(), obj.getAddressLine()].join(', '),
-        // Сохраняем укороченный адрес для подписи метки.
+            // Сохраняем укороченный адрес для подписи метки.
             shortAddress = [obj.getThoroughfare(), obj.getPremiseNumber(), obj.getPremise()].join(' ');
         // Убираем контролы с карты.
         mapState.controls = [];
@@ -174,22 +174,22 @@ function init() {
         setPlacemarkText(obj);
     }
 
-    function setPlacemarkText(firstGeoObject){
+    function setPlacemarkText(firstGeoObject) {
         myPlacemark.properties
-                .set({
-                    // Формируем строку с данными об объекте.
-                    iconCaption: [
-                        // Название населенного пункта или вышестоящее административно-территориальное образование.
-                        firstGeoObject.getLocalities().length ? firstGeoObject.getLocalities() : firstGeoObject.getAdministrativeAreas(),
-                        // Получаем путь до топонима, если метод вернул null, запрашиваем наименование здания.
-                        firstGeoObject.getThoroughfare() || firstGeoObject.getPremise()
-                    ].filter(Boolean).join(', '),
-                    // В качестве контента балуна задаем строку с адресом объекта.
-                    balloonContent: firstGeoObject.getAddressLine()
-                });
+            .set({
+                // Формируем строку с данными об объекте.
+                iconCaption: [
+                    // Название населенного пункта или вышестоящее административно-территориальное образование.
+                    firstGeoObject.getLocalities().length ? firstGeoObject.getLocalities() : firstGeoObject.getAdministrativeAreas(),
+                    // Получаем путь до топонима, если метод вернул null, запрашиваем наименование здания.
+                    firstGeoObject.getThoroughfare() || firstGeoObject.getPremise()
+                ].filter(Boolean).join(', '),
+                // В качестве контента балуна задаем строку с адресом объекта.
+                balloonContent: firstGeoObject.getAddressLine()
+            });
     }
 
-    function getPlacemark(coords){
+    function getPlacemark(coords) {
 
         if (myPlacemark) {
             myPlacemark.geometry.setCoordinates(coords);
@@ -209,39 +209,39 @@ function init() {
 
 function checkAddress(address) {
     return ymaps.geocode(address).then(function (res) {
-            var obj = res.geoObjects.get(0),
-                error, hint;
+        var obj = res.geoObjects.get(0),
+            error, hint;
 
-            if (obj) {
-                // Об оценке точности ответа геокодера можно прочитать тут: https://tech.yandex.ru/maps/doc/geocoder/desc/reference/precision-docpage/
-                switch (obj.properties.get('metaDataProperty.GeocoderMetaData.precision')) {
-                    case 'exact':
-                        break;
-                    case 'number':
-                    case 'near':
-                    case 'range':
-                        error = 'Неточный адрес, требуется уточнение';
-                        hint = 'Уточните номер дома';
-                        break;
-                    case 'street':
-                        error = 'Неполный адрес, требуется уточнение';
-                        hint = 'Уточните номер дома';
-                        break;
-                    case 'other':
-                    default:
-                        error = 'Неточный адрес, требуется уточнение';
-                        hint = 'Уточните адрес';
-                }
-            } else {
-                error = 'Адрес не найден';
-                hint = 'Уточните адрес';
+        if (obj) {
+            // Об оценке точности ответа геокодера можно прочитать тут: https://tech.yandex.ru/maps/doc/geocoder/desc/reference/precision-docpage/
+            switch (obj.properties.get('metaDataProperty.GeocoderMetaData.precision')) {
+                case 'exact':
+                    break;
+                case 'number':
+                case 'near':
+                case 'range':
+                    error = 'Неточный адрес, требуется уточнение';
+                    hint = 'Уточните номер дома';
+                    break;
+                case 'street':
+                    error = 'Неполный адрес, требуется уточнение';
+                    hint = 'Уточните номер дома';
+                    break;
+                case 'other':
+                default:
+                    error = 'Неточный адрес, требуется уточнение';
+                    hint = 'Уточните адрес';
             }
+        } else {
+            error = 'Адрес не найден';
+            hint = 'Уточните адрес';
+        }
 
-            // Если геокодер возвращает пустой массив или неточный результат, то показываем ошибку.
-            return {
-                obj: obj,
-                error: error,
-                hint: hint
-            };
-        });
+        // Если геокодер возвращает пустой массив или неточный результат, то показываем ошибку.
+        return {
+            obj: obj,
+            error: error,
+            hint: hint
+        };
+    });
 }
