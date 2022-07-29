@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 from django.contrib.auth.decorators import login_required
 from django.db.models import Avg
 from django.http import JsonResponse
-from django.shortcuts import render, get_object_or_404, HttpResponseRedirect
+from django.shortcuts import render, get_object_or_404, HttpResponseRedirect, redirect
 from django.template.loader import render_to_string
 from django.urls import reverse
 from createapp.models import Room, Address, RoomCategory, OfferImages, Convenience, ConvenienceRoom, ConvenienceType
@@ -343,6 +343,7 @@ def read_template(file_name):
 
 
 def show_details(request, pk):
+    dates = {_.split("=")[0]: _.split("=")[-1] for _ in request.META.get('HTTP_REFERER', '').split("&") if 'date' in _}
     try:
         offer = get_active_offer(pk=pk)
         context = get_offer_context(offer=offer)
@@ -350,6 +351,8 @@ def show_details(request, pk):
         context['rating_dict'] = rating_dict
         context['reviews'] = reviews
         context['sum_rating'] = sum_rating
+        context['start_date'] = dates.get('date_from')
+        context['end_date'] = dates.get('date_to')
         if not request.user.is_anonymous:
             context['in_fav'] = Favorites.objects.filter(user=request.user, offer__pk=pk).exists()
         else:
