@@ -231,13 +231,28 @@ def user_bookings(request):
     return render(request, 'userapp/user-bookings.html', context)
 
 
+def get_user_offers_search(user, search):
+    rooms = Room.objects.filter(room_owner=user)
+    answer = []
+    for room in rooms:
+        if search in room.name:
+            answer.append(room)
+    return answer
+
+
 @login_required
 def user_locations(request):
     title = 'ЛОКАЦИЯ | Мои локации'
     offers_dict = {}
-    for offer in get_user_offers(user=request.user):
-        offer_images = OfferImages.objects.filter(room=offer)
-        offers_dict[offer] = offer_images
+    if request.method == 'POST':
+        search = request.POST.get('room_name')
+        for offer in get_user_offers_search(user=request.user, search=search):
+            offer_images = OfferImages.objects.filter(room=offer)
+            offers_dict[offer] = offer_images
+    else:
+        for offer in get_user_offers(user=request.user):
+            offer_images = OfferImages.objects.filter(room=offer)
+            offers_dict[offer] = offer_images
     context = {
         'title': title,
         'offers_dict': offers_dict

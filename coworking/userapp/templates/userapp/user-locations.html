@@ -22,7 +22,21 @@
             </ol>
         </nav>
     </div><!-- End Page Title -->
-
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-6">
+            <div class="card">
+            <div class="card-body">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <label for="inputEndDate" class="col-sm-2 col-form-label">По названию:</label>
+                      <input type="text" name="room_name" id="dateIn" class="form-control" placeholder="Название объявления" required>
+                  <button type="submit" class="btn btn-primary">Поиск</button>
+                  <a href="{% url 'user:locations' %}">
+                      <button type="button" class="btn btn-primary">Сбросить</button>
+                        </a>
+                </form>
+        </div></div></div></div></section>
     <section class="section">
     <div class="row align-items-top">
         <div class="col-lg-9">
