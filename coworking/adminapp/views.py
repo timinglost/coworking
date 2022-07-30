@@ -409,10 +409,12 @@ def allow_publishing(request, pk):
     offer = get_object_or_404(Room, pk=pk)
     if offer.is_active is True:
         offer.is_active = False
+        offer.is_published = False
         offer.save()
         return HttpResponseRedirect(reverse('admin_staff:offers'))
     else:
         offer.is_active = True
+        offer.is_published = True
         offer.save()
         return HttpResponseRedirect(reverse('admin_staff:pre_moderation'))
 

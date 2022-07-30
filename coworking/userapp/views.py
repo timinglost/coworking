@@ -241,6 +241,18 @@ def get_user_offers_search(user, search):
 
 
 @login_required
+def offer_publishing(request, pk):
+    offer = get_object_or_404(Room, pk=pk)
+    if offer.is_published is True:
+        offer.is_published = False
+        offer.save()
+    else:
+        offer.is_published = True
+        offer.save()
+    return HttpResponseRedirect(reverse('user:locations'))
+
+
+@login_required
 def user_locations(request):
     title = 'ЛОКАЦИЯ | Мои локации'
     offers_dict = {}
