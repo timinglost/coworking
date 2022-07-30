@@ -48,8 +48,8 @@ def user(request):
     return render(request, 'userapp/user.html', context)
 
 
-def get_user_offers(user):
-    return Room.objects.filter(room_owner=user)
+def get_user_offers(user, published):
+    return Room.objects.filter(room_owner=user).filter(is_published=published)
 
 
 def get_user_current_rentals(user):
@@ -231,8 +231,8 @@ def user_bookings(request):
     return render(request, 'userapp/user-bookings.html', context)
 
 
-def get_user_offers_search(user, search):
-    rooms = Room.objects.filter(room_owner=user)
+def get_user_offers_search(user, published, search):
+    rooms = Room.objects.filter(room_owner=user).filter(is_published=published)
     answer = []
     for room in rooms:
         if search in room.name:
@@ -241,16 +241,49 @@ def get_user_offers_search(user, search):
 
 
 @login_required
-def user_locations(request):
+def offer_publishing(request, pk):
+    offer = get_object_or_404(Room, pk=pk)
+    if offer.is_published is True:
+        offer.is_published = False
+        offer.save()
+        return HttpResponseRedirect(reverse('user:locations'))
+    else:
+        offer.is_published = True
+        offer.save()
+        return HttpResponseRedirect(reverse('user:locations_not_published'))
+
+
+@login_required
+def user_locations_is_published(request):
     title = 'ЛОКАЦИЯ | Мои локации'
     offers_dict = {}
     if request.method == 'POST':
         search = request.POST.get('room_name')
-        for offer in get_user_offers_search(user=request.user, search=search):
+        for offer in get_user_offers_search(user=request.user, published=True, search=search):
             offer_images = OfferImages.objects.filter(room=offer)
             offers_dict[offer] = offer_images
     else:
-        for offer in get_user_offers(user=request.user):
+        for offer in get_user_offers(user=request.user, published=True):
+            offer_images = OfferImages.objects.filter(room=offer)
+            offers_dict[offer] = offer_images
+    context = {
+        'title': title,
+        'offers_dict': offers_dict
+    }
+    return render(request, 'userapp/user-locations.html', context)
+
+
+@login_required
+def user_locations_is_not_published(request):
+    title = 'ЛОКАЦИЯ | Мои локации'
+    offers_dict = {}
+    if request.method == 'POST':
+        search = request.POST.get('room_name')
+        for offer in get_user_offers_search(user=request.user, published=False, search=search):
+            offer_images = OfferImages.objects.filter(room=offer)
+            offers_dict[offer] = offer_images
+    else:
+        for offer in get_user_offers(user=request.user, published=False):
             offer_images = OfferImages.objects.filter(room=offer)
             offers_dict[offer] = offer_images
     context = {
