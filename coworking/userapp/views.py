@@ -1,3 +1,5 @@
+import json
+
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.utils.translation import gettext as _
@@ -138,6 +140,11 @@ def change_ad(request, pk):
                 )
             )
 
+    coords = json.dumps({
+        'lat': str(this_room.address.latitude),
+        'lon': str(this_room.address.longitude)
+    }, ensure_ascii=False)
+
     context = {
         'title': 'Обновить объявление',
         'form': form,
@@ -145,7 +152,8 @@ def change_ad(request, pk):
         'conveniences': conveniences,
         'this_conv': this_conv,
         'this_address': this_address,
-        'this_image': this_image
+        'this_image': this_image,
+        'coords': coords
     }
     return render(request, 'userapp/change/change-location.html', context)
 

@@ -25,7 +25,10 @@ def check_address(address: str) -> Address:
     if precision == 'exact':
         address = Address()
         address.city = extract_address_comp(address_components, 'locality')
-        address.street = extract_address_comp(address_components, 'street')
+        try:
+            address.street = extract_address_comp(address_components, 'street')
+        except StopIteration:
+            address.street = extract_last_address_comp(address_components, 'district')
         address.building = extract_address_comp(address_components, 'house')
         coords = geo_object['Point']['pos'].split()
         address.longitude = Decimal(coords[0])
@@ -38,3 +41,8 @@ def check_address(address: str) -> Address:
 
 def extract_address_comp(address_components, kind):
     return next(filter(lambda x: x['kind'] == kind, address_components))['name']
+
+
+def extract_last_address_comp(address_components, kind):
+    *_, last = filter(lambda x: x['kind'] == kind, address_components)
+    return last['name']

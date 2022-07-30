@@ -1,9 +1,6 @@
 ymaps.ready(init);
 
-
 let check_was_done = false;
-
-
 
 function onNewAd(event) {
     if (check_was_done) {
@@ -93,8 +90,6 @@ function clearAddressErrors() {
 }
 
 function init() {
-
-
     $(document).ready(function () {
         $('#id_image').attr("multiple", "true");
     });
@@ -107,29 +102,41 @@ function init() {
             .then(result => showResult(result.obj))
     );
 
-    var myPlacemark,
-        myMap = new ymaps.Map('map', {
-            center: [55.753994, 37.622093],
-            zoom: 9
-        }, {
-            searchControlProvider: 'yandex#search'
-        });
+    const geoElement = $('#geo-coords');
+    let location;
+    let zoom;
 
-    var location = ymaps.geolocation.get();
+    if(geoElement.length){
+        const data = JSON.parse(geoElement.html());
+        location = new Promise(resolve => {
+            resolve([data.lat, data.lon]);
+        });
+        zoom = 17;
+    } else {
+        location = ymaps.geolocation.get().then(it => it.geoObjects.position);
+        zoom = 13;
+    }
+
+    var myPlacemark, myMap;
+
     location.then(
-        result => {
-            const coords = result.geoObjects.position;
-            myMap.setCenter(coords);
+        coords => {
+             myMap = new ymaps.Map('map', {
+                center: coords,
+                zoom
+            }, {
+                searchControlProvider: 'yandex#search'
+            });
             getAddress(coords);
+            // Слушаем клик на карте.
+            myMap.events.add('click', function (e) {
+                var coords = e.get('coords');
+                getPlacemark(coords);
+                getAddress(coords);
+            });
         }
     );
 
-    // Слушаем клик на карте.
-    myMap.events.add('click', function (e) {
-        var coords = e.get('coords');
-        getPlacemark(coords);
-        getAddress(coords);
-    });
 
     // Создание метки.
     function createPlacemark(coords) {
