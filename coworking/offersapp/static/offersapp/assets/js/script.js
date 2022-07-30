@@ -1,10 +1,8 @@
-var myMap;
-
 ymaps.ready(init);
 
 function init() {
 
-    var address = new ymaps.SuggestView('suggest', {provider: provider});
+    const address = new ymaps.SuggestView('suggest', {provider: provider});
 
     if (window.location.pathname === '/offers/') {
         ChangeURL();
@@ -17,6 +15,13 @@ function init() {
         format: 'YYYY-MM-DD',
         initialStart: urlParams.get('date_from'),
         initialEnd: urlParams.get('date_to'),
+    });
+
+    const myMap = new ymaps.Map('map', {
+        center: [55.753994, 37.622093],
+        zoom: 9
+    }, {
+        searchControlProvider: 'yandex#search'
     });
 
     ymaps.geocode(address.state.get('request'), {
@@ -41,69 +46,12 @@ function init() {
                 checkZoomRange: true
             });
         });
-
-    var myPlacemark,
-        myMap = new ymaps.Map('map', {
-            center: [55.753994, 37.622093],
-            zoom: 9
-        }, {
-            searchControlProvider: 'yandex#search'
-        });
-
-
-    // Слушаем клик на карте.
-    myMap.events.add('click', function (e) {
-        var coords = e.get('coords');
-        getPlacemark(coords);
-        getAddress(coords);
-    });
-
-    // Создание метки.
-    function createPlacemark(coords) {
-        return new ymaps.Placemark(coords, {
-            iconCaption: 'поиск...'
-        }, {
-            preset: 'islands#violetDotIconWithCaption',
-            draggable: true
-        });
-    };
-
-    function setPlacemarkText(firstGeoObject){
-        myPlacemark.properties
-                .set({
-                    // Формируем строку с данными об объекте.
-                    iconCaption: [
-                        // Название населенного пункта или вышестоящее административно-территориальное образование.
-                        firstGeoObject.getLocalities().length ? firstGeoObject.getLocalities() : firstGeoObject.getAdministrativeAreas(),
-                        // Получаем путь до топонима, если метод вернул null, запрашиваем наименование здания.
-                        firstGeoObject.getThoroughfare() || firstGeoObject.getPremise()
-                    ].filter(Boolean).join(', '),
-                    // В качестве контента балуна задаем строку с адресом объекта.
-                    balloonContent: firstGeoObject.getAddressLine()
-                });
-    }
-
-    function getPlacemark(coords){
-
-        if (myPlacemark) {
-            myPlacemark.geometry.setCoordinates(coords);
-        }
-        else {
-            myPlacemark = createPlacemark(coords);
-            myMap.geoObjects.add(myPlacemark);
-            // Слушаем событие окончания перетаскивания на метке.
-            myPlacemark.events.add('dragend', function () {
-                getAddress(myPlacemark.geometry.getCoordinates());
-            });
-        }
-        return myPlacemark;
-    }
 }
 
 var provider = {
   suggest :  function(request, options) {
-    var resultArray = [];
-    var suggest = new ymaps.suggest(request);
+    const resultArray = [];
+    const suggest = new ymaps.suggest(request);
     return suggest.then( items => {
       for (const i of items) {
         resultArray.push({
@@ -118,10 +66,10 @@ var provider = {
 
 function clearForm(oForm) {
 
-  var elements = oForm.elements;
+  const elements = oForm.elements;
   oForm.reset();
 
-  var searchParams = new URLSearchParams(document.location.search);
+  const searchParams = new URLSearchParams(document.location.search);
 
   for(i=0; i<elements.length; i++) {
 
