@@ -104,17 +104,15 @@ var provider = {
   suggest :  function(request, options) {
     var resultArray = [];
     var suggest = new ymaps.suggest(request);
-    var result = suggest.then( items => {
+    return suggest.then( items => {
       for (const i of items) {
         resultArray.push({
           value: i.value.split(',').pop().trim(),
           displayName: i.displayName.split(',').slice(0,2)
         });
       }
-
-      return ymaps.vow.resolve(resultArray);
+      return resultArray;
     });
-        return ymaps.vow.resolve(result);
   }
 };
 
