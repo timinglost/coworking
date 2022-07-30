@@ -1,3 +1,5 @@
+import math
+
 import numpy
 from django.db.models import Avg
 from django.shortcuts import render, redirect
@@ -14,6 +16,16 @@ def get_top_landlords():
         user: f"{numpy.average([OffersRatings.objects.get(offer=_).summary_rating for _ in Room.objects.filter(is_active=True, is_published=False, room_owner=user)]):.1f}"
         for user in UserModel.objects.filter(is_landlord=True)}
     return [k for k, v in sorted(all_landlords.items(), key=lambda item: item[1])[:3]]
+
+
+def avg_rating_per_criteria(landlord, criteria_name):
+    room_ratings = [
+        Evaluations.objects.filter(offer=room).filter(rating_name=criteria_name).aggregate(
+            rating=Avg("evaluation"))['rating']
+        for room in Room.objects.filter(is_active=True, is_published=False, room_owner=landlord)
+    ]
+    room_ratings = list(map(lambda it: int(it), filter(lambda it: math.isnan(it), room_ratings)))
+    return int(numpy.average() * 10) if len(room_ratings) > 0 else 0
 
 
 def main(request):
@@ -35,11 +47,12 @@ def main(request):
         room_data[rating.offer] = {
             'rating': rating.summary_rating
         }
-    top_landlords = {landlord: {name: int(numpy.average([int(
-            Evaluations.objects.filter(offer=room).filter(rating_name=name).aggregate(rating=Avg("evaluation"))[
-                'rating']) for room in Room.objects.filter(is_active=True, is_published=False,
-                                                           room_owner=landlord)]) * 10) for name
-                                            in RatingNames.objects.all()} for landlord in get_top_landlords()}
+    rating_names = RatingNames.objects.all()
+    top_landlords = {
+        landlord: {
+            name: avg_rating_per_criteria(landlord, name) for name in rating_names
+        } for landlord in get_top_landlords()
+    }
     for image in offer_images:
         room_data[image.room]['image'] = image.image
     context = {
