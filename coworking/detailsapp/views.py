@@ -449,15 +449,26 @@ def send_review(request, pk):
 
 @login_required()
 def add_favorite(request, pk):
-    obj, created = Favorites.objects.get_or_create(user=request.user, offer=get_object_or_404(Room, pk=pk))
-    if created:
-        obj.save()
-    return HttpResponseRedirect(reverse('user:favorites'))
+    if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
+        obj, created = Favorites.objects.get_or_create(user=request.user, offer=get_object_or_404(Room, pk=pk))
+        if created:
+            obj.save()
+        context = {}
+        if not request.user.is_anonymous:
+            context['in_fav'] = Favorites.objects.filter(user=request.user, offer__pk=pk).exists()
+        result = render_to_string('detailsapp/includes/inc_favorite.html', context)
+        return JsonResponse({'result': result})
 
 
 @login_required()
 def del_favorite(request, pk):
-    favorites = Favorites.objects.filter(user=request.user, offer__pk=pk)
-    for fav in favorites:
-        fav.delete()
-    return HttpResponseRedirect(reverse('user:favorites'))
+    if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
+        favorites = Favorites.objects.filter(user=request.user, offer__pk=pk)
+        for fav in favorites:
+            fav.delete()
+        context = {}
+        if not request.user.is_anonymous:
+            context['in_fav'] = Favorites.objects.filter(user=request.user, offer__pk=pk).exists()
+        result = render_to_string('detailsapp/includes/inc_favorite.html', context)
+        return JsonResponse({'result': result})
+

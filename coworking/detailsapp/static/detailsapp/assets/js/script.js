@@ -4,6 +4,7 @@ window.onload = function () {
     var confirm_btn = document.querySelector('.date-btn')
     var date_start = document.querySelector('input[id=start_date]')
     var date_end = document.querySelector('input[id=end_date]')
+    var favorite = document.querySelector('.favorite')
 
     start_date.addEventListener('change', function (event) {
             document.querySelector('.date-btn').classList.add('hidden');
@@ -28,6 +29,10 @@ window.onload = function () {
     seats.addEventListener('change', function (event) {
             document.querySelector('.date-btn').classList.add('hidden');
             RenderSeats(date_start.value, date_end.value, seats.value);
+    });
+    favorite.addEventListener('click', function (event) {
+            CheckFavorite(favorite.outerText);
+
     });
 
 
@@ -79,4 +84,30 @@ window.onload = function () {
         }
     }
 
+    function CheckFavorite(text){
+        if (text == "В избранное") {
+                $.ajax({
+                url: window.location.pathname + "add_fav" + "/",
+
+                success: function (data) {
+                    $('.short-links-func').html(data.result);
+                    $('.favorite').on('click', function(event){
+                        CheckFavorite(document.querySelector('.favorite').outerText);
+                    });
+                }
+                })
+            } else if (text == "Убрать из избранного"){
+                $.ajax({
+                url: window.location.pathname + "del_fav" + "/",
+
+                success: function (data) {
+                    $('.short-links-func').html(data.result);
+                    $('.favorite').on('click', function(event){
+                        CheckFavorite(document.querySelector('.favorite').outerText);
+                    });
+                }
+                })
+
+            }
+    }
 }
