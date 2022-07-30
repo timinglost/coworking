@@ -325,7 +325,7 @@ def get_offer_context(offer):
             'convenience_types': conv_types,
             'conveniences': conveniences,
             'room_conveniences_id': room_conveniences_id,
-            'contact_data': Contact.objects.get(pk=1),
+            'contact_data': Contact.objects.first(),
             'for_users': Question.objects.filter(
                 category=QuestionCategory.objects.filter(name="Пользователям").first()),
             'for_landlords': Question.objects.filter(
@@ -438,6 +438,11 @@ def send_review(request, pk):
         context = {
             'title': 'title',
             'rating_names': rating_names,
+            'contact_data': Contact.objects.first(),
+            'for_users': Question.objects.filter(
+                category=QuestionCategory.objects.filter(name="Пользователям").first()),
+            'for_landlords': Question.objects.filter(
+                category=QuestionCategory.objects.filter(name="Арендодателям").first()),
         }
         return render(request, 'detailsapp/offer_feedback.html', context=context)
 
