@@ -277,7 +277,7 @@ def get_available_seats(request, pk, start_date, end_date, seats):
                 return JsonResponse({'result': result})
         except:
             context = {
-                'available_seats': [_ for _ in range(1, offer.seats_number + 1)]
+                'available_seats': [_ for _ in range(1, seats + 1)]
             }
             result = render_to_string('detailsapp/includes/inc_seats.html', context)
             return JsonResponse({'result': result})
