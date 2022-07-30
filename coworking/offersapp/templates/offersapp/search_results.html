@@ -51,7 +51,8 @@
                                     <p class="card-text"><span>{{ room.category.name }}</span></p>
                                     <p class="card-text">Описание: {{ room.description }}</p>
 
-                                    <p class="card-text" id="address">{{ room.address.city }}, {{ room.address.street }},
+                                    <p class="card-text" id="address">{{ room.address.city }}, {{ room.address.street
+                                        }},
                                         {{ room.address.building }}</p>
                                 </a>
                             </div>
@@ -70,6 +71,7 @@
                     </div>
                 </div>
                 {% endfor %}
+                <span id="geo-coords" style="display: hidden">{{ geo_coords }}</span>
                 <!--                </div>-->
             </div>
             <!-- End Left side columns -->

@@ -1,5 +1,5 @@
-import pytz
-from createapp.models import Room, OfferImages, Convenience, ConvenienceRoom, RoomCategory
+import json
+from createapp.models import Room, OfferImages, Convenience, ConvenienceRoom, RoomCategory, Address
 from detailsapp.models import OffersRatings, CurrentRentals
 from django.db.models import Q
 from django.shortcuts import render, redirect
@@ -275,6 +275,20 @@ def add_conveniences_in_dict(rooms: dict):
     pass
 
 
+def map_room_to_coords(room: Room) -> dict:
+    address: Address = room.address
+    return {
+        'name': room.name,
+        'address': f"{address.city}, {address.street}, {address.building}",
+        'lat': str(address.latitude),
+        'lon': str(address.longitude)
+    }
+
+
+def calculate_coords(rooms: dict) -> str:
+    return json.dumps(list(map(map_room_to_coords, rooms.keys())), ensure_ascii=False)
+
+
 def main(request):
     title = 'ЛОКАЦИЯ | Каталог помещений'
 
@@ -317,7 +331,8 @@ class SearchResultsView(ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(SearchResultsView, self).get_context_data()
 
-        context['offers_dict'] = add_images_info(context['object_list'])
+        add_images_info(context['object_list'])
+        context['geo_coords'] = calculate_coords(context['object_list'])
         # context['news_list'] = get_news_data('yandex.ru/news')
         context['title'] = 'ЛОКАЦИЯ | Поиск помещений'
         context['date_from'] = self.requested_dates.get('date_from')
