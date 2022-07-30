@@ -17,31 +17,55 @@ function init() {
         initialEnd: urlParams.get('date_to'),
     });
 
-    const myMap = new ymaps.Map('map', {
-        center: [55.753994, 37.622093],
-        zoom: 9
-    }, {
-        searchControlProvider: 'yandex#search'
-    });
-
     ymaps.geocode(address.state.get('request'), {
         results: 1
-    }).then(function (res) {
+    }).then((res) => {
             // Выбираем первый результат геокодирования.
             var firstGeoObject = res.geoObjects.get(0),
-                // Координаты геообъекта.
                 coords = firstGeoObject.geometry.getCoordinates(),
                 // Область видимости геообъекта.
                 bounds = firstGeoObject.properties.get('boundedBy');
 
-            firstGeoObject.options.set('preset', 'islands#darkBlueDotIconWithCaption');
-            // Получаем строку с адресом и выводим в иконке геообъекта.
-            firstGeoObject.properties.set('iconCaption', firstGeoObject.getAddressLine());
+            const myMap = new ymaps.Map('map', {
+                center: coords,
+                zoom: 9
+            }, {
+                searchControlProvider: 'yandex#search'
+            });
 
-            // Добавляем первый найденный геообъект на карту.
-            myMap.geoObjects.add(firstGeoObject);
+            const getDataElement = $('#geo-coords');
+            const geoData = JSON.parse(getDataElement.length ? getDataElement.html() : "[]");
+            const lats = {
+                min: 180,
+                max: -180
+            };
+            const lons = {
+                min: 180,
+                max: -180
+            };
+            for(const data of geoData) {
+                lats.min = Math.min(lats.min, data.lat);
+                lats.max = Math.max(lats.max, data.lat);
+                lons.min = Math.min(lons.min, data.lon);
+                lons.max = Math.max(lons.max, data.lon);
+                myMap.geoObjects.add(
+                    new ymaps.Placemark(
+                        [data.lat, data.lon],
+                        {
+                            balloonContentHeader: '<a href = "/details/'+ data.pk + '">' + data.name + '</a>',
+                            balloonContent: data.address,
+                            hintContent: data.address,
+                        }
+                    )
+                );
+            }
+
+            const resultBounds = [
+                [Math.max(lats.min, bounds[0][0]), Math.max(lons.min, bounds[0][1])],
+                [Math.min(lats.max, bounds[1][0]), Math.min(lons.max, bounds[1][1])]
+            ];
             // Масштабируем карту на область видимости геообъекта.
-            myMap.setBounds(bounds, {
+            myMap.setBounds(resultBounds, {
                 // Проверяем наличие тайлов на данном масштабе.
                 checkZoomRange: true
             });

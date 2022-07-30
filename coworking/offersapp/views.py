@@ -2,11 +2,10 @@ import json
 from createapp.models import Room, OfferImages, Convenience, ConvenienceRoom, RoomCategory, Address
 from detailsapp.models import OffersRatings, CurrentRentals
 from django.db.models import Q
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.views.generic import ListView
 
 from datetime import datetime, timedelta
-from pprint import pprint
 
 from lxml import html
 from .utils import create_url, get_response, validate_data
@@ -278,6 +277,7 @@ def add_conveniences_in_dict(rooms: dict):
 def map_room_to_coords(room: Room) -> dict:
     address: Address = room.address
     return {
+        'pk': room.pk,
         'name': room.name,
         'address': f"{address.city}, {address.street}, {address.building}",
         'lat': str(address.latitude),
