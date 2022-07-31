@@ -198,6 +198,7 @@ SITE_ID = 2
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
+# эти данные задаются параметрами внутри базовой админки
 # CLIENT_ID = '533038250353-q26oprmp3nqmsakth9f1on08nbmjvm7h.apps.googleusercontent.com'
 # SECRET_KEY = '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'
 

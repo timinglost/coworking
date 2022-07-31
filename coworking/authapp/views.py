@@ -44,7 +44,7 @@ def login(request):
         'title': title,
         'form': form,
     }
-    return render(request, 'authapp/pages-login.html', context)
+    return render(request, 'authapp/account_login.html', context)
 
 
 # ================================================================
@@ -102,10 +102,53 @@ class LandlordRegisterView(CreateView):
     success_url = reverse_lazy('auth:login')
     success_message = 'Арендодатель успешно зарегистрирован.'
 
+    # запилить подтверждение регистрации через админа
+    # !!!!!!!!!!!!!!!!!!!!!!!
+    # только при регистрации арендодателя не отправляем письмо на почту, а отправляем запрос(письмо) админу
+    # !!!!!!!!!!!!!!!!!!!!!!!
+    def form_valid(self, form):
+        user = form.save(commit=False)
+        user.is_active = False
+        user.save()
+        pass
+
     def get_context_data(self, **kwargs):
         context = super(LandlordRegisterView, self).get_context_data(**kwargs)
         context.update({'title': 'Регистрация арендодателя'})
         return context
+
+
+# ===================================================
+def verify(request, email, activation_key):
+    # user = UserModel.objects.filter(email).first()
+    user = UserModel.objects.filter(email=email).first()
+    if user:
+        if user.activation_key == activation_key and not user.is_activation_key_expired():
+            user.is_active = True
+            user.save()
+            # auth.login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+        return render(request, 'authapp/page-confirm-register.html')
+
+    return redirect('main')
+
+
+from django.template.loader import render_to_string
+
+
+def send_verify_mail(user):
+    subject = 'Verify your account'
+    link = reverse('authapp:verify', args=[user.email, user.activation_key])
+    template = render_to_string('authapp/email_template.html',
+                                {'name': user.username, 'link': f"{settings.DOMAIN}{link}"})
+
+    return send_mail(
+        subject,  # subject
+        template,  # message
+        settings.EMAIL_HOST_USER,  # from_email
+        [user.email],  # recipient_list - список получателей
+        fail_silently=False, auth_password='zbdjzgrddsiaufqs')
+
+    # ===================================================
 
 
 # ===================================================
