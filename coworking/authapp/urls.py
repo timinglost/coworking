@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from authapp.views import login, user_logout, UserRegisterView, choose_type, LandlordRegisterView
+from authapp.views import login, user_logout, UserRegisterView, choose_type, landlord_register
 
 app_name = 'authapp'
 
@@ -24,5 +24,5 @@ urlpatterns = [
     path('logout/', user_logout, name='logout'),
     path('choose/', choose_type, name='choose_type'),
     path('user/', UserRegisterView.as_view(), name='user'),
-    path('landlord/', LandlordRegisterView.as_view(), name='landlord'),
+    path('landlord/', landlord_register, name='landlord'),
 ]

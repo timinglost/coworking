@@ -1,22 +1,27 @@
+from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from django.shortcuts import render, HttpResponseRedirect, redirect
 from django.utils.translation import gettext as _
 
 from django.contrib import auth, messages
 from django.urls import reverse, reverse_lazy
+from django.template.loader import render_to_string
 from django.views.generic.edit import CreateView, UpdateView
 from authapp.forms import UserRegisterForm, UserLoginForm, LandlordRegisterForm
-from django.contrib.auth.models import AbstractUser
-from userapp.models import UserModel
 
 from django.conf import settings
 
 # ================================================================
 # =========================== Login ==============================
 from userapp.models import UserModel
+from adminapp.models import Claim
+
+
+# from adminapp.forms import ClaimForm
 
 
 def login(request):
+    """ Логирование пользователей с простой проверкой активности пользователя на сайте """
     title = 'Авторизация'
 
     if request.method == "POST":
@@ -58,17 +63,19 @@ def user_logout(request):
 # ================================================================
 
 def choose_type(request):
+    """ Памперс """
     return render(request, 'authapp/choose_type.html')
 
 
 class UserRegisterView(CreateView):
+    """ Регистрация нового пользователя,
+    механика активации пользователя через почту """
+
     model = UserModel
     form_class = UserRegisterForm
     template_name = 'authapp/user-register.html'
     success_url = reverse_lazy('auth:login')
     success_message = 'Пользователь успешно зарегистрирован.'
-
-    # функция send_mail, спецклас
 
     def form_valid(self, form):
 
@@ -95,32 +102,48 @@ class UserRegisterView(CreateView):
         return context
 
 
-class LandlordRegisterView(CreateView):
-    model = UserModel
-    form_class = LandlordRegisterForm
+# запилить подтверждение регистрации через админа
+# !!!!!!!!!!!!!!!!!!!!!!!
+# только при регистрации арендодателя не отправляем письмо на почту, а отправляем запрос(письмо) админу
+# !!!!!!!!!!!!!!!!!!!!!!!
+# Админ принимает решение и результат отправляет на почту
+# !!!!!!!!!!!!!!!!!!!!!!!
+
+def landlord_register(request):
     template_name = 'authapp/landlord-register.html'
-    success_url = reverse_lazy('auth:login')
-    success_message = 'Арендодатель успешно зарегистрирован.'
+    title = 'Регистрация арендодателя'
 
-    # запилить подтверждение регистрации через админа
-    # !!!!!!!!!!!!!!!!!!!!!!!
-    # только при регистрации арендодателя не отправляем письмо на почту, а отправляем запрос(письмо) админу
-    # !!!!!!!!!!!!!!!!!!!!!!!
-    def form_valid(self, form):
-        user = form.save(commit=False)
-        user.is_active = False
-        user.save()
-        pass
+    if request.method == 'POST':
+        user_form = LandlordRegisterForm(data=request.POST)
+        # claim_form = ClaimForm(data=request.POST)
+        if user_form.is_valid():
 
-    def get_context_data(self, **kwargs):
-        context = super(LandlordRegisterView, self).get_context_data(**kwargs)
-        context.update({'title': 'Регистрация арендодателя'})
-        return context
+            user = user_form.save(commit=False)
+            user.is_active = False
+            # **************
+            user.save()
+            Claim.objects.create(user_id=user)
+            # **************
+
+            messages.success(request,
+                             _('Заявка на получение прав арендодателя отправлена на рассмотрение администрации сайта.'))
+            return redirect('auth:login')
+        else:
+            print('Error, something went unsuccessfully.')
+    else:
+        user_form = LandlordRegisterForm(data=request.GET)
+        # claim_form = ClaimForm(data=request.GET)
+
+    context = {'title': title, 'user_form': user_form}
+    return render(request, template_name, context)
 
 
 # ===================================================
+
+# ===================================================
 def verify(request, email, activation_key):
-    # user = UserModel.objects.filter(email).first()
+    """ Подтверждение и сохранение пользователя и его активация на сайте """
+
     user = UserModel.objects.filter(email=email).first()
     if user:
         if user.activation_key == activation_key and not user.is_activation_key_expired():
@@ -132,48 +155,13 @@ def verify(request, email, activation_key):
     return redirect('main')
 
 
-from django.template.loader import render_to_string
-
-
 def send_verify_mail(user):
+    """ Формирование шаблона письма для пользователя с ключом активации """
     subject = 'Verify your account'
     link = reverse('authapp:verify', args=[user.email, user.activation_key])
     template = render_to_string('authapp/email_template.html',
                                 {'name': user.username, 'link': f"{settings.DOMAIN}{link}"})
-
-    return send_mail(
-        subject,  # subject
-        template,  # message
-        settings.EMAIL_HOST_USER,  # from_email
-        [user.email],  # recipient_list - список получателей
-        fail_silently=False, auth_password='zbdjzgrddsiaufqs')
-
-    # ===================================================
-
-
-# ===================================================
-def verify(request, email, activation_key):
-    # user = UserModel.objects.filter(email).first()
-    user = UserModel.objects.filter(email=email).first()
-    if user:
-        if user.activation_key == activation_key and not user.is_activation_key_expired():
-            user.is_active = True
-            user.save()
-            # auth.login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-        return render(request, 'authapp/page-confirm-register.html')
-
-    return redirect('main')
-
-
-from django.template.loader import render_to_string
-
-
-def send_verify_mail(user):
-    subject = 'Verify your account'
-    link = reverse('authapp:verify', args=[user.email, user.activation_key])
-    template = render_to_string('authapp/email_template.html',
-                                {'name': user.username, 'link': f"{settings.DOMAIN}{link}"})
-
+    # функция send_mail, спецклас
     return send_mail(
         subject,  # subject
         template,  # message

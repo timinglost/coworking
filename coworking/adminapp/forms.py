@@ -6,6 +6,8 @@ from createapp.models import RoomCategory, ConvenienceType, Convenience
 import re
 from detailsapp.models import RatingNames
 
+from adminapp.models import Claim
+
 
 class CriterionEditForm(forms.ModelForm):
     name = forms.CharField(widget=forms.TextInput(
@@ -175,3 +177,31 @@ class QuestionEditForm(forms.ModelForm):
             raise ValidationError('Слишком длинное имя!')
         else:
             return name
+
+
+# =============== Claim form ===============
+# class ClaimForm(forms.ModelForm):
+#     text = forms.CharField(widget=forms.Textarea(
+#         attrs={'type': 'text',
+#                'class': 'form-control',
+#                'placeholder': 'Укажите я хз что и зачем это, но что-то укажите', 'rows': 4}
+#     ))
+#
+#     class Meta:
+#         model = Claim
+#         fields = 'text',
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

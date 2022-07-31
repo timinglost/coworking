@@ -33,6 +33,11 @@ def add_images_info(rooms):
     return offers_dict
 
 
+# ==================================
+""" НУЖНО ПИСАТЬ КОМЕНТАРИИ!!!! """
+# ==================================
+
+
 @user_passes_test(check_admin)
 def user(request, pk):
     title = 'Админка - Пользователь'
@@ -158,6 +163,7 @@ def claim_reject(request, pk):
     return HttpResponseRedirect(reverse('admin_staff:landlords'))
 
 
+# ===============================================================
 @user_passes_test(check_admin_staff)
 def landlord(request, pk):
     title = 'Админка - Арендодалели'
@@ -191,6 +197,8 @@ def landlords_history(request):
     }
     return render(request, 'adminapp/landlords/landlords-history.html', context)
 
+
+# ===============================================================
 
 @user_passes_test(check_admin_staff)
 def convenience_delete(request, pk_conv, pk):
