@@ -170,3 +170,14 @@ def send_verify_mail(user):
         fail_silently=False, auth_password='zbdjzgrddsiaufqs')
 
     # ===================================================
+
+
+# def send_feedback(func):
+#     def send_verify_mail():
+#         # логика до срабатывания функции
+#         func()
+#         # логика после срабатывания функции
+#
+#     return send_verify_mail
+# # механизм подтверждения заявки от пользователя
+#
