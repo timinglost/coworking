@@ -1,5 +1,7 @@
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django import forms
+import hashlib
+import random
 from django.core.validators import RegexValidator
 from django.core.exceptions import ValidationError
 from userapp.models import UserModel
@@ -88,3 +90,13 @@ class LandlordRegisterForm(UserCreationForm):
         if new.count():
             raise ValidationError('Такой Емейл адрес уже зарегистрирован на сайте.')
         return email
+
+    def save(self, commit=True):
+        user = super(LandlordRegisterForm, self).save()
+        user.is_active = False
+        # ------------------------------------------
+        salt = hashlib.sha256(str(random.random()).encode('utf8')).hexdigest()[:6]
+        user.activation_key = hashlib.sha256((user.email + salt).encode('utf8')).hexdigest()
+        # ------------------------------------------
+        user.save()
+        return user
