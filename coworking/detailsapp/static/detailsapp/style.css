@@ -269,6 +269,60 @@
     border-radius: 4px;
 }
 
+.review-content{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 5% 35% 1% 18%;
+    padding: 2% 2%;
+    background-color: #fff;
+    border: 1px solid;
+    border-color: white;
+    border-radius: 4px;
+    height: 100%;
+    box-shadow: 0px 0 30px rgb(1 41 112 / 10%);
+}
+.review-ratings{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: space-around;
+    justify-content: space-between;
+    background-color: white;
+    border: 1px solid;
+    border-color: white;
+    border-radius: 4px;
+    height: 55vh;
+}
+
+.review-rating{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    background-color: white;
+    border: 1px solid;
+    border-color: white;
+    border-radius: 4px;
+    width: 44%;
+    height: 20%;
+    margin: 10px 10px;
+    padding: 0 5px;
+}
+
+.review-rating label{
+    font-size: 1.5rem;
+}
+.message-area {
+    height: 40%;
+}
+
+.message-area textarea.form-control {
+    margin: 10px 0;
+    height: 80%;
+}
+
+
 /**
 * Template Name: NiceAdmin - v2.2.2
 * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/

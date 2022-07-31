@@ -1,0 +1,12 @@
+{% load static %}
+{% if in_fav %}
+<div class="favorite">
+    <div class="favorite heart"></div>
+    <p>Убрать из избранного</p>
+</div>
+{% else %}
+<div class="favorite">
+    <div class="heart" style="opacity: 0.25;"></div>
+    <p>В избранное</p>
+</div>
+{% endif%}

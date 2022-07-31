@@ -15,8 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
+from .views import user, user_profile, user_bookings, user_favorites, user_locations_is_published, claim_landlord
+from .views import booking_history, users, change_ad, offer_publishing, user_locations_is_not_published
 
-from .views import user, user_profile, user_bookings, user_favorites, user_locations
 
 app_name = 'userapp'
 
@@ -24,6 +27,15 @@ urlpatterns = [
     path('', user, name='main'),
     path('profile/', user_profile, name='profile'),
     path('bookings/', user_bookings, name='bookings'),
-    path('locations/', user_locations, name='locations'),
+    path('locations-published/', user_locations_is_published, name='locations'),
+    path('locations-not-published/', user_locations_is_not_published, name='locations_not_published'),
     path('favorites/', user_favorites, name='favorites'),
+    path('landlord-application/', claim_landlord, name='landlord-application'),
+    path('booking-history/', booking_history, name='booking_history'),
+    path('users/<int:pk>', users, name='users'),
+    path('change-ad/<int:pk>', change_ad, name='change_ad'),
+    path('publishing-ad/<int:pk>', offer_publishing, name='publishing_ad'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
