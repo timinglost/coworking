@@ -35,7 +35,7 @@ def add_images_info(rooms):
 
 @user_passes_test(check_admin)
 def user(request, pk):
-    title = 'Админка - Пользователь'
+    title = 'ЛОКАЦИЯ | Админка - Пользователь'
 
     this_user = get_object_or_404(UserModel, pk=pk)
 
@@ -48,7 +48,7 @@ def user(request, pk):
 
 @user_passes_test(check_admin_staff)
 def booking(request):
-    title = 'Админка - Истории бронирований'
+    title = 'ЛОКАЦИЯ | Админка - Истории бронирований'
 
     if request.method == 'POST':
         start = request.POST.get('start_date')
@@ -70,7 +70,7 @@ def booking(request):
 
 @user_passes_test(check_admin_staff)
 def landlord_history(request, pk):
-    title = 'Админка - Арендодалели'
+    title = 'ЛОКАЦИЯ | Админка - Арендодалели'
 
     claim_landlord = get_object_or_404(Claim, pk=pk)
     context = {
@@ -89,7 +89,7 @@ def criterion_delete(request, pk):
 
 @user_passes_test(check_admin_staff)
 def criterion_edit(request, pk):
-    title = 'Админка - Критерии'
+    title = 'ЛОКАЦИЯ | Админка - Критерии'
     criterion_item = get_object_or_404(RatingNames, pk=pk)
     if request.method == 'POST':
         criterion_form = CriterionEditForm(request.POST, instance=criterion_item)
@@ -109,7 +109,7 @@ def criterion_edit(request, pk):
 
 @user_passes_test(check_admin_staff)
 def criterion_add(request):
-    title = 'Админка - Критерии'
+    title = 'ЛОКАЦИЯ | Админка - Критерии'
     if request.method == 'POST':
         criterion_form = CriterionEditForm(request.POST)
         if criterion_form.is_valid():
@@ -128,7 +128,7 @@ def criterion_add(request):
 
 @user_passes_test(check_admin_staff)
 def criterion(request):
-    title = 'Админка - Критерии'
+    title = 'ЛОКАЦИЯ | Админка - Критерии'
     criterions = RatingNames.objects.all()
     context = {
         'title': title,
@@ -160,7 +160,7 @@ def claim_reject(request, pk):
 
 @user_passes_test(check_admin_staff)
 def landlord(request, pk):
-    title = 'Админка - Арендодалели'
+    title = 'ЛОКАЦИЯ | Админка - Арендодалели'
 
     claim_landlord = get_object_or_404(Claim, pk=pk)
     context = {
@@ -172,7 +172,7 @@ def landlord(request, pk):
 
 @user_passes_test(check_admin_staff)
 def landlords(request):
-    title = 'Админка - Арендодалели'
+    title = 'ЛОКАЦИЯ | Админка - Арендодалели'
     claim_landlords = Claim.objects.filter(is_active=True)
     context = {
         'title': title,
@@ -183,7 +183,7 @@ def landlords(request):
 
 @user_passes_test(check_admin_staff)
 def landlords_history(request):
-    title = 'Админка - Арендодалели'
+    title = 'ЛОКАЦИЯ | Админка - Арендодалели'
     claim_landlords = Claim.objects.filter(is_active=False)
     context = {
         'title': title,
@@ -201,7 +201,7 @@ def convenience_delete(request, pk_conv, pk):
 
 @user_passes_test(check_admin_staff)
 def convenience_edit(request, pk_conv, pk):
-    title = 'Админка - F.A.Q.'
+    title = 'ЛОКАЦИЯ | Админка - F.A.Q.'
     conv = get_object_or_404(Convenience, pk=pk)
     if request.method == 'POST':
         conv_form = ConvenienceEditForm(request.POST, instance=conv)
@@ -222,7 +222,7 @@ def convenience_edit(request, pk_conv, pk):
 
 @user_passes_test(check_admin_staff)
 def convenience_add(request, pk_conv):
-    title = 'Админка - Удобства'
+    title = 'ЛОКАЦИЯ | Админка - Удобства'
     conv_type = get_object_or_404(ConvenienceType, pk=pk_conv)
     if request.method == 'POST':
         conv_form = ConvenienceEditForm(request.POST)
@@ -247,7 +247,7 @@ def convenience_add(request, pk_conv):
 
 @user_passes_test(check_admin_staff)
 def convenience(request, pk):
-    title = 'Админка - F.A.Q.'
+    title = 'ЛОКАЦИЯ | Админка - F.A.Q.'
     conv_type = get_object_or_404(ConvenienceType, pk=pk)
     conveniences = Convenience.objects.filter(convenience_type_id__pk=pk)
     context = {
@@ -260,7 +260,7 @@ def convenience(request, pk):
 
 @user_passes_test(check_admin_staff)
 def convenience_type_edit(request, pk):
-    title = 'Админка - Удобства'
+    title = 'ЛОКАЦИЯ | Админка - Удобства'
     conv_type = get_object_or_404(ConvenienceType, pk=pk)
     if request.method == 'POST':
         convenience_type_form = ConvenienceTypeEditForm(request.POST, instance=conv_type)
@@ -288,7 +288,7 @@ def convenience_type_delete(request, pk):
 
 @user_passes_test(check_admin_staff)
 def convenience_type_add(request):
-    title = 'Админка - Удобства'
+    title = 'ЛОКАЦИЯ | Админка - Удобства'
     if request.method == 'POST':
         convenience_type_form = ConvenienceTypeEditForm(request.POST)
         if convenience_type_form.is_valid():
@@ -307,7 +307,7 @@ def convenience_type_add(request):
 
 @user_passes_test(check_admin)
 def convenience_type(request):
-    title = 'Админка - Удобства'
+    title = 'ЛОКАЦИЯ | Админка - Удобства'
     convenience_types = ConvenienceType.objects.all()
     context = {
         'title': title,
@@ -338,7 +338,7 @@ def room_category_delete(request, pk):
 
 @user_passes_test(check_admin)
 def users(request):
-    title = 'Админка - Категории'
+    title = 'ЛОКАЦИЯ | Админка - Категории'
 
     all_users = UserModel.objects.filter(is_staff=False)
     staff_users = UserModel.objects.filter(is_staff=True)
@@ -353,7 +353,7 @@ def users(request):
 
 @user_passes_test(check_admin_staff)
 def room_category_add(request):
-    title = 'Админка - Категории'
+    title = 'ЛОКАЦИЯ | Админка - Категории'
     if request.method == 'POST':
         category_form = RoomCategoryEditForm(request.POST)
         if category_form.is_valid():
@@ -372,7 +372,7 @@ def room_category_add(request):
 
 @user_passes_test(check_admin_staff)
 def room_category_edit(request, pk):
-    title = 'Админка - Категории'
+    title = 'ЛОКАЦИЯ | Админка - Категории'
     category = get_object_or_404(RoomCategory, pk=pk)
     if request.method == 'POST':
         category_form = RoomCategoryEditForm(request.POST, instance=category)
@@ -393,7 +393,7 @@ def room_category_edit(request, pk):
 
 @user_passes_test(check_admin_staff)
 def room_category(request):
-    title = 'Админка - Категории'
+    title = 'ЛОКАЦИЯ | Админка - Категории'
 
     room_category = RoomCategory.objects.all()
 
@@ -427,7 +427,7 @@ def show_offers_details(request, pk):
 
 @user_passes_test(check_admin_staff)
 def pre_moderation(request):
-    title = 'Админка - Заказы'
+    title = 'ЛОКАЦИЯ | Админка - Заказы'
 
     offers_list = Room.objects.filter(is_active=False)
     offers_dict = add_images_info(offers_list)
@@ -442,7 +442,7 @@ def pre_moderation(request):
 
 @user_passes_test(check_admin_staff)
 def offers(request):
-    title = 'Админка - Заказы'
+    title = 'ЛОКАЦИЯ | Админка - Заказы'
 
     offers_list = get_offers()
     offers_dict = add_images_info(offers_list)
@@ -457,7 +457,7 @@ def offers(request):
 
 @user_passes_test(check_admin_staff)
 def main(request):
-    title = 'Админка'
+    title = 'ЛОКАЦИЯ | Админка'
 
     context = {
         'title': title,
@@ -467,7 +467,7 @@ def main(request):
 
 @user_passes_test(check_admin_staff)
 def edit_contacts(request):
-    title = 'Админка - Контакты'
+    title = 'ЛОКАЦИЯ | Админка - Контакты'
     contacts = Contact.objects.first()
     if request.method == 'POST':
         contact_form = ContactEditForm(request.POST, instance=contacts)
@@ -488,7 +488,7 @@ def edit_contacts(request):
 
 @user_passes_test(check_admin_staff)
 def question_category(request):
-    title = 'Админка - F.A.Q.'
+    title = 'ЛОКАЦИЯ | Админка - F.A.Q.'
 
     faq_category = QuestionCategory.objects.all()
 
@@ -501,7 +501,7 @@ def question_category(request):
 
 @user_passes_test(check_admin_staff)
 def category(request, pk):
-    title = 'Админка - F.A.Q.'
+    title = 'ЛОКАЦИЯ | Админка - F.A.Q.'
     category = get_object_or_404(QuestionCategory, pk=pk)
     if request.method == 'POST':
         category_form = QuestionCategoryEditForm(request.POST, instance=category)
@@ -522,7 +522,7 @@ def category(request, pk):
 
 @user_passes_test(check_admin_staff)
 def add_category(request):
-    title = 'Админка - F.A.Q.'
+    title = 'ЛОКАЦИЯ | Админка - F.A.Q.'
     if request.method == 'POST':
         category_form = QuestionCategoryEditForm(request.POST)
         if category_form.is_valid():
@@ -548,7 +548,7 @@ def delete_category(request, pk):
 
 @user_passes_test(check_admin_staff)
 def questions(request, pk):
-    title = 'Админка - F.A.Q.'
+    title = 'ЛОКАЦИЯ | Админка - F.A.Q.'
     faq_category = get_object_or_404(QuestionCategory, pk=pk)
     faq_question = Question.objects.filter(category__pk=pk)
     context = {
@@ -561,7 +561,7 @@ def questions(request, pk):
 
 @user_passes_test(check_admin_staff)
 def question_edit(request, pk_cat, pk):
-    title = 'Админка - F.A.Q.'
+    title = 'ЛОКАЦИЯ | Админка - F.A.Q.'
     question = get_object_or_404(Question, pk=pk)
     if request.method == 'POST':
         question_form = QuestionEditForm(request.POST, instance=question)
@@ -582,7 +582,7 @@ def question_edit(request, pk_cat, pk):
 
 @user_passes_test(check_admin_staff)
 def question_add(request, pk_cat):
-    title = 'Админка - F.A.Q.'
+    title = 'ЛОКАЦИЯ | Админка - F.A.Q.'
     faq_category = get_object_or_404(QuestionCategory, pk=pk_cat)
     if request.method == 'POST':
         question_form = QuestionEditForm(request.POST)
@@ -616,7 +616,7 @@ def question_delete(request, pk_cat, pk):
 
 @user_passes_test(check_admin_staff)
 def message(request):
-    title = 'Админка - Сообщения'
+    title = 'ЛОКАЦИЯ | Админка - Сообщения'
 
     messages_active = Message.objects.filter(is_active=True)
     messages_not_active = Message.objects.filter(is_active=False)
@@ -631,7 +631,7 @@ def message(request):
 
 @user_passes_test(check_admin_staff)
 def get_message(request, pk):
-    title = 'Админка - Сообщения'
+    title = 'ЛОКАЦИЯ | Админка - Сообщения'
 
     message_active = get_object_or_404(Message, pk=pk)
 

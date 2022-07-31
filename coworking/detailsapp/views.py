@@ -436,7 +436,7 @@ def send_review(request, pk):
     else:
         rating_names = RatingNames.objects.all()
         context = {
-            'title': 'title',
+            'title': 'ЛОКАЦИЯ | Новый отзыв',
             'rating_names': rating_names,
             'contact_data': Contact.objects.first(),
             'for_users': Question.objects.filter(

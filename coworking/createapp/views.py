@@ -65,7 +65,7 @@ def add_ad(request):
             )
 
     context = {
-        'title': 'Добавить новое объявление',
+        'title': 'ЛОКАЦИЯ | Новое объявление',
         'form': form,
         'conv_types': conv_types,
         'conveniences': conveniences

@@ -29,7 +29,7 @@ from .forms import CreateAdForm
 
 @login_required
 def users(request, pk):
-    title = 'Админка - Пользователь'
+    title = 'ЛОКАЦИЯ | Админка - Пользователь'
 
     this_user = get_object_or_404(UserModel, pk=pk)
 
@@ -146,7 +146,7 @@ def change_ad(request, pk):
     }, ensure_ascii=False)
 
     context = {
-        'title': 'Обновить объявление',
+        'title': 'ЛОКАЦИЯ | Обновить объявление',
         'form': form,
         'conv_types': conv_types,
         'conveniences': conveniences,
@@ -160,7 +160,7 @@ def change_ad(request, pk):
 
 @login_required
 def booking_history(request):
-    title = 'Админка - Истории бронирований'
+    title = 'ЛОКАЦИЯ | Админка - Истории бронирований'
     if request.method == 'POST':
         start = request.POST.get('start_date')
         end = request.POST.get('end_date')
@@ -317,7 +317,7 @@ def user_favorites(request):
 
 @login_required
 def claim_landlord(request):
-    title = 'Арендодателям'
+    title = 'ЛОКАЦИЯ | Арендодателям'
     if request.method == 'POST':
         landlord_form = LandlordApplicationForm(request.POST)
         if landlord_form.is_valid():

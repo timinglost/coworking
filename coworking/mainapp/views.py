@@ -1,5 +1,3 @@
-import math
-
 import numpy
 from django.db.models import Avg
 from django.shortcuts import render, redirect
@@ -22,7 +20,7 @@ def avg_rating_per_criteria(landlord, criteria_name):
     room_ratings = [
         Evaluations.objects.filter(offer=room).filter(rating_name=criteria_name).aggregate(
             rating=Avg("evaluation"))['rating']
-        for room in Room.objects.filter( room_owner=landlord, is_active=True, is_published=True)
+        for room in Room.objects.filter(room_owner=landlord, is_active=True, is_published=True)
     ]
     room_ratings = list(map(lambda it: int(it), room_ratings))
     return int(numpy.average(room_ratings) * 10) if len(room_ratings) > 0 else 0
