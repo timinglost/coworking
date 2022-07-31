@@ -93,6 +93,7 @@ class CreateAdForm(ModelForm):
                                   initial="Description",
                                   widget=forms.Textarea(attrs={'class': 'form-control form-input',
                                                                'placeholder': 'Описание',
+                                                               'style': 'max-width: 100%; min-width: 100%',
                                                                'rows': 4}))
 
     payment_per_hour = forms.DecimalField(max_digits=10, initial=1000, decimal_places=2, label="Цена за час (руб.)",
