@@ -15,6 +15,8 @@ from adminapp.models import Claim
 from offersapp.views import get_offers
 from detailsapp.models import CurrentRentals, CompletedRentals
 
+from authapp.views import send_verify_mail
+
 
 def check_admin(user):
     return user.is_superuser
@@ -35,6 +37,8 @@ def add_images_info(rooms):
 
 # ==================================
 """ НУЖНО ПИСАТЬ КОМЕНТАРИИ!!!! """
+
+
 # ==================================
 
 
@@ -148,9 +152,12 @@ def claim_accept(request, pk):
     user_ll = get_object_or_404(UserModel, pk=claim_landlord.user_id.pk)
     user_ll.is_landlord = True
     user_ll.save()
+    send_verify_mail(user_ll)
+
     claim_landlord.is_active = False
     claim_landlord.is_approved = True
     claim_landlord.save()
+
     return HttpResponseRedirect(reverse('admin_staff:landlords'))
 
 
@@ -160,6 +167,7 @@ def claim_reject(request, pk):
     claim_landlord.is_active = False
     claim_landlord.is_approved = False
     claim_landlord.save()
+    send_verify_mail(request.user.pk)
     return HttpResponseRedirect(reverse('admin_staff:landlords'))
 
 

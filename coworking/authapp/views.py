@@ -170,14 +170,18 @@ def send_verify_mail(user):
         fail_silently=False, auth_password='zbdjzgrddsiaufqs')
 
     # ===================================================
+# def decorator_send_email(user):
 
+#   def send_feedback(claim_accept):
 
-# def send_feedback(func):
-#     def send_verify_mail():
-#         # логика до срабатывания функции
-#         func()
-#         # логика после срабатывания функции
+#       def wrapper_function(*args, **kwargs):
+#            # логика до срабатывания функции
+
+#           return claim_accept(*args, **kwargs)
+
+#       # логика после срабатывания функции
+#       return wrapper_function
+#   return send_feedback
 #
-#     return send_verify_mail
 # # механизм подтверждения заявки от пользователя
 #
