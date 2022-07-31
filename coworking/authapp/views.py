@@ -53,7 +53,7 @@ def user_logout(request):
 # ================================================================
 
 def choose_type(request):
-    return render(request, 'authapp/choose_type.html')
+    return render(request, 'authapp/choose_type.html', {'title': 'ЛОКАЦИЯ | Регистрация'})
 
 
 class UserRegisterView(CreateView):
