@@ -1,0 +1,5 @@
+django<3.3
+pillow
+requests
+address
+numpy
