@@ -10,9 +10,10 @@ from userapp.models import UserModel
 
 
 def get_top_landlords():
-    all_landlords = {
-        user: f"{numpy.average([OffersRatings.objects.get(offer=_).summary_rating for _ in Room.objects.filter(room_owner=user, is_active=True, is_published=True)]):.1f}"
-        for user in UserModel.objects.filter(is_landlord=True) if Room.objects.filter(room_owner=user, is_active=True, is_published=True).exists()}
+    all_landlords = {}
+    for room in [_ for _ in Room.objects.filter(room_owner__is_landlord=True, is_active=True, is_published=True) if
+                 _ in [_.offer for _ in OffersRatings.objects.all()]]:
+        all_landlords[room.room_owner] = f"{numpy.average([OffersRatings.objects.get(offer=room).summary_rating]):.1f}"
     return [k for k, v in sorted(all_landlords.items(), key=lambda item: item[1])[:3]]
 
 
@@ -20,7 +21,8 @@ def avg_rating_per_criteria(landlord, criteria_name):
     room_ratings = [
         Evaluations.objects.filter(offer=room).filter(rating_name=criteria_name).aggregate(
             rating=Avg("evaluation"))['rating']
-        for room in Room.objects.filter(room_owner=landlord, is_active=True, is_published=True)
+        for room in [_ for _ in Room.objects.filter(room_owner=landlord, is_active=True, is_published=True) if
+                 _ in [_.offer for _ in OffersRatings.objects.all()]]
     ]
     room_ratings = list(map(lambda it: int(it), room_ratings))
     return int(numpy.average(room_ratings) * 10) if len(room_ratings) > 0 else 0
