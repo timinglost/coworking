@@ -31,15 +31,14 @@
     {% for review in reviews %}
     <div class="message">
         <div class="user-photo">
-            <img src="{% if user.avatar %}
-                            {{ user.avatar.url }}
+            <img src="{% if review.user.avatar %}
+                            {{ review.user.avatar.url }}
                             {% else %}
                             {% static 'userapp/assets/img/profile-img.jpg' %}
                        {% endif %}"
                  alt="" class="rounded-circle">
         </div>
         <div class="message-content">
-            <!--            <h4 class="message-user">{{review.user.first_name}} {{review.user.last_name}}</h4>-->
             <h4 class="message-user"><a href="{% url 'user:users' review.user.pk %}">{{review.user.first_name}}</a></h4>
             <p class="message-text">{{review.review_text}}</p>
             <p class="message-time">{{review.created_at|date:"d.m.Y"}}</p>

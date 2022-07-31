@@ -1,8 +1,8 @@
 {% load static %}
 <div class="landlord-header">
     <div class="landlord-photo">
-        <img src="{% if user.avatar %}
-                            {{ user.avatar.url }}
+        <img src="{% if owner.avatar %}
+                            {{ owner.avatar.url }}
                             {% else %}
                             {% static 'userapp/assets/img/profile-img.jpg' %}
                             {% endif %}"
@@ -27,7 +27,7 @@
         </div>
 
         <div class="status-info">
-            <p class="status-name">{% if user.is_landlord %}Владелец{% endif %}</p>
+            <p class="status-name">{% if owner.is_landlord %}Владелец{% endif %}</p>
             <p class="status-date">На сайте с {{owner.created_at|date:"d.m.Y"}}</p>
         </div>
     </div>

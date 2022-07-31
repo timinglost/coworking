@@ -30,13 +30,13 @@
             </li><!-- End Search Icon-->
 
             <li class="nav-item">
-                <a href="{% url 'user:bookings' %}" class="nav-link" target="_blank">
+                <a href="{% url 'user:bookings' %}" class="nav-link">
                     <span class="d-none d-md-block ps-2">Мои бронирования</span>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a href="{% url 'user:favorites' %}" class="nav-link" target="_blank">
+                <a href="{% url 'user:favorites' %}" class="nav-link">
                     <span class="d-none d-md-block ps-2">Избранное</span>
                 </a>
             </li>
@@ -176,7 +176,12 @@
             <li class="nav-item dropdown pe-3">
 
                 <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-                    <img src="{% static 'offersapp/assets/img/profile-img.jpg' %}" alt="Profile" class="rounded-circle">
+                    <img src="
+            {% if user.avatar %}
+            {{ user.avatar.url }}
+            {% else %}
+            {% static 'userapp/assets/img/profile-img.jpg' %}
+            {% endif %}" alt="Profile" class="rounded-circle">
                     <span class="d-none d-md-block dropdown-toggle ps-2"></span>
                 </a><!-- End Profile Iamge Icon -->
 
