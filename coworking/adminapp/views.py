@@ -340,13 +340,37 @@ def room_category_delete(request, pk):
 def users(request):
     title = 'ЛОКАЦИЯ | Админка - Категории'
 
-    all_users = UserModel.objects.filter(is_staff=False)
-    staff_users = UserModel.objects.filter(is_staff=True)
+    all_users = UserModel.objects.filter(is_landlord=False)
 
     context = {
         'title': title,
-        'all_users': all_users,
-        'staff_users': staff_users
+        'all_users': all_users
+    }
+    return render(request, 'adminapp/users/users.html', context)
+
+
+@user_passes_test(check_admin)
+def users_is_staff(request):
+    title = 'ЛОКАЦИЯ | Админка - Категории'
+
+    all_users = UserModel.objects.filter(is_staff=True)
+
+    context = {
+        'title': title,
+        'all_users': all_users
+    }
+    return render(request, 'adminapp/users/users.html', context)
+
+
+@user_passes_test(check_admin)
+def users_is_landlord(request):
+    title = 'ЛОКАЦИЯ | Админка - Категории'
+
+    all_users = UserModel.objects.filter(is_landlord=True)
+
+    context = {
+        'title': title,
+        'all_users': all_users
     }
     return render(request, 'adminapp/users/users.html', context)
 
