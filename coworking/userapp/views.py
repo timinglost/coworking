@@ -26,7 +26,7 @@ from .forms import CreateAdForm
 
 @login_required
 def users(request, pk):
-    title = 'ЛОКАЦИЯ | Админка - Пользователь'
+    title = 'ЛОКАЦИЯ | Пользователь'
 
     this_user = get_object_or_404(UserModel, pk=pk)
 

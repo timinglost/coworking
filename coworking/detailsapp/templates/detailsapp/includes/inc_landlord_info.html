@@ -10,7 +10,7 @@
     </div>
     <div class="landlord-status">
         <div class="status-header">
-            <h4 class="landlord-name">{{owner.first_name}} {{owner.last_name}}</h4>
+            <h4 class="landlord-name"><a href="{% url 'user:users' owner.pk %}">{{owner.first_name}} {{owner.last_name}}</a></h4>
             <div class="landlord-contacts">
                 <div class="landlord-mail">
                     <label for="landlord_mail">Почта</label>
