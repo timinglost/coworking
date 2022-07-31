@@ -6,7 +6,6 @@ from createapp.models import Room, OfferImages
 from detailsapp.models import OffersRatings, Evaluations, RatingNames
 from feedbackapp.models import Contact, QuestionCategory, Question
 from mainapp.forms import SearchMainForm
-from userapp.models import UserModel
 
 
 def get_top_landlords():
