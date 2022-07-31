@@ -28,21 +28,20 @@
                   <span>{{ category.name }}</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
                 <ul id="components-nav{{ category.pk }}" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                    {% for question in questions %}
-                    {% if question.category == category %}
+                    {% for question in category.question_set.all %}
                   <li>
                     <a href="{{ question.get_absolute_url }}">
                       <i class="bi bi-circle"></i><span>{{ question.name }}</span>
                     </a>
                   </li>
-                    {% endif %}
                     {% endfor %}
                 </ul>
 
               </li>
         {% endfor %}
         </ul>
-      </div>
+        </div></div>
+
     </section>
   </main><!-- End #main -->
   {% include 'userapp/includes/inc_footer.html' %}

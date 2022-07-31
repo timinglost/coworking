@@ -1,5 +1,7 @@
 from django.db import models
 
+from userapp.models import UserModel
+
 
 class Address(models.Model):
     city = models.CharField(max_length=100, blank=False, verbose_name='Город')
@@ -35,10 +37,9 @@ class Room(models.Model):
         verbose_name='Время завершения работы помещения до ')  # закрытие помещения, например, 23:00
     phone_number = models.CharField(max_length=16, blank=False, null=False)
     address = models.ForeignKey(Address, on_delete=models.CASCADE, related_name='room_address', verbose_name='Адрес')
-    # room_owner = models.ForeignKey(UserModel, on_delete=models.CASCADE)
+    room_owner = models.ForeignKey(UserModel, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Время создания записи')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Время обновления записи')
-
     is_active = models.BooleanField(
         verbose_name='активна',
         default=False
@@ -52,3 +53,32 @@ class OfferImages(models.Model):
     room = models.ForeignKey(Room, related_name='room_images', on_delete=models.CASCADE)
     image = models.FileField(upload_to='offer_images',
                              verbose_name='Фото')  # в этом поле хранится путь в виде "offer_images/img-name.format", например: "offer_images/offer1-1.jpg"
+
+
+class ConvenienceType(models.Model):
+    name = models.CharField(max_length=64, unique=True, verbose_name='Название категории удобств')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Время создания записи')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='Время обновления записи')
+
+
+class Convenience(models.Model):
+    name = models.CharField(max_length=64, unique=True, verbose_name='Название удобства')
+    file_name = models.CharField(max_length=64, verbose_name='Файл ресурса')
+    convenience_type = models.ForeignKey(ConvenienceType, on_delete=models.CASCADE, verbose_name='Категория удобств')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Время создания записи')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='Время обновления записи')
+
+    def __str__(self):
+        return f'{self.name} | {self.convenience_type.name}'
+
+
+class ConvenienceRoom(models.Model):  # здесь должен быть составной первичный ключ (room_id и convenience_id)
+    room_id = models.IntegerField(
+        verbose_name='id помещения')  # сюда нужно поставить тип, который джанго ставит при создании таблицы Room в колонку id
+    convenience_id = models.IntegerField(
+        verbose_name='id удобства')  # сюда нужно поставить тип, который джанго ставит при создании таблицы Convenience в колонку id
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Время создания записи')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='Время обновления записи')
+
+    class Meta:
+        unique_together = (('room_id', 'convenience_id'),)

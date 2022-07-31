@@ -20,13 +20,7 @@
         </a>
       </li>
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="{% url 'user:locations' %}">
-          <i class="bi bi-box"></i>
-          <span>Мои локации</span>
 
-        </a>
-      </li>
 
       <li class="nav-item">
         <a class="nav-link collapsed" href="{% url 'user:favorites' %}">
@@ -34,7 +28,30 @@
           <span>Избранное</span>
         </a>
       </li>
+      {% if not user.is_landlord %}
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{% url 'user:landlord-application' %}">
+          <i class="bi bi-box"></i>
+          <span>Стать арендодателем</span>
+        </a>
+      </li>
+      {% endif %}
+      {% if user.is_landlord %}
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{% url 'user:locations' %}">
+          <i class="bi bi-box"></i>
+          <span>Мои локации</span>
 
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{% url 'user:booking_history' %}">
+          <i class="ri-history-fill"></i>
+          <span>История бронирований</span>
+
+        </a>
+      </li>
+      {% endif %}
     </ul>
 
   </aside><!-- End Sidebar-->

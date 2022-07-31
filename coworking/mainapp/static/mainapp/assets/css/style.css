@@ -271,9 +271,6 @@ select:-webkit-autofill {
     outline: 0;
     box-shadow: inset 0 0px 0px rgba(0, 0, 0, .075), 0 0 0px rgba(102, 175, 233, .6);
 }
-small {
-    font-size: 99%;
-}
 
 h1,
 h2,
@@ -480,36 +477,6 @@ Button
     border-color: #3f92d1;
 }
 
-.btn-file {
-    color: #fff;
-    background-color: #3f92d1;
-}
-
-.error-msg {
-    color: rgb(255,128,128);
-    font-weight: bold;
-}
-
-.input_error {
-    border:1px solid #ff0000;
-}
-
-.alert {
-    position: relative;
-    padding: 0.75rem 1.25rem;
-    margin-bottom: 1rem;
-    border: 1px solid transparent;
-    border-radius: 0.25rem;
-}
-.alert-dismissible {
-    padding-right: 4rem;
-}
-.alert-warning {
-    color: #856404;
-    background-color: #fff3cd;
-    border-color: #ffeeba;
-}
-
 .main-block {
     align-items: center;
     color: #fff;
@@ -542,6 +509,25 @@ Button
 .main-block-field .main-block-field--suggestions {
     grid-area: suggestions;
 
+}
+
+.main-search-block {
+    color: #444;
+    display: flex;
+    max-width: 990px;
+    position: relative;
+    width: 100%;
+    z-index: 2;
+}
+
+.main-search-block .col-md-12 {
+    padding-right: 5px;
+    padding-left: 5px;
+}
+
+.main-search-block input {
+    border: 1px;
+    border-radius: 4px;
 }
 
 .suggest-wrapper {
@@ -1768,23 +1754,3 @@ work Section style
     padding: 0px 5px;
     color: #ff0000;
 }
-
-.map {
-    width: 100%;
-    height: 400px;
-}
-
-.form-input {
-    border-width: 1px;
-    border-radius: 0.5rem;
-    border-color: #6495ED;
-}
-.f-label {
-    padding-right: 22px;
-    flex-shrink: 0;
-    padding-top: 6px;
-    width: 280px;
-    font-size: 14px;
-    line-height: 16px;
-}
-

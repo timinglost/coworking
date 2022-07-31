@@ -27,7 +27,6 @@
             rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Droid+Sans" rel="stylesheet">
 
-
     {% block css %}
     {% endblock %}
     <link rel="stylesheet" href="{% static 'mainapp/assets/css/animate.css' %}">
@@ -37,18 +36,17 @@
     <link rel="stylesheet" href="{% static 'mainapp/assets/css/magnific-popup.css' %}">
     <link rel="stylesheet" href="{% static 'mainapp/assets/css/bootsnav.css' %}">
 
-
     <!--For Plugins external css-->
     <link rel="stylesheet" href="{% static 'mainapp/assets/css/plugins.css' %}"/>
 
     <!--Theme custom css -->
     <link rel="stylesheet" href="{% static 'mainapp/assets/css/style.css' %}">
-    <!--<link rel="stylesheet" href="assets/css/colors/maron.css">-->
-
     <!--Theme Responsive css-->
     <link rel="stylesheet" href="{% static 'mainapp/assets/css/responsive.css' %}"/>
 
     <script src="{% static 'mainapp/assets/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js' %}"></script>
+{% block js %}
+{% endblock %}
 </head>
 
 <body data-spy="scroll" data-target="#navbar-menu" data-offset="110">
@@ -66,16 +64,11 @@
 </div>
 <!--End off Preloader -->
 
-
 <div class="culmn">
-
     {% block content %}
     {% endblock %}
-
 </div>
 
-{% block js %}
-{% endblock %}
 </body>
 
 </html>

@@ -1,94 +1,57 @@
 {% load static %}
+{% if sum_rating %}
 <div class="rating">
     <div class="rating-header">
         <h3 class="rating-header-elem">Оценка гостей</h3>
-        <span class="rating-header-elem">10</span>
+        <span style="font-size:20px; margin-right: 10px;">{{sum_rating}}</span>
+        <i class="fas fa-star" style="font-size: 25px; color: gold;"></i>
     </div>
     <div class="rating-content">
+        {% for rating_name, evaluation in rating_dict.items %}
         <div class="rating-row">
             <div class="progress-name">
-                <p>some very long name for rating</p>
+                <p>{{rating_name}}</p>
             </div>
             <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="50" aria-valuemin="0"
-                     aria-valuemax="100">
+                <div class="progress-bar" role="progressbar" style="width: {% widthratio evaluation 1 10 %}%"
+                     aria-valuemin="0" aria-valuemax="10">
                 </div>
             </div>
-            <div class="progress-rating">
-                <p>2.5</p>
+            <div class="progress-rating" style="display: flex;">
+                <p style="font-size: 20px;">{{evaluation}}</p>
+                <i class="fas fa-star" style="font-size: 20px; color: gold;"></i>
             </div>
         </div>
-        <div class="rating-row">
-            <div class="progress-name">
-                <p>rating_name</p>
-            </div>
-            <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="50" aria-valuemin="0"
-                     aria-valuemax="100">
-                </div>
-            </div>
-            <div class="progress-rating">
-                <p>2.5</p>
-            </div>
-        </div>
-        <div class="rating-row">
-            <div class="progress-name">
-                <p>r</p>
-            </div>
-            <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="50" aria-valuemin="0"
-                     aria-valuemax="100">
-                </div>
-            </div>
-            <div class="progress-rating">
-                <p>2.5</p>
-            </div>
-        </div>
-
+        {% endfor %}
 
     </div>
 
 </div>
 <div class="review">
+    {% for review in reviews %}
     <div class="message">
         <div class="user-photo">
-            <img src="{% static 'detailsapp/img/messages-1.jpg' %}" alt="" class="rounded-circle">
+            <img src="{% if user.avatar %}
+                            {{ user.avatar.url }}
+                            {% else %}
+                            {% static 'userapp/assets/img/profile-img.jpg' %}
+                       {% endif %}"
+                 alt="" class="rounded-circle">
         </div>
         <div class="message-content">
-            <h4 class="message-user">User name1</h4>
-            <p class="message-text">Velit asperiores et ducimus soluta repudiandae labore offVelit asperiores et ducimu
-                s soluta repudiandae labore offVelit
-                asperiores et ducimus soluta repudiandae labore officia est ut...</p>
-            <p class="message-time">1 hrs. ago</p>
+            <!--            <h4 class="message-user">{{review.user.first_name}} {{review.user.last_name}}</h4>-->
+            <h4 class="message-user">{{review.user.first_name}}</h4>
+            <p class="message-text">{{review.review_text}}</p>
+            <p class="message-time">{{review.created_at|date:"d.m.Y"}}</p>
         </div>
 
     </div>
-    <div class="message">
-        <div class="user-photo">
-            <img src="{% static 'detailsapp/img/messages-2.jpg' %}" alt="" class="rounded-circle">
-        </div>
-        <div class="message-content">
-            <h4 class="message-user">U</h4>
-            <p class="message-text">Vs</p>
-            <p class="message-time">1 hrs. ago</p>
-        </div>
-
-    </div>
-    <div class="message">
-        <div class="user-photo">
-            <img src="{% static 'detailsapp/img/messages-3.jpg' %}" alt="" class="rounded-circle">
-        </div>
-        <div class="message-content">
-            <h4 class="message-user">User name 3</h4>
-            <p class="message-text">Velit asperiores et ducimus soluta repudiandae labore offVelit asperiores et ducimu
-                s soluta repudiandae labore offVelit
-                asperiores et ducimus soluta repudiandae labore officia est ut...Velit asperiores et ducimus soluta repudiandae labore offVelit asperiores et ducimu
-                s soluta repudiandae labore offVelit
-                asperiores et ducimus soluta repudiandae labore officia est ut...Velit asperiores et ducimus soluta repudiandae labore offVelit asperiores et ducimu
-                s soluta repudiandae labore offVelit
-                asperiores et ducimus soluta repudiandae labore officia est ut...</p>
-            <p class="message-time">1 hrs. ago</p>
-        </div>
-
+    {% endfor %}
+</div>
+{% else %}
+<div class="rating">
+    <div class="rating-header">
+        <h3 class="rating-header-elem">Нет отзывов</h3>
     </div>
 </div>
+{% endif %}

@@ -2,8 +2,72 @@ from django import forms
 from django.core.exceptions import ValidationError
 
 from feedbackapp.models import Contact, QuestionCategory, Question
-from createapp.models import RoomCategory
+from createapp.models import RoomCategory, ConvenienceType, Convenience
 import re
+from detailsapp.models import RatingNames
+
+from adminapp.models import Claim
+
+
+class CriterionEditForm(forms.ModelForm):
+    name = forms.CharField(widget=forms.TextInput(
+        attrs={'type': "text", 'name': "name",
+               'class': "form-control", 'id': "inputText"}))
+
+    class Meta:
+        model = RatingNames
+        fields = ['name']
+
+    def clean_name(self):
+        name = self.cleaned_data.get('name')
+        if len(name) > 256:
+            raise ValidationError('Слишком длинное имя!')
+        else:
+            return name
+
+
+class ConvenienceEditForm(forms.ModelForm):
+    name = forms.CharField(widget=forms.TextInput(
+        attrs={'type': "text", 'name': "name",
+               'class': "form-control", 'id': "inputText"}))
+    file_name = forms.CharField(widget=forms.TextInput(
+        attrs={'type': "text", 'name': "name",
+               'class': "form-control", 'id': "inputText"}))
+
+    class Meta:
+        model = Convenience
+        fields = ['name', 'file_name']
+
+    def clean_name(self):
+        name = self.cleaned_data.get('name')
+        if len(name) > 64:
+            raise ValidationError('Слишком длинное имя!')
+        else:
+            return name
+
+    def clean_file_name(self):
+        file_name = self.cleaned_data.get('file_name')
+        if len(file_name) > 64:
+            raise ValidationError('Слишком длинное имя!')
+        else:
+            return file_name
+
+
+class ConvenienceTypeEditForm(forms.ModelForm):
+    name = forms.CharField(widget=forms.TextInput(
+        attrs={'type': "text", 'name': "name",
+               'class': "form-control", 'id': "inputText"}))
+
+    class Meta:
+        model = ConvenienceType
+        fields = 'name',
+
+    def clean_name(self):
+        name = self.cleaned_data.get('name')
+        if len(name) > 64:
+            raise ValidationError('Слишком длинное имя!')
+        else:
+            return name
 
 
 class RoomCategoryEditForm(forms.ModelForm):
@@ -113,3 +177,31 @@ class QuestionEditForm(forms.ModelForm):
             raise ValidationError('Слишком длинное имя!')
         else:
             return name
+
+
+# =============== Claim form ===============
+# class ClaimForm(forms.ModelForm):
+#     text = forms.CharField(widget=forms.Textarea(
+#         attrs={'type': 'text',
+#                'class': 'form-control',
+#                'placeholder': 'Укажите я хз что и зачем это, но что-то укажите', 'rows': 4}
+#     ))
+#
+#     class Meta:
+#         model = Claim
+#         fields = 'text',
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -5,8 +5,8 @@ main.py
 env/
 .idea
 *.env
-*/db.sqlite3
+coworking/db.sqlite3
 env/
 .idea
 *.env
-*/db.sqlite3
+coworking/db.sqlite3

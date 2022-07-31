@@ -1,62 +1,25 @@
 {% extends 'mainapp/base.html' %}
 {% load static %}
+
 {% block css %}
-<link href="{% static 'detailsapp/assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
-<link href="{% static 'detailsapp/assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
-<link href="{% static 'detailsapp/assets/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
-<link href="{% static 'detailsapp/assets/vendor/quill/quill.snow.css' %}" rel="stylesheet">
-<link href="{% static 'detailsapp/assets/vendor/quill/quill.bubble.css' %}" rel="stylesheet">
-<link href="{% static 'detailsapp/assets/vendor/remixicon/remixicon.css' %}" rel="stylesheet">
-<link href="{% static 'detailsapp/assets/vendor/simple-datatables/style.css' %}" rel="stylesheet">
-<link rel="stylesheet" href="{% static 'detailsapp/style.css' %}">
+{% include 'detailsapp/includes/inc_css.html' %}
 {% endblock %}
+
 {% block content %}
 {% include 'detailsapp/includes/inc_header.html' %}
 <div class="offer-content">
     <div class="offer">
-        <div class="offer-title">
-            {% include 'detailsapp/includes/inc_offer_title.html' %}
-        </div>
-        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-            {% include 'detailsapp/includes/inc_offer_photo.html' %}
-        </div>
-        <div class="card">
-            {% include 'detailsapp/includes/inc_offer_description.html' %}
-        </div>
-        <div class="card">
-            {% include 'detailsapp/includes/inc_offer_convenience.html' %}
-        </div>
-<!--        <div class="users-review">-->
-<!--            {% include 'detailsapp/includes/inc_offer_rating.html' %}-->
-<!--        </div>-->
-<!--        <div class="landlord">-->
-<!--            {% include 'detailsapp/includes/inc_landlord_info.html' %}-->
-<!--        </div>-->
+        {% include 'detailsapp/includes/inc_offer_content.html' %}
     </div>
-    <form class="date-form" action="{% url 'details:create_rental' offer.pk %}" method="post">
-        {% csrf_token %}
-        {% include 'detailsapp/includes/inc_offer_date_form.html' %}
-    </form>
+    {% if show %}
+    {% include 'detailsapp/includes/inc_offer_form.html' %}
+    {% endif %}
 </div>
 
-
 {% include 'detailsapp/includes/inc_footer.html' %}
-
 {% endblock %}
 
 {% block js %}
-<script src="{% static 'detailsapp/assets/vendor/apexcharts/apexcharts.min.js' %}"></script>
-<script src="{% static 'detailsapp/assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-<script src="{% static 'detailsapp/assets/vendor/chart.js/chart.min.js' %}"></script>
-<script src="{% static 'detailsapp/assets/vendor/echarts/echarts.min.js' %}"></script>
-<script src="{% static 'detailsapp/assets/vendor/quill/quill.min.js' %}"></script>
-<script src="{% static 'detailsapp/assets/vendor/simple-datatables/simple-datatables.js' %}"></script>
-<script src="{% static 'detailsapp/assets/vendor/tinymce/tinymce.min.js' %}"></script>
-<script src="{% static 'detailsapp/assets/vendor/php-email-form/validate.js' %}"></script>
-<script src="{% static 'detailsapp/assets/js/main.js' %}"></script>
-<script src="{% static 'detailsapp/assets/js/script.js' %}"></script>
-<script src="https://api-maps.yandex.ru/2.1/?apikey=fe838c94-89e2-4657-a2ef-061f23ff1a53&lang=ru_RU&load=Geolink"
- type="text/javascript"></script>
+{% include 'detailsapp/includes/inc_js.html' %}
 {% include 'mainapp/includes/inc_js.html' %}
-
 {% endblock %}
