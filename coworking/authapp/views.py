@@ -1,11 +1,9 @@
-from django.shortcuts import render, HttpResponseRedirect, redirect
-
 from django.contrib import auth, messages
-from django.urls import reverse, reverse_lazy
-from django.views.generic.edit import CreateView, UpdateView
-from authapp.forms import UserRegisterForm, UserLoginForm, LandlordRegisterForm
-from django.contrib.auth.models import AbstractUser
+from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
+from django.views.generic.edit import CreateView
 
+from authapp.forms import UserRegisterForm, UserLoginForm, LandlordRegisterForm
 # ================================================================
 # =========================== Login ==============================
 from userapp.models import UserModel

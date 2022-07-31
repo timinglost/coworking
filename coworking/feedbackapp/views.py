@@ -1,8 +1,9 @@
-from django.shortcuts import render, get_object_or_404, HttpResponseRedirect
-from feedbackapp.models import Contact, Question, QuestionCategory, Message
-from feedbackapp.forms import MessageEditForm
-from django.urls import reverse
 from django.contrib import messages
+from django.shortcuts import render, get_object_or_404, HttpResponseRedirect
+from django.urls import reverse
+
+from feedbackapp.forms import MessageEditForm
+from feedbackapp.models import Contact, Question, QuestionCategory
 
 
 def main(request):

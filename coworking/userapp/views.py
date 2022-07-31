@@ -1,29 +1,26 @@
 import json
 
+from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
-from django.utils.translation import gettext as _
-from django.shortcuts import render, get_object_or_404
-from django.views.generic import CreateView
-from django.contrib import auth, messages
-from django.shortcuts import redirect
-from adminapp.models import Claim
-from createapp.models import Room, OfferImages
-from detailsapp.models import CurrentRentals, CompletedRentals, Favorites
-from userapp.models import UserModel
-from userapp.forms import UserForm, LandlordApplicationForm
-from django.urls import reverse_lazy
-
-from userapp.forms import PasswordChangeCustomForm
+from django.core.exceptions import ValidationError
+from django.core.files.base import ContentFile
+from django.db import transaction
 from django.http import HttpResponseRedirect
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
-from createapp.views import read_template
-from createapp.models import OfferImages, ConvenienceType, Convenience, ConvenienceRoom, Address
+from django.utils.translation import gettext as _
+
+from adminapp.models import Claim
 from createapp.forms import ImageForm
 from createapp.geo_checker import check_address
-from django.core.files.base import ContentFile
-from django.core.exceptions import ValidationError
-from django.db import transaction
+from createapp.models import OfferImages, ConvenienceType, Convenience, ConvenienceRoom, Address
+from createapp.models import Room
+from createapp.views import read_template
+from detailsapp.models import CurrentRentals, CompletedRentals, Favorites
+from userapp.forms import PasswordChangeCustomForm
+from userapp.forms import UserForm, LandlordApplicationForm
+from userapp.models import UserModel
 from .forms import CreateAdForm
 
 

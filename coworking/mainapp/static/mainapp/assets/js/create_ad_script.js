@@ -111,7 +111,7 @@ function init() {
         location = new Promise(resolve => {
             resolve([data.lat, data.lon]);
         });
-        zoom = 17;
+        zoom = 15;
     } else {
         location = ymaps.geolocation.get().then(it => it.geoObjects.position);
         zoom = 13;
