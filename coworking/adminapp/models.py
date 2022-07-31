@@ -4,7 +4,6 @@ from userapp.models import UserModel
 
 from django.conf import settings
 from django.db import models
-# from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
 from django.db.models.signals import post_save
@@ -41,15 +40,3 @@ class Claim(models.Model):
     class Meta:
         verbose_name = 'Заявка на получение прав арендодателя'
         verbose_name_plural = 'Заявки на получение прав арендодателя'
-
-
-# ===========================================================
-# @receiver(post_save, sender=UserModel)
-# def create_claim(sender, instance, created, **kwargs):
-#     if created:
-#         Claim.objects.create(user_id=instance)
-#
-#
-# @receiver(post_save, sender=UserModel)
-# def save_claim(sender, instance, **kwargs):
-#     instance.claim.save()
