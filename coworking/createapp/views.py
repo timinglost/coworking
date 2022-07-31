@@ -8,6 +8,8 @@ from django.db import transaction
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+
+from feedbackapp.models import Contact, Question, QuestionCategory
 from .forms import CreateAdForm, ImageForm
 from .geo_checker import check_address
 from .models import OfferImages, ConvenienceType, Convenience, ConvenienceRoom
@@ -67,6 +69,10 @@ def add_ad(request):
     context = {
         'title': 'ЛОКАЦИЯ | Новое объявление',
         'form': form,
+        'contact_data': Contact.objects.first(),
+        'for_users': Question.objects.filter(category=QuestionCategory.objects.filter(name="Пользователям").first()),
+        'for_landlords': Question.objects.filter(
+            category=QuestionCategory.objects.filter(name="Арендодателям").first()),
         'conv_types': conv_types,
         'conveniences': conveniences
     }
