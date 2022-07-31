@@ -6,7 +6,3 @@ env/
 .idea
 *.env
 coworking/db.sqlite3
-env/
-.idea
-*.env
-coworking/db.sqlite3
