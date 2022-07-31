@@ -6,7 +6,7 @@ from django.contrib import messages
 
 
 def main(request):
-    title = 'Контакты'
+    title = 'ЛОКАЦИЯ | Контакты'
     contacts = Contact.objects.first()
     if request.method == 'POST':
         message_form = MessageEditForm(request.POST)
@@ -30,7 +30,7 @@ def main(request):
 
 
 def questions(request):
-    title = 'F.A.Q.'
+    title = 'ЛОКАЦИЯ | F.A.Q.'
     question_category = QuestionCategory.objects.all()
 
     context = {
@@ -41,7 +41,7 @@ def questions(request):
 
 
 def question(request, slug):
-    title = 'F.A.Q.'
+    title = 'ЛОКАЦИЯ | F.A.Q.'
     question = get_object_or_404(Question, slug=slug)
 
     context = {

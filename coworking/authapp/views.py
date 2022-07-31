@@ -12,7 +12,7 @@ from userapp.models import UserModel
 
 
 def login(request):
-    title = 'Авторизация'
+    title = 'ЛОКАЦИЯ | Авторизация'
 
     if request.method == "POST":
         form = UserLoginForm(data=request.POST)
@@ -53,7 +53,7 @@ def user_logout(request):
 # ================================================================
 
 def choose_type(request):
-    return render(request, 'authapp/choose_type.html')
+    return render(request, 'authapp/choose_type.html', {'title': 'ЛОКАЦИЯ | Регистрация'})
 
 
 class UserRegisterView(CreateView):
@@ -65,7 +65,7 @@ class UserRegisterView(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(UserRegisterView, self).get_context_data(**kwargs)
-        context.update({'title': 'Регистрация пользователя'})
+        context.update({'title': 'ЛОКАЦИЯ | Регистрация пользователя'})
         return context
 
 
@@ -78,5 +78,5 @@ class LandlordRegisterView(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(LandlordRegisterView, self).get_context_data(**kwargs)
-        context.update({'title': 'Регистрация арендодателя'})
+        context.update({'title': 'ЛОКАЦИЯ | Регистрация арендодателя'})
         return context
