@@ -9,19 +9,30 @@
              alt="" class="rounded-circle">
     </div>
     <div class="landlord-status">
-        <h4 class="landlord-name">{{owner.first_name}}</h4>
+        <div class="status-header">
+            <h4 class="landlord-name">{{owner.first_name}} {{owner.last_name}}</h4>
+            <div class="landlord-contacts">
+                <div class="landlord-mail">
+                    <label for="landlord_mail">Почта</label>
+                    <p id="landlord_mail">{{owner.email}}</p>
+                </div>
+
+                <div class="landlord-phone">
+                    <label for="landlord_phone">Телефон</label>
+                    <p id="landlord_phone">{{owner.user_phone}}</p>
+                </div>
+
+
+            </div>
+        </div>
+
         <div class="status-info">
-            <p class="status-name">{{owner.email}}</p>
-            <p class="status-name">{{owner.username}}</p>
+            <p class="status-name">{% if user.is_landlord %}Владелец{% endif %}</p>
             <p class="status-date">На сайте с {{owner.created_at|date:"d.m.Y"}}</p>
         </div>
     </div>
-    <!--    <div class="time-online">-->
-    <!--        <p>Last time online</p>-->
-    <!--    </div>-->
 
 </div>
 <div class="landlord-content">
     <p class="landlord-info">{{owner.about}}</p>
-    <!--    <p class="message-time">1 hrs. ago</p>-->
 </div>
