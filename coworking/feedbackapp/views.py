@@ -1,12 +1,13 @@
-from django.shortcuts import render, get_object_or_404, HttpResponseRedirect
-from feedbackapp.models import Contact, Question, QuestionCategory, Message
-from feedbackapp.forms import MessageEditForm
-from django.urls import reverse
 from django.contrib import messages
+from django.shortcuts import render, get_object_or_404, HttpResponseRedirect
+from django.urls import reverse
+
+from feedbackapp.forms import MessageEditForm
+from feedbackapp.models import Contact, Question, QuestionCategory
 
 
 def main(request):
-    title = 'Контакты'
+    title = 'ЛОКАЦИЯ | Контакты'
     contacts = Contact.objects.first()
     if request.method == 'POST':
         message_form = MessageEditForm(request.POST)
@@ -30,7 +31,7 @@ def main(request):
 
 
 def questions(request):
-    title = 'F.A.Q.'
+    title = 'ЛОКАЦИЯ | F.A.Q.'
     question_category = QuestionCategory.objects.all()
 
     context = {
@@ -41,7 +42,7 @@ def questions(request):
 
 
 def question(request, slug):
-    title = 'F.A.Q.'
+    title = 'ЛОКАЦИЯ | F.A.Q.'
     question = get_object_or_404(Question, slug=slug)
 
     context = {

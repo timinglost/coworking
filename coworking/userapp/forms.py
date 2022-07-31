@@ -1,11 +1,12 @@
-from django.forms import ModelForm, CharField, PasswordInput, ClearableFileInput
 from django import forms
-from django.contrib.auth.forms import AuthenticationForm, UserChangeForm, PasswordChangeForm
-from userapp.models import UserModel
-from adminapp.models import Claim
+from django.contrib.auth.forms import PasswordChangeForm
 from django.core.exceptions import ValidationError
-from createapp.models import Room, RoomCategory
 from django.core.validators import RegexValidator
+from django.forms import ModelForm, CharField, PasswordInput, ClearableFileInput
+
+from adminapp.models import Claim
+from createapp.models import Room, RoomCategory
+from userapp.models import UserModel
 
 
 # from phonenumber_field.formfields import PhoneNumberField
@@ -93,6 +94,7 @@ class CreateAdForm(ModelForm):
                                   initial="Description",
                                   widget=forms.Textarea(attrs={'class': 'form-control form-input',
                                                                'placeholder': 'Описание',
+                                                               'style': 'max-width: 100%; min-width: 100%',
                                                                'rows': 4}))
 
     payment_per_hour = forms.DecimalField(max_digits=10, initial=1000, decimal_places=2, label="Цена за час (руб.)",

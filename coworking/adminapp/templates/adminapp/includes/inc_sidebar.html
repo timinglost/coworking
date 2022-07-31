@@ -7,10 +7,23 @@
       <li class="nav-heading">Пользователи</li>
     {% if user.is_superuser %}
       <li class="nav-item">
-        <a class="nav-link collapsed" href="{% url 'admin_staff:users' %}">
+      <li class="nav-item">
+        <a class="nav-link" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#" aria-expanded="true">
           <i class="bi bi-person-circle"></i>
           <span>Пользователи</span>
-        </a>
+
+          <i class="bi bi-chevron-down ms-auto"></i>
+        </a><ul id="components-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav" style>
+          <li>
+            <a href="{% url 'admin_staff:users_is_staff' %}">Модераторы</a>
+          </li>
+          <li>
+            <a href="{% url 'admin_staff:users_is_landlord' %}">Арендодатели</a>
+          </li>
+          <li>
+            <a href="{% url 'admin_staff:users' %}">Арендаторы</a>
+          </li>
+        </ul>
       </li>
       {% endif %}
       <li class="nav-item">

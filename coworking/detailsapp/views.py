@@ -1,15 +1,15 @@
 import os
+from datetime import datetime, timedelta
 
 import pytz
 from django.conf import settings
-from datetime import datetime, timedelta
-
 from django.contrib.auth.decorators import login_required
 from django.db.models import Avg
 from django.http import JsonResponse
-from django.shortcuts import render, get_object_or_404, HttpResponseRedirect, redirect
+from django.shortcuts import render, get_object_or_404, HttpResponseRedirect
 from django.template.loader import render_to_string
 from django.urls import reverse
+
 from createapp.models import Room, Address, RoomCategory, OfferImages, Convenience, ConvenienceRoom, ConvenienceType
 from detailsapp.models import CurrentRentals, Favorites, RatingNames, Evaluations, CompletedRentals, Rating, \
     OffersRatings
@@ -436,7 +436,7 @@ def send_review(request, pk):
     else:
         rating_names = RatingNames.objects.all()
         context = {
-            'title': 'title',
+            'title': 'ЛОКАЦИЯ | Новый отзыв',
             'rating_names': rating_names,
             'contact_data': Contact.objects.first(),
             'for_users': Question.objects.filter(
@@ -471,4 +471,3 @@ def del_favorite(request, pk):
             context['in_fav'] = Favorites.objects.filter(user=request.user, offer__pk=pk).exists()
         result = render_to_string('detailsapp/includes/inc_favorite.html', context)
         return JsonResponse({'result': result})
-

@@ -55,6 +55,8 @@ urlpatterns = [
     path('room-category-delete/<int:pk>', room_category_delete, name='room_category_delete'),
     #пользователи
     path('users/', users, name='users'),
+    path('users-landlord/', users_is_landlord, name='users_is_landlord'),
+    path('users-staff/', users_is_staff, name='users_is_staff'),
     path('users/active/<int:pk>', staff_edit, name='staff_edit'),
     path('user/<int:pk>/', user, name='user'),
     #арендодатели

@@ -1,35 +1,32 @@
 import json
 
+from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
-from django.utils.translation import gettext as _
-from django.shortcuts import render, get_object_or_404
-from django.views.generic import CreateView
-from django.contrib import auth, messages
-from django.shortcuts import redirect
-from adminapp.models import Claim
-from createapp.models import Room, OfferImages
-from detailsapp.models import CurrentRentals, CompletedRentals, Favorites
-from userapp.models import UserModel
-from userapp.forms import UserForm, LandlordApplicationForm
-from django.urls import reverse_lazy
-
-from userapp.forms import PasswordChangeCustomForm
+from django.core.exceptions import ValidationError
+from django.core.files.base import ContentFile
+from django.db import transaction
 from django.http import HttpResponseRedirect
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
-from createapp.views import read_template
-from createapp.models import OfferImages, ConvenienceType, Convenience, ConvenienceRoom, Address
+from django.utils.translation import gettext as _
+
+from adminapp.models import Claim
 from createapp.forms import ImageForm
 from createapp.geo_checker import check_address
-from django.core.files.base import ContentFile
-from django.core.exceptions import ValidationError
-from django.db import transaction
+from createapp.models import OfferImages, ConvenienceType, Convenience, ConvenienceRoom, Address
+from createapp.models import Room
+from createapp.views import read_template
+from detailsapp.models import CurrentRentals, CompletedRentals, Favorites
+from userapp.forms import PasswordChangeCustomForm
+from userapp.forms import UserForm, LandlordApplicationForm
+from userapp.models import UserModel
 from .forms import CreateAdForm
 
 
 @login_required
 def users(request, pk):
-    title = 'Админка - Пользователь'
+    title = 'ЛОКАЦИЯ | Админка - Пользователь'
 
     this_user = get_object_or_404(UserModel, pk=pk)
 
@@ -146,7 +143,7 @@ def change_ad(request, pk):
     }, ensure_ascii=False)
 
     context = {
-        'title': 'Обновить объявление',
+        'title': 'ЛОКАЦИЯ | Обновить объявление',
         'form': form,
         'conv_types': conv_types,
         'conveniences': conveniences,
@@ -160,7 +157,7 @@ def change_ad(request, pk):
 
 @login_required
 def booking_history(request):
-    title = 'Админка - Истории бронирований'
+    title = 'ЛОКАЦИЯ | Админка - Истории бронирований'
     if request.method == 'POST':
         start = request.POST.get('start_date')
         end = request.POST.get('end_date')
@@ -317,7 +314,7 @@ def user_favorites(request):
 
 @login_required
 def claim_landlord(request):
-    title = 'Арендодателям'
+    title = 'ЛОКАЦИЯ | Арендодателям'
     if request.method == 'POST':
         landlord_form = LandlordApplicationForm(request.POST)
         if landlord_form.is_valid():
