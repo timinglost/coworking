@@ -56,14 +56,6 @@ def get_news_data(site):
     return news_data
 
 
-def get_conveniences():
-    return Convenience.objects.all()
-
-
-def get_room_category():
-    return RoomCategory.objects.all()
-
-
 def get_offers(city=None):
     if city is None:
         return Room.objects.filter(
@@ -279,8 +271,29 @@ def get_room_conveniences(room_with_convenience):
     return room_conveniences
 
 
-def add_conveniences_in_dict(rooms: dict):
-    pass
+def get_conveniences(offers: dict) -> dict:
+    conveniences = Convenience.objects.all()
+    conv_dict = dict()
+    offers_keys = offers.keys()
+    for conv in conveniences:
+        conv_dict[conv.name] = 0
+        for elem in offers_keys:
+            convenience_room = ConvenienceRoom.objects.filter(convenience_id=conv.id, room_id=elem.id)
+            if convenience_room:
+                conv_dict[conv.name] += len(convenience_room)
+    return conv_dict
+
+
+def get_room_category(offers: dict) -> dict:
+    categories = RoomCategory.objects.all()
+    categories_dict = dict()
+    offers_keys = offers.keys()
+    for category in categories:
+        categories_dict[category.name] = 0
+        for elem in offers_keys:
+            if Room.objects.filter(name=elem.name, category=category.id):
+                categories_dict[category.name] += 1
+    return categories_dict
 
 
 def map_room_to_coords(room: Room) -> dict:
@@ -362,8 +375,6 @@ def search_results(request, page=1):
     city = request.GET.get('city')
     if city is None:
         return HttpResponseRedirect(reverse('main'))
-    conveniences = get_conveniences()
-    room_categories = get_room_category()
 
     requested_category = get_categories_from_request(request.GET)
     requested_rating = request.GET.get('rating')
@@ -401,11 +412,11 @@ def search_results(request, page=1):
         for room in rooms_filtered_by_city_price_rating:
             room_with_convenience = ConvenienceRoom.objects.filter(room_id=room.id)
 
-            # проверка на наличие в помещениях каких-либо дополнительных удобств
+            # проверка на наличие в помещении каких-либо дополнительных удобств
             if room_with_convenience:
                 # print(f'room "{room.name}" is in ConvenienceRoom')
 
-                # сначала получим список с id всех удобств в помещении
+                # теперь получим список с id всех удобств в помещении
                 room_conveniences = get_room_conveniences(room_with_convenience)
                 # теперь проверяем - есть ли в помещении те удобства, которые запросили при поиске
                 if set(requested_conveniences.values()).issubset(room_conveniences):
@@ -420,8 +431,11 @@ def search_results(request, page=1):
                                                                     requested_dates)
 
     offers_dict = add_images_info(rooms_filtered_by_city_price_rating_conv_date)
+    conveniences = get_conveniences(offers_dict)
+    room_categories = get_room_category(offers_dict)
 
     offers_list = get_list_from_dict(offers_dict)
+
     paginator = Paginator(offers_list, 7)
 
     try:
@@ -444,14 +458,12 @@ def search_results(request, page=1):
         'min_price': min_price,
         'max_price': max_price,
         'rating': requested_rating,
-        'conveniences_list': conveniences,
+        'conveniences_dict': conveniences,
         'room_categories': room_categories,
         'last_question': q,
     }
 
     return render(request, 'offersapp/search_results.html', context)
-
-
 
 # перевести на CBV - сейчас проблемы в том, что в пагинацию тут прилетает словарь, а нужен список.
 # class SearchResultsView(ListView):
