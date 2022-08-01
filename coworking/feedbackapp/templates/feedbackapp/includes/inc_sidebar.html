@@ -55,7 +55,7 @@
         {% endif %}
         {% if not user.is_authenticated %}
       <li class="nav-item">
-        <a class="nav-link collapsed" href="{% url 'auth:register' %}">
+        <a class="nav-link collapsed" href="{% url 'auth:choose_type' %}">
           <i class="bi bi-card-list"></i>
           <span>Регистрация</span>
         </a>

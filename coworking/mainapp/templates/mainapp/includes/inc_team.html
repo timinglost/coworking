@@ -22,7 +22,7 @@
                                 <div class="col-sm-4">
                                     <div class="team_item team_skill">
                                         <div class="team_author">
-                                            <h4>{{landlord.first_name}} {{landlord.last_name}}</h4>
+                                            <h4><a href="{% url 'user:users' landlord.pk %}">{{landlord.first_name}} {{landlord.last_name}}</a></h4>
                                         </div>
 
                                         <div class="team_skill_title fix m-top-40 m-bottom-40">
