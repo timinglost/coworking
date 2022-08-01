@@ -190,7 +190,7 @@ mainFormElement.addEventListener('submit', (e) => {
 
 function ChangeURL(userCity) {
     var searchParams = new URLSearchParams(document.location.search);
-    searchParams.set('сity', 'Москва');
+    searchParams.set('city', 'Москва');
     var newPathname = '/offers/search/'
     window.history.replaceState({}, '', `${newPathname}?${searchParams}`);
     location.reload();

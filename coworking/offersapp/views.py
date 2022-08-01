@@ -1,17 +1,16 @@
-import json
-from createapp.models import Room, OfferImages, Convenience, ConvenienceRoom, RoomCategory, Address
-from detailsapp.models import OffersRatings, CurrentRentals
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Q
-from django.shortcuts import render
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404, render, reverse
 from django.views.generic import ListView
 
-from datetime import datetime, timedelta
-
-from lxml import html
+from createapp.models import Room, OfferImages, Convenience, ConvenienceRoom, RoomCategory, Address
+from detailsapp.models import OffersRatings, CurrentRentals
 from .utils import create_url, get_response, validate_data
 
-
-# from mainapp.forms import SearchMainForm
+from datetime import datetime, timedelta, date
+import json
+from lxml import html
 
 
 def get_yandex_news(dom):
@@ -65,18 +64,28 @@ def get_room_category():
     return RoomCategory.objects.all()
 
 
-def get_offers():
-    return Room.objects.filter(is_active=True).order_by('payment_per_hour')
+def get_offers(city=None):
+    if city is None:
+        return Room.objects.filter(
+            is_active=True,
+            is_published=True
+        ).order_by('payment_per_hour')[:10]
+    else:
+        return Room.objects.filter(
+            is_active=True,
+            is_published=True,
+            address__city=city
+        )
 
 
 def add_images_info(rooms):
-    offers_dict = {}
+    # offers_dict = {}
     for room in rooms:
         room_images = OfferImages.objects.filter(room=room)
         room_images = [_ for _ in room_images]
         rooms[room].update({'images': room_images})
-        offers_dict[room] = room_images
-    return offers_dict
+        # offers_dict[room] = room_images
+    return rooms
 
 
 def add_ratings(rooms):
@@ -289,119 +298,245 @@ def calculate_coords(rooms: dict) -> str:
     return json.dumps(list(map(map_room_to_coords, rooms.keys())), ensure_ascii=False)
 
 
-def main(request):
+def calculate_coords_from_list(rooms: list) -> str:
+    rooms_keys = list()
+    for elem in rooms:
+        for key, value in elem.items():
+            rooms_keys.append(key)
+    return json.dumps(list(map(map_room_to_coords, rooms_keys)), ensure_ascii=False)
+
+
+# def main(request, page=1):
+#     title = 'ЛОКАЦИЯ | Каталог помещений'
+#
+#     requested_city = request.GET.get('city')
+#     if requested_city is None:
+#         requested_city = 'Москва'
+#
+#     offers_list = get_offers(requested_city)
+#
+#     offers_list = [_ for _ in offers_list]
+#
+#     offers_list_with_ratings = add_ratings(offers_list)
+#
+#     offers_dict = add_images_info(offers_list_with_ratings)
+#     current_actions = get_actions()
+#     news_list = get_news_data('yandex.ru/news')
+#     conveniences_list = get_conveniences()
+#
+#     # paginator = Paginator(offers_list, 5)
+#     #
+#     # try:
+#     #     offers_paginator = paginator.page(page)
+#     # except PageNotAnInteger:
+#     #     offers_paginator = paginator.page(1)
+#     # except EmptyPage:
+#     #     offers_paginator = paginator.page(paginator.num_pages)
+#     # print(offers_list)
+#
+#     context = {
+#         'title': title,
+#         'offers_list': offers_list,
+#         # 'offers_list': offers_paginator,
+#         'actions': current_actions,
+#         'offers_dict': offers_dict,
+#         'news_list': news_list,
+#         'conveniences_list': conveniences_list,
+#     }
+#
+#     return render(request, 'offersapp/index.html', context)
+
+
+def get_list_from_dict(offers_dict):
+    offers_list = list()
+
+    for key, value in offers_dict.items():
+        offers_list.append({key: value})
+    return offers_list
+
+
+def search_results(request, page=1):
     title = 'ЛОКАЦИЯ | Каталог помещений'
+    q = request.META['QUERY_STRING']
 
-    offers_list = get_offers()
-    offers_dict = add_images_info(offers_list)
-    current_actions = get_actions()
-    news_list = get_news_data('yandex.ru/news')
-    conveniences_list = get_conveniences()
-
-    # paginator = Paginator(offers_list, 5)
-    #
-    # try:
-    #     offers_paginator = paginator.page(page)
-    # except PageNotAnInteger:
-    #     offers_paginator = paginator.page(1)
-    # except EmptyPage:
-    #     offers_paginator = paginator.page(paginator.num_pages)
-    # print(offers_list)
-
-    context = {
-        'title': title,
-        'offers_list': offers_list,
-        # 'offers_list': offers_paginator,
-        'actions': current_actions,
-        'offers_dict': offers_dict,
-        'news_list': news_list,
-        'conveniences_list': conveniences_list,
-    }
-
-    return render(request, 'offersapp/index.html', context)
-
-
-class SearchResultsView(ListView):
-    model = Room
-    template_name = 'offersapp/search_results.html'
+    city = request.GET.get('city')
+    if city is None:
+        return HttpResponseRedirect(reverse('main'))
     conveniences = get_conveniences()
     room_categories = get_room_category()
-    requested_dates = dict()
 
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super(SearchResultsView, self).get_context_data()
+    requested_category = get_categories_from_request(request.GET)
+    requested_rating = request.GET.get('rating')
+    min_price = request.GET.get('min_price')
+    max_price = request.GET.get('max_price')
 
-        add_images_info(context['object_list'])
-        context['geo_coords'] = calculate_coords(context['object_list'])
-        # context['news_list'] = get_news_data('yandex.ru/news')
-        context['title'] = 'ЛОКАЦИЯ | Поиск помещений'
-        context['date_from'] = self.requested_dates.get('date_from')
-        context['date_to'] = self.requested_dates.get('date_to')
-        context['city'] = self.request.GET.get('city')
-        context['min_price'] = self.request.GET.get('min_price')
-        context['max_price'] = self.request.GET.get('max_price')
-        context['rating'] = self.request.GET.get('rating')
-        context['conveniences_list'] = self.conveniences
-        context['room_categories'] = self.room_categories
+    requested_rating = int(requested_rating) if requested_rating else 0
 
-        return context
+    # отфильтруем помещения по городу и стоимости за час
+    rooms_filtered_by_city_and_price = Room.objects.filter(
+        Q(is_active=True),
+        Q(is_published=True),
+        Q(address__city__icontains=city),
+        Q(category__name__in=requested_category) if requested_category else Q(),
+        Q(payment_per_hour__gte=min_price) if min_price else Q(),
+        Q(payment_per_hour__lte=max_price) if max_price else Q()
+    )
 
-    def get_queryset(self):
+    rooms_filtered_by_city_price = [_ for _ in rooms_filtered_by_city_and_price]
 
-        city = self.request.GET.get('city')
-        requested_category = get_categories_from_request(self.request.GET)
-        requested_rating = self.request.GET.get('rating')
-        min_price = self.request.GET.get('min_price')
-        max_price = self.request.GET.get('max_price')
+    # проверим наличие в условиях поиска рейтинга
+    if requested_rating:
+        rooms_filtered_by_city_price_rating = filter_by_ratings(rooms_filtered_by_city_price,
+                                                                requested_rating)
+    else:
+        rooms_filtered_by_city_price_rating = add_ratings(rooms_filtered_by_city_price)
 
-        requested_rating = int(requested_rating) if requested_rating else 0
-        min_price = int(min_price) if min_price else 0
-        max_price = int(max_price) if max_price else 10 ** 9
+    requested_conveniences = get_convenience_from_request(request.GET)
 
-        # отфильтруем помещения по городу и стоимости за час
-        rooms_filtered_by_city_and_price = Room.objects.filter(
-            Q(is_active=True),
-            Q(address__city__icontains=city),
-            Q(category__name__in=requested_category) if requested_category else Q(),
-            Q(payment_per_hour__gte=min_price),
-            Q(payment_per_hour__lte=max_price)
-        )
+    # проверим наличие в условиях поиска каких-либо удобств
+    if requested_conveniences:
+        # rooms_filtered_by_city_price_rating_conv = []
+        rooms_filtered_by_city_price_rating_conv = {}
 
-        rooms_filtered_by_city_price = [_ for _ in rooms_filtered_by_city_and_price]
+        for room in rooms_filtered_by_city_price_rating:
+            room_with_convenience = ConvenienceRoom.objects.filter(room_id=room.id)
 
-        # проверим наличие в условиях поиска рейтинга
-        if requested_rating:
-            rooms_filtered_by_city_price_rating = filter_by_ratings(rooms_filtered_by_city_price,
-                                                                    requested_rating)
-        else:
-            rooms_filtered_by_city_price_rating = add_ratings(rooms_filtered_by_city_price)
+            # проверка на наличие в помещениях каких-либо дополнительных удобств
+            if room_with_convenience:
+                # print(f'room "{room.name}" is in ConvenienceRoom')
 
-        requested_conveniences = get_convenience_from_request(self.request.GET)
+                # сначала получим список с id всех удобств в помещении
+                room_conveniences = get_room_conveniences(room_with_convenience)
+                # теперь проверяем - есть ли в помещении те удобства, которые запросили при поиске
+                if set(requested_conveniences.values()).issubset(room_conveniences):
+                    rooms_filtered_by_city_price_rating_conv[room] = rooms_filtered_by_city_price_rating.get(room)
+                    # add_conviences(rooms_filtered_by_city_price_rating_conv[room])
+    else:
+        rooms_filtered_by_city_price_rating_conv = rooms_filtered_by_city_price_rating
 
-        # проверим наличие в условиях поиска каких-либо удобств
-        if requested_conveniences:
-            # rooms_filtered_by_city_price_rating_conv = []
-            rooms_filtered_by_city_price_rating_conv = {}
+    requested_dates = get_dates_from_request(request.GET)
 
-            for room in rooms_filtered_by_city_price_rating:
-                room_with_convenience = ConvenienceRoom.objects.filter(room_id=room.id)
+    rooms_filtered_by_city_price_rating_conv_date = filter_by_dates(rooms_filtered_by_city_price_rating_conv,
+                                                                    requested_dates)
 
-                # проверка на наличие в помещениях каких-либо дополнительных удобств
-                if room_with_convenience:
-                    # print(f'room "{room.name}" is in ConvenienceRoom')
+    offers_dict = add_images_info(rooms_filtered_by_city_price_rating_conv_date)
 
-                    # сначала получим список с id всех удобств в помещении
-                    room_conveniences = get_room_conveniences(room_with_convenience)
-                    # теперь проверяем - есть ли в помещении те удобства, которые запросили при поиске
-                    if set(requested_conveniences.values()).issubset(room_conveniences):
-                        rooms_filtered_by_city_price_rating_conv[room] = rooms_filtered_by_city_price_rating.get(room)
-                        # add_conviences(rooms_filtered_by_city_price_rating_conv[room])
-        else:
-            rooms_filtered_by_city_price_rating_conv = rooms_filtered_by_city_price_rating
+    offers_list = get_list_from_dict(offers_dict)
+    paginator = Paginator(offers_list, 7)
 
-        self.requested_dates = get_dates_from_request(self.request.GET)
+    try:
+        offers_paginator = paginator.page(page)
+    except PageNotAnInteger:
+        offers_paginator = paginator.page(1)
+    except EmptyPage:
+        offers_paginator = paginator.page(paginator.num_pages)
 
-        rooms_filtered_by_city_price_rating_conv_date = filter_by_dates(rooms_filtered_by_city_price_rating_conv,
-                                                                        self.requested_dates)
+    context = {
+        # 'object_dict': offers_dict,
+        'total_offers_found': len(offers_list),
+        'object_list': offers_paginator,
+        # 'geo_coords': calculate_coords(rooms_filtered_by_city_price_rating_conv_date),
+        'geo_coords': calculate_coords_from_list(offers_paginator),
+        'title': title,
+        'date_from': requested_dates.get('date_from'),
+        'date_to': requested_dates.get('date_to'),
+        'city': city,
+        'min_price': min_price,
+        'max_price': max_price,
+        'rating': requested_rating,
+        'conveniences_list': conveniences,
+        'room_categories': room_categories,
+        'last_question': q,
+    }
 
-        return rooms_filtered_by_city_price_rating_conv_date
+    return render(request, 'offersapp/search_results.html', context)
+
+
+
+# перевести на CBV - сейчас проблемы в том, что в пагинацию тут прилетает словарь, а нужен список.
+# class SearchResultsView(ListView):
+#     # paginate_by = 2
+#     model = Room
+#     template_name = 'offersapp/search_results.html'
+#     conveniences = get_conveniences()
+#     room_categories = get_room_category()
+#     requested_dates = dict()
+#
+#     def get_context_data(self, *, object_list=None, **kwargs):
+#         context = super(SearchResultsView, self).get_context_data()
+#
+#         add_images_info(context['object_list'])
+#         context['geo_coords'] = calculate_coords(context['object_list'])
+#         # context['news_list'] = get_news_data('yandex.ru/news')
+#         context['title'] = 'ЛОКАЦИЯ | Поиск помещений'
+#         context['date_from'] = self.requested_dates.get('date_from')
+#         context['date_to'] = self.requested_dates.get('date_to')
+#         context['city'] = self.request.GET.get('city')
+#         context['min_price'] = self.request.GET.get('min_price')
+#         context['max_price'] = self.request.GET.get('max_price')
+#         context['rating'] = self.request.GET.get('rating')
+#         context['conveniences_list'] = self.conveniences
+#         context['room_categories'] = self.room_categories
+#
+#         return context
+#
+#     def get_queryset(self):
+#         city = self.request.GET.get('city')
+#         requested_category = get_categories_from_request(self.request.GET)
+#         requested_rating = self.request.GET.get('rating')
+#         min_price = self.request.GET.get('min_price')
+#         max_price = self.request.GET.get('max_price')
+#
+#         requested_rating = int(requested_rating) if requested_rating else 0
+#         min_price = int(min_price) if min_price else 0
+#         max_price = int(max_price) if max_price else 10 ** 9
+#
+#         # отфильтруем помещения по городу и стоимости за час
+#         rooms_filtered_by_city_and_price = Room.objects.filter(
+#             Q(is_active=True),
+#             Q(is_published=True),
+#             Q(address__city__icontains=city),
+#             Q(category__name__in=requested_category) if requested_category else Q(),
+#             Q(payment_per_hour__gte=min_price),
+#             Q(payment_per_hour__lte=max_price)
+#         )
+#
+#         rooms_filtered_by_city_price = [_ for _ in rooms_filtered_by_city_and_price]
+#
+#         # проверим наличие в условиях поиска рейтинга
+#         if requested_rating:
+#             rooms_filtered_by_city_price_rating = filter_by_ratings(rooms_filtered_by_city_price,
+#                                                                     requested_rating)
+#         else:
+#             rooms_filtered_by_city_price_rating = add_ratings(rooms_filtered_by_city_price)
+#
+#         requested_conveniences = get_convenience_from_request(self.request.GET)
+#
+#         # проверим наличие в условиях поиска каких-либо удобств
+#         if requested_conveniences:
+#             # rooms_filtered_by_city_price_rating_conv = []
+#             rooms_filtered_by_city_price_rating_conv = {}
+#
+#             for room in rooms_filtered_by_city_price_rating:
+#                 room_with_convenience = ConvenienceRoom.objects.filter(room_id=room.id)
+#
+#                 # проверка на наличие в помещениях каких-либо дополнительных удобств
+#                 if room_with_convenience:
+#                     # print(f'room "{room.name}" is in ConvenienceRoom')
+#
+#                     # сначала получим список с id всех удобств в помещении
+#                     room_conveniences = get_room_conveniences(room_with_convenience)
+#                     # теперь проверяем - есть ли в помещении те удобства, которые запросили при поиске
+#                     if set(requested_conveniences.values()).issubset(room_conveniences):
+#                         rooms_filtered_by_city_price_rating_conv[room] = rooms_filtered_by_city_price_rating.get(
+#                             room)
+#                         # add_conviences(rooms_filtered_by_city_price_rating_conv[room])
+#         else:
+#             rooms_filtered_by_city_price_rating_conv = rooms_filtered_by_city_price_rating
+#
+#         self.requested_dates = get_dates_from_request(self.request.GET)
+#
+#         rooms_filtered_by_city_price_rating_conv_date = filter_by_dates(rooms_filtered_by_city_price_rating_conv,
+#                                                                         self.requested_dates)
+#
+#         return rooms_filtered_by_city_price_rating_conv_date

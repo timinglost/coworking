@@ -11,9 +11,9 @@
 
     <div class="search-bar">
         <form class="search-form d-flex align-items-center" id="citySearchForm" method="GET"
-          action="{% url 'offers:search_results' %}">
+              action="{% url 'offers:search_results' %}">
             <input type="city_name_text" name="city" placeholder="Город" class="form-control" id="suggest"
-                       value="{{ city|default:'' }}">
+                   value="{{ city|default:'' }}">
             <button type="submit" title="Search"><i class="bi bi-search"></i></button>
         </form>
     </div>
@@ -30,13 +30,13 @@
             </li><!-- End Search Icon-->
 
             <li class="nav-item">
-                <a href="{% url 'user:bookings' %}" class="nav-link">
+                <a href="{% url 'user:bookings' %}" class="nav-link" target="_blank">
                     <span class="d-none d-md-block ps-2">Мои бронирования</span>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a href="{% url 'user:favorites' %}" class="nav-link">
+                <a href="{% url 'user:favorites' %}" class="nav-link" target="_blank">
                     <span class="d-none d-md-block ps-2">Избранное</span>
                 </a>
             </li>
@@ -173,67 +173,73 @@
 
             </li><!-- End Messages Nav -->
             {% endif %}
-            <li class="nav-item dropdown pe-3">
+            <li class="nav-item">
+                <a href="{% url 'user:profile' %}" class="nav-link" target="_blank">
+                    <span class="d-none d-md-block ps-2">Личный кабинет</span>
+                </a>
+            </li>
+<!--            <li class="nav-item dropdown pe-3">-->
 
-                <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-                    <img src="
-            {% if user.avatar %}
-            {{ user.avatar.url }}
-            {% else %}
-            {% static 'userapp/assets/img/profile-img.jpg' %}
-            {% endif %}" alt="Profile" class="rounded-circle">
-                    <span class="d-none d-md-block dropdown-toggle ps-2"></span>
-                </a><!-- End Profile Iamge Icon -->
+<!--                <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">-->
+<!--                    <img src="-->
+<!--            {% if user.avatar %}-->
+<!--            {{ user.avatar.url }}-->
+<!--            {% else %}-->
+<!--            {% static 'userapp/assets/img/profile-img.jpg' %}-->
+<!--            {% endif %}" alt="Profile_foto" class="rounded-circle">-->
+<!--                    <span class="d-none d-md-block dropdown-toggle ps-2">{{ user.get_full_name }}</span>-->
+<!--                </a>&lt;!&ndash; End Profile Iamge Icon &ndash;&gt;-->
 
-                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-                    <li class="dropdown-header">
-                        <h6>{{ user.first_name|default:'Пользователь' }}</h6>
-                        <span>{{ user.job_title|default:'Посетитель' }}</span>
-                    </li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
+<!--                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">-->
+<!--                    <li class="dropdown-header">-->
+<!--                        <h6>{{ user.get_full_name }}</h6>-->
+<!--                        <span>CEO</span>-->
+<!--                    </li>-->
+<!--                    <li>-->
+<!--                        <hr class="dropdown-divider">-->
+<!--                    </li>-->
 
-                    <li>
-                        <!--              <a class="dropdown-item d-flex align-items-center" href="users-profile.html">-->
-                        <a class="dropdown-item d-flex align-items-center" href="{% url 'user:profile' %}">
-                            <i class="bi bi-person"></i>
-                            <span>Мой профиль</span>
-                        </a>
-                    </li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
+<!--                    <li>-->
+<!--                        <a class="dropdown-item d-flex align-items-center" href="{% url 'user:main' %}">-->
+<!--                            <i class="bi bi-person"></i>-->
+<!--                            <span>Мой профиль</span>-->
+<!--                        </a>-->
+<!--                    </li>-->
+<!--                    <li>-->
+<!--                        <hr class="dropdown-divider">-->
+<!--                    </li>-->
 
-                    <li>
-                        <a class="dropdown-item d-flex align-items-center" href="{% url 'user:profile' %}">
-                            <i class="bi bi-gear"></i>
-                            <span>Настройки аккаунта</span>
-                        </a>
-                    </li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
+<!--                    <li>-->
+<!--                        <a class="dropdown-item d-flex align-items-center" href="{% url 'user:profile' %}">-->
+<!--                            <i class="bi bi-gear"></i>-->
+<!--                            <span>Настройки аккаунта</span>-->
+<!--                        </a>-->
+<!--                    </li>-->
+<!--                    <li>-->
+<!--                        <hr class="dropdown-divider">-->
+<!--                    </li>-->
 
-                    <li>
-                        <a class="dropdown-item d-flex align-items-center" href="{% url 'feedback:main' %}">
-                            <i class="bi bi-question-circle"></i>
-                            <span>Нужна помощь?</span>
-                        </a>
-                    </li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
+<!--                    <li>-->
+<!--                        <a class="dropdown-item d-flex align-items-center" href="{% url 'feedback:main' %}">-->
+<!--                            <i class="bi bi-question-circle"></i>-->
+<!--                            <span>Нужна помощь?</span>-->
+<!--                        </a>-->
+<!--                    </li>-->
+<!--                    <li>-->
+<!--                        <hr class="dropdown-divider">-->
+<!--                    </li>-->
 
-                    <li>
-                        <a class="dropdown-item d-flex align-items-center" href="{% url 'auth:logout' %}">
-                            <i class="bi bi-box-arrow-right"></i>
-                            <span>Выход</span>
-                        </a>
-                    </li>
+<!--                    <li>-->
+<!--                        <a class="dropdown-item d-flex align-items-center" href="{% url 'auth:logout' %}">-->
+<!--                            <i class="bi bi-box-arrow-right"></i>-->
+<!--                            <span>Выход</span>-->
+<!--                        </a>-->
+<!--                    </li>-->
 
-                </ul><!-- End Profile Dropdown Items -->
-            </li><!-- End Profile Nav -->
+<!--                </ul>&lt;!&ndash; End Profile Dropdown Items &ndash;&gt;-->
+<!--            </li>-->
+            <!-- End Profile Nav -->
+
 
         </ul>
     </nav><!-- End Icons Navigation -->

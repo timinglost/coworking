@@ -1,0 +1,26 @@
+<ul class="pagination justify-content-center">
+    {% if object_list.has_previous %}
+    <li class="page-item">
+        <a class="page-link"
+           href="{% url 'offers:page' object_list.previous_page_number %}?{{last_question}}">
+            <
+        </a>
+    </li>
+    {% endif %}
+    <li class="page-item">
+        <span class="page-link">
+            страница {{ object_list.number }} из
+            {{ object_list.paginator.num_pages }}
+        </span>
+    </li>
+
+    {% if object_list.has_next %}
+    <li>
+        <a class="page-link"
+           href="{% url 'offers:page' object_list.next_page_number %}?{{last_question}}">
+            >
+        </a>
+    </li>
+    {% endif %}
+</ul>
+
