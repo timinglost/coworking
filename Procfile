@@ -1,1 +1,1 @@
-web:  gunicorn coworking.mainapp.wsgi --log-file -
+web: sh -c 'cd coworking && gunicorn mainapp.wsgi --log-file -'
