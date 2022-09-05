@@ -1,0 +1,1 @@
+web:  gunicorn coworking.mainapp.wsgi --log-file -

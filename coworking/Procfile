@@ -1,0 +1,1 @@
+web: sh -c 'cd geekshop && gunicorn geekshop.wsgi --log-file -'
